@@ -6,7 +6,7 @@ import Footer from './components/layout/Footer';
 function App() {
   return (
     <Router>
-      <Header/>
+      <Header branding='Bob Garage'/>
       <Routes>
         <Route></Route>
       </Routes>
