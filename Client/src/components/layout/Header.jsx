@@ -16,22 +16,22 @@ const Header = props => {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="#">Services</Link>
+                            <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">Services</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/feedback' ? 'active' : ''}`} to="#">Feedback</Link>
+                            <Link className={`nav-link ${pathLocation === '/feedback' ? 'active' : ''}`} to="/feedback">Feedback</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/blog' ? 'active' : ''}`} to="#">Blog</Link>
+                            <Link className={`nav-link ${pathLocation === '/blog' ? 'active' : ''}`} to="/blog">Blog</Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/about' ? 'active' : ''}`} to="/about">About</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="#">Login</Link>
+                            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">Login</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="#">Sign Up</Link>
+                            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">Sign Up</Link>
                         </li>
                     </ul>
                 </div>

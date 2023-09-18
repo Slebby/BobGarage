@@ -4,6 +4,11 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import Blog from './components/blog/Blog';
+import CarService from './components/carService/CarService';
+import Feedback from './components/feedback/Feedback';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 function App() {
   return (
@@ -12,6 +17,11 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='about' element={<About />}></Route>
+          <Route path='service' element={<CarService />}></Route>
+          <Route path='feedback' element={<Feedback />}></Route>
+          <Route path='blog' element={<Blog />}></Route>
+          <Route path='login' element={<Login />}></Route>
+          <Route path='register' element={<Register />}></Route>
         </Routes>
       <Footer/>
     </Router>
