@@ -1,7 +1,12 @@
 .main-bg-color {
-    background-color: #4B4B4B;
+    background-color: #4B4B4B !important;
 }
 
 .secondary-bg-color {
-    background-color: #D9D9D9;
+    background-color: #D9D9D9 !important;
+}
+
+/* Button background color when hover */
+.btn-color:hover {
+    background-color: #303030 !important;
 }
