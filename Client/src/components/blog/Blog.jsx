@@ -5,7 +5,7 @@ import { FaMicroblog } from 'react-icons/fa6';
 
 const Blog = props => {
   return (
-    <main>
+    <main className="mb-5">
         <div className="container text-center">
             <h3 className="m-4 fw-semibold">Blogs</h3>
             <p className="text-start mx-4">

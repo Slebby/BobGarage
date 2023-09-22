@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CarService = props => {
   return (
-    <main>
+    <main className="mb-5">
         <div className="container text-center">
             <h3 className="m-4 fw-semibold">Check our Services</h3>
             <div className="row row-cols-2 gap-5 justify-content-center">

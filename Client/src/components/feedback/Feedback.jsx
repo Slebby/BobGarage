@@ -5,7 +5,7 @@ import { FaPlus } from 'react-icons/fa6';
 
 const Feedback = props => {
   return (
-    <main>
+    <main className="mb-5">
         <div className="container text-center">
             <h3 className="m-4 fw-semibold">Feedback List</h3>
             <p className="text-start mx-4">
