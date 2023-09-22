@@ -5,16 +5,16 @@ const Footer = props => {
     const date = new Date();
   return (
     <footer className="mt-auto main-bg-color text-white py-3">
-        <div className="row text-center ">
-          <div className="col border-end border-light" style={{"--bs-border-opacity": ".6"}}>
-            <span className="d-block fs-4 mb-1">
+        <div className="row text-center">
+          <div className="col px-0 border-end border-light" style={{"--bs-border-opacity": ".6"}}>
+            <span className="d-block fs-5 mb-1">
               <RiPhoneLine className="icon-size-small text-white img-fluid mb-1"/>: 1234567890
             </span>
-            <span className="d-block fs-4">
+            <span className="d-block fs-5">
               <RiMailLine className="icon-size-small text-white img-fluid mb-1"/>: name@example.com
             </span>
           </div>
-          <div className="col">
+          <div className="col px-0">
             <span className="fs-4 mb-0 d-block">Follow Us</span>
             <Link>
               <RiFacebookBoxLine className="icon-size text-white img-fluid"/>

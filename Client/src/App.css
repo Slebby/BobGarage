@@ -16,6 +16,11 @@ footer span::selection, footer p::selection, header a::selection {
     color: black;
 }
 
+/* Hide horizontal overflow */
+footer {
+    overflow-x: hidden;
+}
+
 /* Classes */
 .main-bg-color {
     background-color: var(--main-color) !important;
