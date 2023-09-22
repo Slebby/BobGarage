@@ -26,7 +26,7 @@ const Register = props => {
         </div>
         <div className="mb-3 form-check">
           <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" />
-          <label htmlFor="checkBoxInput" className="form-check-label">Check here to accept our Terms of Service.</label>
+          <label htmlFor="checkBoxInput" className="form-check-label">Accept our Terms of Service.</label>
         </div>
         <div className="mt-4 mb-5 text-center ">
           <button type="submit" className="btn btn-lg main-bg-color w-50 btn-color text-light">Sign Up</button>
