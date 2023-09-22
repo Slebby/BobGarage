@@ -21,12 +21,6 @@ const AddFeedback = () => {
                 </header>
                 
                 <div className="card-body">
-                    <div className="card-title">
-                        <div className="form-floating">
-                            <input type="text" name="title" id="floatingTitle" placeholder="Title Text Here" className="form-control" />
-                            <label htmlFor="floatingTitle" className="opacity-75">Title</label>
-                        </div>
-                    </div>
                     <div className="card-text">
                         <div className="form-floating">
                             <textarea type="text" name="feedbackBody" id="floatingText" placeholder="Body Text Here" className="form-control" style={{height: "20rem"}}/>
