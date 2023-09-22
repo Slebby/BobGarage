@@ -1,12 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa6';
 
 const Blog = props => {
   return (
     <main>
         <div className="container text-center">
             <h3 className="m-4">Blogs</h3>
+            <p className="text-start mx-4">
+                <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
+                    <FaPlus className="mb-1 me-1"/>Add
+                </Link>
+            </p>
             <div className="row row-cols-2 gap-5 justify-content-center">
                 <div className="card col-md-5">
                     <img src="#" alt="Picture" className="card-img-top"/>

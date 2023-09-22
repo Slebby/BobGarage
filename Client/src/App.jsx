@@ -10,6 +10,7 @@ import Feedback from './components/feedback/Feedback';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import AddFeedback from './components/feedback/AddFeedback';
+import AddBlog from './components/blog/AddBlog';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='feedback' element={<Feedback />}></Route>
           <Route path='feedback/add' element={<AddFeedback />}></Route>
           <Route path='blog' element={<Blog />}></Route>
+          <Route path='blog/add' element={<AddBlog />}></Route> 
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
         </Routes>
