@@ -1,10 +1,43 @@
-
+import { Link } from 'react-router-dom';
+import { RiPhoneLine, RiMailLine, RiFacebookBoxLine, RiTwitterLine, RiInstagramLine, RiLinkedinBoxLine, RiYoutubeLine } from 'react-icons/ri';
 
 const Footer = props => {
     const date = new Date();
   return (
-    <footer className="mt-auto main-bg-color">
-        <p className="text-end text-white mx-4 mb-0 py-3 mt-3">copyright {String.fromCharCode(169)} {date.getFullYear()} Websites &apos;r&apos; us</p>
+    <footer className="mt-auto main-bg-color text-white py-3">
+        <div className="row text-center ">
+          <div className="col border-end border-light" style={{"--bs-border-opacity": ".6"}}>
+            <span className="d-block fs-4 mb-1">
+              <RiPhoneLine className="icon-size-small text-white img-fluid mb-1"/>: 1234567890
+            </span>
+            <span className="d-block fs-4">
+              <RiMailLine className="icon-size-small text-white img-fluid mb-1"/>: name@example.com
+            </span>
+          </div>
+          <div className="col">
+            <span className="fs-4 mb-0 d-block">Follow Us</span>
+            <Link>
+              <RiFacebookBoxLine className="icon-size text-white img-fluid"/>
+            </Link>
+            <Link>
+              <RiTwitterLine className="icon-size text-white img-fluid"/>
+            </Link>
+            <Link>
+              <RiInstagramLine className="icon-size text-white img-fluid"/>
+            </Link>
+            <Link>
+              <RiLinkedinBoxLine className="icon-size text-white img-fluid"/>
+            </Link>
+            <Link>
+              <RiYoutubeLine className="icon-size text-white img-fluid"/>
+            </Link>
+          </div>
+        </div>
+        <div className="row my-3">
+          <p className="mx-3 mb-0">
+            Copyright {String.fromCharCode(169)} {date.getFullYear()} Websites &apos;r&apos; us
+          </p>
+        </div>
     </footer>
   )
 }

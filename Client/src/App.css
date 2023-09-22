@@ -1,3 +1,7 @@
+:root {
+    --icon-size: 10%;
+}
+
 .main-bg-color {
     background-color: #4B4B4B !important;
 }
@@ -13,4 +17,12 @@
 
 .header-bg-color {
     background-color: #8f8f8f !important;
+}
+
+.icon-size {
+    width: var(--icon-size);
+}
+
+.icon-size-small {
+    width: calc(var(--icon-size) - 3%);
 }
