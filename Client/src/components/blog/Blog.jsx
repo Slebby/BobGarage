@@ -7,7 +7,7 @@ const Blog = props => {
   return (
     <main>
         <div className="container text-center">
-            <h3 className="m-4">Blogs</h3>
+            <h3 className="m-4 fw-semibold">Blogs</h3>
             <p className="text-start mx-4">
                 <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                     <FaMicroblog className="mb-1 me-1"/>Post

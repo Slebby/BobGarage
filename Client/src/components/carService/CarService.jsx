@@ -6,7 +6,7 @@ const CarService = props => {
   return (
     <main>
         <div className="container text-center">
-            <h3 className="m-4">Check our Services</h3>
+            <h3 className="m-4 fw-semibold">Check our Services</h3>
             <div className="row row-cols-2 gap-5 justify-content-center">
                 <div className="card col-md-5">
                     <img src="#" alt="Picture" className="card-img-top"/>

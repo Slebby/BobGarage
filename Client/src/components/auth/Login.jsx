@@ -5,7 +5,7 @@ const Login = props => {
   return (
     <section className="container d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
         <form className="w-75">
-          <div className="text-center fs-2 mt-4">
+          <div className="text-center fw-semibold fs-2 mt-4">
             <p className="mb-4">Login</p>
           </div>
           <div className="mb-3">

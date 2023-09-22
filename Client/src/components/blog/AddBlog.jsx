@@ -5,7 +5,7 @@ import { FaAnglesLeft } from 'react-icons/fa6';
 const AddBlog = () => {
   return (
     <div className="container mb-5">
-        <h3 className="text-center m-4">Post Blog</h3>
+        <h3 className="text-center m-4 fw-semibold">Post Blog</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/blog">
                 <FaAnglesLeft className="mb-1 me-1"/>Back
