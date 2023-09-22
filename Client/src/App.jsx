@@ -9,6 +9,7 @@ import CarService from './components/carService/CarService';
 import Feedback from './components/feedback/Feedback';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import AddFeedback from './components/feedback/AddFeedback';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='about' element={<About />}></Route>
           <Route path='service' element={<CarService />}></Route>
           <Route path='feedback' element={<Feedback />}></Route>
+          <Route path='feedback/add' element={<AddFeedback />}></Route>
           <Route path='blog' element={<Blog />}></Route>
           <Route path='login' element={<Login />}></Route>
           <Route path='register' element={<Register />}></Route>
