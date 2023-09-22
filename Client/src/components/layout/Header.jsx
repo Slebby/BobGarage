@@ -22,10 +22,10 @@ const Header = props => {
                             <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">Services</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/feedback' ? 'active' : ''}`} to="/feedback">Feedback</Link>
+                            <Link className={`nav-link ${pathLocation === '/feedback' || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">Feedback</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/blog' ? 'active' : ''}`} to="/blog">Blog</Link>
+                            <Link className={`nav-link ${pathLocation === '/blog' || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">Blog</Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/about' ? 'active' : ''}`} to="/about">About</Link>
