@@ -23,7 +23,7 @@ const AddFeedback = (props) => {
   const feedbackOnSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Add feedback - Submit running');
+    console.log('Add feedback - Submitting Form...');
 
     const newFeedback = {
       feedbackId,
