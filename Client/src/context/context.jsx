@@ -31,7 +31,7 @@ const reducer = (state, action) => {
 export class Provider extends Component{
     async componentDidMount(){
         const res = await axios.get('https://jsonplaceholder.typicode.com/comments');
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({ feedbackList: res.data });
     };
 
