@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Register = props => {
   return (
-    <section className="container d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
+    <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
       <form className="w-75">
         <div className="text-center fw-semibold fs-2 mt-4">
           <p className="mb-4">Sign Up</p>
