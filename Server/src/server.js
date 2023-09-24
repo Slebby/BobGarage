@@ -8,11 +8,14 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+const { Feedback, Blog, User, CarService } = db.sequelize.models;
+
 // Feedback Routes.
-app.get('/api/feedback', (req, res) => {
+app.get('/api/feedback', async (req, res) => {
     console.log('/api/feedback - GET');
 
-    res.send('Get All Feedback, GET REQUEST');
+    const allFeedback = await Feedback.findAll();
+    res.send(allFeedback);
 });
 
 app.get('/api/feedback/edit/:id', (req, res) => {
