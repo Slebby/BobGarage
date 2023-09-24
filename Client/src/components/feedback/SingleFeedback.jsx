@@ -14,7 +14,7 @@ const SingleFeedback = (props) => {
                     <div className="card-body">
                         <h5 className="card-title">{feedbackTitle}</h5>
                         <p className="card-text">{feedbackBody}</p>
-                        <Link className="btn btn-secondary me-3" to={`/edit/${feedId}`}>Edit</Link>
+                        <Link className="btn btn-secondary me-3" to={`./edit/${feedId}`}>Edit</Link>
                         <Link className="btn btn-danger ms-3">Delete</Link>
                     </div>
                 </div>
