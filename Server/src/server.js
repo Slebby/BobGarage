@@ -1,4 +1,5 @@
 const express = require('express');
+const config = require('./config/config');
 
 const app = express();
 
@@ -36,5 +37,4 @@ app.delete('/api/feedback/delete/:id', (req, res) => {
     res.send('/api/feedback/delete/:id - DELETE REQUEST');
 });
 
-const PORT = process.env.PORT || 3060;
-app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
+app.listen(config.port, () => console.log(`Server is running on port: ${config.port}`));
