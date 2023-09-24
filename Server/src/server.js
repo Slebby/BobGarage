@@ -18,27 +18,75 @@ app.get('/api/feedback', async (req, res) => {
     res.send(allFeedback);
 });
 
-app.get('/api/feedback/edit/:id', (req, res) => {
+app.get('/api/feedback/edit/:id', async (req, res) => {
     console.log('/api/feedback/edit/:id - GET');
+    let id = req.params.id;
+    id = parseInt(id);
 
-    res.send('Get One Feedback, GET REQUEST');
+    const oneFeedback = await Feedback.findByPk(id);
+
+    if (oneFeedback === null){
+        console.log('Feedback Not Found!');
+        res.send('No Feedback item found');
+    } else {
+        console.log(`Feedback Found! \n${oneFeedback}`);
+        res.send(oneFeedback);
+    }
 });
 
-app.post('/api/feedback/add', (req, res) => {
-    console.log('/api/feedback/add - POST')
-    res.send('Add Feedback - POST REQUEST');
+app.post('/api/feedback/add', async (req, res) => {
+    console.log('/api/feedback/add - POST');
+
+    const { feedbackBody, feedbackTitle, UserUserId } = req.body;
+
+    const newFeedback = await Feedback.create({
+        feedbackTitle,
+        feedbackBody,
+        UserUserId
+    });
+    console.log(newFeedback.toJSON());
+    res.send(newFeedback);
 });
 
-app.put('/api/feedback/edit/:id', (req, res) => {
+app.put('/api/feedback/edit/:id', async (req, res) => {
     console.log('/api/feedback/edit/:id - PUT');
+    let id = req.params.id;
+    id = parseInt(id);
 
-    res.send('/api/feedback/edit/:id - PUT REQUEST')
+    const { feedbackBody, feedbackTitle, UserUserId } = req.body;
+
+    const editFeedback = await Feedback.update({ feedbackTitle, feedbackBody, UserUserId }, { 
+        where: {
+            feedId: id
+        }
+    } );
+    
+    if (editFeedback == 1){
+        console.log(`Update status: ${editFeedback}`);
+        res.send('Feedback has been updated!');
+    } else {
+        console.log(`Update status: ${editFeedback}`);
+        res.send('Feedback failed to update!');
+    }
 });
 
-app.delete('/api/feedback/delete/:id', (req, res) => {
+app.delete('/api/feedback/delete/:id', async (req, res) => {
     console.log('/api/feedback/delete/:id - DELETE');
-    
-    res.send('/api/feedback/delete/:id - DELETE REQUEST');
+    let id = req.params.id;
+    id = parseInt(id);
+
+    const deleteFeedback = await Feedback.destroy({
+        where: {
+            feedId: id
+        }
+    });
+    if (deleteFeedback == 1){
+        console.log(`Update status: ${deleteFeedback}`);
+        res.send('Feedback has been updated!');
+    } else {
+        console.log(`Update status: ${deleteFeedback}`);
+        res.send('Feedback failed to update!');
+    }
 });
 
 db.sequelize.sync().then(() => {
