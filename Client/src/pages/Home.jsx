@@ -8,7 +8,7 @@ const Home = props => {
         <section className="secondary-bg-color">
             <p className="text-center py-5 fs-2 mb-0 fw-semibold">Welcome</p>
         </section>
-        <section>
+        <section className="mb-5">
             <div className="container text-center">
                 <h3 className="m-4">Check our Services</h3>
                 <div className="row row-cols-2 gap-5 justify-content-center">
