@@ -76,12 +76,12 @@ User.hasOne(Blog, {
 });
 Blog.belongsTo(User);
 
-console.log(sequelize.models);
+// console.log(sequelize.models);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-console.log(db);
+// console.log(db);
 
 module.exports = db;
 module.exports.Op = Sequelize.Op;
