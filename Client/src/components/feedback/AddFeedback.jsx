@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { Consumer } from '../../context/context';
+import axios from 'axios';
 
 const AddFeedback = (props) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    feedbackId: '1',
+    feedbackId: '',
     feedbackTitle: '',
     feedbackBody: '',
     errors: {}
@@ -21,7 +23,7 @@ const AddFeedback = (props) => {
     });
   };
 
-  const feedbackOnSubmit = (e) => {
+  const feedbackOnSubmit = async (e, dispatch) => {
     e.preventDefault();
 
     console.log('Add feedback - Submitting Form...');
@@ -32,7 +34,11 @@ const AddFeedback = (props) => {
       feedbackBody
     };
 
-    console.log(newFeedback)
+    console.log(newFeedback);
+
+    const res = await axios.post('/api/feedback/add', newFeedback);
+    dispatch({ type: 'ADD_FEEDBACK', payload: res.data });
+    navigate('/feedback');
   };
 
   return (
@@ -47,7 +53,7 @@ const AddFeedback = (props) => {
                     </Link>
                 </p>
                 <section className="card secondary-bg-color border-0">
-                    <form onSubmit={e => feedbackOnSubmit(e)}>
+                    <form onSubmit={e => feedbackOnSubmit(e, dispatch)}>
                         <div className="card-body">
                             <div className="card-title">
                                 <div className="form-floating">
