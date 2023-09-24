@@ -18,7 +18,7 @@ const SingleFeedback = (props) => {
     <Consumer>
         { value => { const { dispatch } = value;
             return (
-                <div className="card col-md-5">
+                <div className="card shadow col-md-5">
                     <img src="#" alt="Picture" className="card-img-top"/>
                     <div className="card-body">
                         <h5 className="card-title">{feedbackTitle}</h5>
