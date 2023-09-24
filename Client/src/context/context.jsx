@@ -8,14 +8,14 @@ const reducer = (state, action) => {
             return{
                 ...state,
                 feedbackList: state.feedbackList.filter(
-                    item => item.feedbackId !== action.payload
+                    item => item.feedId !== action.payload
                 )
             };
         case "UPDATE_FEEDBACK":
             return{
                 ...state,
                 feedbackList: state.feedbackList.map(
-                    item => item.feedbackId === action.payload.id ? (item = action.payload) : item
+                    item => item.feedId === action.payload.feedId ? (item = action.payload) : item
                 )
             };
         case "ADD_FEEDBACK":
