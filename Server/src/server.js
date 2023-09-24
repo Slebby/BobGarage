@@ -38,4 +38,8 @@ app.delete('/api/feedback/delete/:id', (req, res) => {
     res.send('/api/feedback/delete/:id - DELETE REQUEST');
 });
 
-app.listen(config.port, () => console.log(`Server is running on port: ${config.port}`));
+db.sequelize.sync().then(() => {
+    app.listen(config.port,
+        () => console.log(`Server is running on port: ${config.port}`)
+    );
+});
