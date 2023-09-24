@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom';
 
 const Login = props => {
   return (
@@ -19,6 +20,10 @@ const Login = props => {
           <div className="mb-3 form-check">
             <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" />
             <label htmlFor="checkBoxInput" className="form-check-label">Remember me</label>
+          </div>
+          <div>
+            <span className="d-inline-block me-1">New Here?</span>
+            <Link to="/register" className="link-dark link-underline-dark link-opacity-75-hover fw-bolder">Sign up Now!</Link>
           </div>
           <div className="mt-4 mb-5 text-center ">
             <button type="submit" className="btn btn-lg main-bg-color w-50 btn-color text-light">Login</button>
