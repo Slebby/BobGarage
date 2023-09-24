@@ -21,7 +21,7 @@ const Feedback = (props) => {
                         <div className="row row-cols-2 gap-5 justify-content-center">
                             {
                                 feedbackList.map( feedback => (
-                                    <SingleFeedback key={feedback.id} feedback={feedback} />
+                                    <SingleFeedback key={feedback.feedId} feedback={feedback} />
                                 ))
                             }
                         </div>
