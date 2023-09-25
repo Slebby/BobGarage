@@ -7,7 +7,6 @@ import axios from 'axios';
 const EditBlog = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-      blogId: 0,
       blogHeader: '',
       blogTitle: '',
       blogBody: '',
@@ -24,7 +23,6 @@ const EditBlog = () => {
             console.log(item);
 
             setFormData({
-                blogId: item.blogId,
                 blogHeader: item.blogHeader,
                 blogTitle: item.blogTitle,
                 blogBody: item.blogBody

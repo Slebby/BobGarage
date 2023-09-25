@@ -6,7 +6,6 @@ import { Consumer } from '../../context/context';
 
 const EditFeedback = () => {
   const [formData, setFormData] = useState({
-    feedId: '',
     feedbackTitle: '',
     feedbackBody: ''
   });
@@ -22,7 +21,6 @@ const EditFeedback = () => {
 
         console.log(item);
         setFormData({
-          feedId: item.feedId,
           feedbackTitle: item.feedbackTitle,
           feedbackBody: item.feedbackBody
         });
