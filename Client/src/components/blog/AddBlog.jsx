@@ -54,7 +54,7 @@ const AddBlog = (props) => {
                       <FaAnglesLeft className="mb-1 me-1"/>Back
                   </Link>
               </p>
-              <section className="card secondary-bg-color border-0">
+              <section className="card shadow secondary-bg-color border-0">
                   <form onSubmit={e => blogOnSubmit(e, dispatch)}>
                       <header className="card-header header-bg-color border-bottom-0">
                           <div className="form-floating">

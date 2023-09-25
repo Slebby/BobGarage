@@ -50,7 +50,7 @@ const AddFeedback = (props) => {
                         <FaAnglesLeft className="mb-1 me-1"/>Back
                     </Link>
                 </p>
-                <section className="card secondary-bg-color border-0">
+                <section className="card shadow secondary-bg-color border-0">
                     <form onSubmit={e => feedbackOnSubmit(e, dispatch)}>
                         <div className="card-body">
                             <div className="card-title">
