@@ -22,9 +22,9 @@ const EditFeedback = () => {
 
         console.log(item);
         setFormData({
-            feedId: item.id,
-            feedbackTitle: item.feedbackTitle,
-            feedbackBody: item.feedbackBody
+          feedId: item.feedId,
+          feedbackTitle: item.feedbackTitle,
+          feedbackBody: item.feedbackBody
         });
     }
 
