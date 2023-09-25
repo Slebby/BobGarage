@@ -164,6 +164,71 @@ app.delete('/api/blog/delete/:id', async (req, res) => {
     }
 });
 
+// Car Service Routes
+app.get('/api/service', async (req, res) => {
+    console.log('/api/service - GET');
+    const allServices = await CarService.findAll();
+
+    res.send(allServices);
+});
+
+app.get('/api/service/edit/:id', async (req, res) => {
+    console.log('/api/service/edit/:id - GET');
+    const id = parseInt(req.params.id);
+
+    const oneService = await CarService.findByPk(id);
+
+    if (oneService === 0) {
+        console.log('Service not found!');
+        res.send('No Service Found!');
+    } else {
+        console.log('One Service found!');
+        res.send('Service Found!');
+    }
+});
+
+app.post('/api/service/add', async (req, res) => {
+    console.log('/api/service/add - POST');
+    const { serviceName, serviceDesc, serviceImage } = req.body;
+
+    const newService = await CarService.create({ serviceName, serviceImage, serviceDesc });
+    console.log(newService.toJSON());
+    res.send(newService);
+});
+
+app.put('/api/service/edit/:id', async (req, res) => {
+    console.log('/api/service/edit/:id - PUT');
+    const id = parseInt(req.params.id);
+    const { serviceName, serviceDesc, serviceImage } = req.body;
+    const editService = await CarService.update({ serviceName, serviceImage, serviceDesc }, {
+        where: {
+            serviceId: id
+        }
+    });
+
+    if (editService === 0) {
+        console.log('Service Update Failed');
+        res.send('Failed to update Service Data!');
+    } else {
+        console.log('Service Update Success');
+        res.send('Succeed to update Service Data');
+    }
+});
+
+app.delete('/api/service/delete/:id', async (req, res) => {
+    console.log('/api/service/delete/:id - DELETE');
+    const id = parseInt(req.params.id);
+    const deleteService = await CarService.destroy({where: { serviceId: id }});
+
+    if (deleteService === 0) {
+        console.log('Service Delete Failed');
+        res.send('Failed to delete Service Data!');
+    } else {
+        console.log('Service Delete Success');
+        res.send('Scceed to delete Service Data');
+    }
+});
+
 db.sequelize.sync().then(() => {
     app.listen(config.port,
         () => console.log(`Server is running on port: ${config.port}`)
