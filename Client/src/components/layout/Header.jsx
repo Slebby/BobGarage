@@ -21,32 +21,32 @@ const Header = props => {
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">
-                                <FaScrewdriverWrench className="me-2"/>Services
+                                <FaScrewdriverWrench className="me-2 mb-1"/>Services
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/feedback' || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">
-                                <FaComments className="me-2"/>Feedback
+                                <FaComments className="me-2 mb-1"/>Feedback
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/blog' || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">
-                                <FaMicroblog className="me-2"/>Blog
+                                <FaMicroblog className="me-2 mb-1"/>Blog
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/about' ? 'active' : ''}`} to="/about">
-                                <FaCircleInfo className="me-2"/>About
+                                <FaCircleInfo className="me-2 mb-1"/>About
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">
-                                <FaArrowRightToBracket className="me-2"/>Login
+                                <FaArrowRightToBracket className="me-2 mb-1"/>Login
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">
-                                <FaPersonChalkboard className="me-2"/>Sign Up
+                                <FaPersonChalkboard className="me-2 mb-1"/>Sign Up
                             </Link>
                         </li>
                     </ul>
