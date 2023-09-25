@@ -36,7 +36,7 @@ const reducer = (state, action) => {
             return{
                 ...state,
                 blogList: state.blogList.map(
-                    item => item.blogId === action.payload.id ? (item = action.payload) : item
+                    item => item.blogId === action.payload.blogId ? (item = action.payload) : item
                 )
             };
         case "ADD_BLOG":
