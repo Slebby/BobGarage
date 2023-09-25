@@ -5,6 +5,13 @@ import axios from 'axios';
 
 const SingleBlog = (props) => {
   const { blogId , blogHeader, blogTitle, blogBody } = props.blog;
+  const blogOnDelete = (id, dispatch) => {
+    console.log('Delete Clicked!');
+    console.log(`ID: ${id}`);
+
+    axios.delete(`/api/blog/delete/${id}`);
+    dispatch({ type: 'DELETE_BLOG', payload: id});
+  };
   return (
     <Consumer>
         { value => { const { dispatch } = value
@@ -22,7 +29,7 @@ const SingleBlog = (props) => {
                             {blogBody}
                         </p>
                         <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>Edit</Link>
-                        <Link className="btn btn-danger ms-3 fw-semibold">Delete</Link>
+                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId, dispatch)}}>Delete</Link>
                     </div>
                 </div>
             )
