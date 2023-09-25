@@ -13,6 +13,7 @@ import Register from './components/auth/Register';
 import AddFeedback from './components/feedback/AddFeedback';
 import AddBlog from './components/blog/AddBlog';
 import EditFeedback from './components/feedback/EditFeedback';
+import EditBlog from './components/blog/EditBlog';
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path='feedback/add' element={<AddFeedback />}></Route>
             <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
             <Route path='blog' element={<Blog />}></Route>
-            <Route path='blog/add' element={<AddBlog />}></Route> 
+            <Route path='blog/add' element={<AddBlog />}></Route>
+            <Route path='blog/edit/:id' element={<EditBlog />}></Route> 
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
           </Routes>
