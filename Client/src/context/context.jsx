@@ -58,12 +58,12 @@ const reducer = (state, action) => {
                 serviceList: state.serviceList.map(
                     item => item.serviceId === action.payload.serviceId ? (item = action.payload) : item
                 )
-            }
+            };
         case "ADD_SERVICE":
             return{
                 ...state,
                 serviceList: [action.payload, ...state.serviceList]
-            }
+            };
         default:
             return state;
     }
