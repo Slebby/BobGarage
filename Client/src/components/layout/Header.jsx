@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
+import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRightToBracket, FaPersonChalkboard } from 'react-icons/fa6';
 
 const Header = props => {
   const pathLocation = useLocation().pathname;
@@ -19,22 +20,34 @@ const Header = props => {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">Services</Link>
+                            <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">
+                                <FaScrewdriverWrench className="me-2"/>Services
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/feedback' || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">Feedback</Link>
+                            <Link className={`nav-link ${pathLocation === '/feedback' || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">
+                                <FaComments className="me-2"/>Feedback
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/blog' || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">Blog</Link>
+                            <Link className={`nav-link ${pathLocation === '/blog' || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">
+                                <FaMicroblog className="me-2"/>Blog
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/about' ? 'active' : ''}`} to="/about">About</Link>
+                            <Link className={`nav-link ${pathLocation === '/about' ? 'active' : ''}`} to="/about">
+                                <FaCircleInfo className="me-2"/>About
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">Login</Link>
+                            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">
+                                <FaArrowRightToBracket className="me-2"/>Login
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">Sign Up</Link>
+                            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">
+                                <FaPersonChalkboard className="me-2"/>Sign Up
+                            </Link>
                         </li>
                     </ul>
                 </div>
