@@ -15,6 +15,7 @@ import AddBlog from './components/blog/AddBlog';
 import EditFeedback from './components/feedback/EditFeedback';
 import EditBlog from './components/blog/EditBlog';
 import AddCarService from './components/carService/AddCarService';
+import EditCarService from './components/carService/EditCarService';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path='about' element={<About />}></Route>
             <Route path='service' element={<CarService />}></Route>
             <Route path='service/add' element={<AddCarService />}></Route>
+            <Route path='service/edit/:id' element={<EditCarService />}></Route>
             <Route path='feedback' element={<Feedback />}></Route>
             <Route path='feedback/add' element={<AddFeedback />}></Route>
             <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
