@@ -7,7 +7,6 @@ import axios from 'axios';
 const AddBlog = (props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    blogId: '',
     blogHeader: '',
     blogTitle: '',
     blogBody: '',
@@ -30,7 +29,6 @@ const AddBlog = (props) => {
     console.log('Add Blog - Submitting Form...');
 
     const newBlog = {
-      blogId,
       blogHeader,
       blogTitle,
       blogBody,

@@ -7,7 +7,6 @@ import axios from 'axios';
 const AddFeedback = (props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    feedbackId: '',
     feedbackTitle: '',
     feedbackBody: '',
     errors: {}
@@ -29,7 +28,6 @@ const AddFeedback = (props) => {
     console.log('Add feedback - Submitting Form...');
 
     const newFeedback = {
-      feedbackId,
       feedbackTitle,
       feedbackBody
     };
