@@ -1,38 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Consumer } from '../context/context';
+import SingleCarService from '../components/carService/SingleCarService';
+import SingleFeedback from '../components/feedback/SingleFeedback';
+import SingleBlog from '../components/blog/SingleBlog';
 
 const Home = props => {
   return (
-    <main>
-        <section className="secondary-bg-color">
-            <p className="text-center py-5 fs-2 mb-0 fw-semibold">Welcome</p>
-        </section>
-        <section className="mb-5">
-            <div className="container text-center">
-                <h3 className="m-4">Check our Services</h3>
-                <div className="row row-cols-2 gap-5 justify-content-center">
-                    <div className="card col-md-5">
-                        <img src="#" alt="Picture" className="card-img-top"/>
-                        <div className="card-body">
-                            <h5 className="card-title">Mechanical Repairs and Maintenance</h5>
-                            <p className="card-text">Bob's team can handle everything from routine oil changes and brake inspections to complex engine repairs. They ensure that your vehicle runs smoothly and efficiently.</p>
-                            <Link className="btn btn-secondary" to="/">Explore</Link>
+    <Consumer>
+        { value => { const { feedbackList, blogList, serviceList } = value
+            return (
+                <main>
+                    <section className="secondary-bg-color">
+                        <p className="text-center py-5 fs-2 mb-0 fw-semibold">Welcome</p>
+                    </section>
+                    <section className="pb-5 border-bottom">
+                        <div className="container text-center">
+                            <h3 className="m-4">
+                                <Link to='/service' className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover fw-semibold">Check our Services</Link>
+                            </h3>
+                            <div className="row row-cols-2 gap-5 justify-content-center">
+                                {
+                                    serviceList.map( service => (
+                                        <SingleCarService key={service.serviceId} carService={service}/>
+                                    ))
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div className="card col-md-5">
-                        <img src="#" alt="Picture" className="card-img-top"/>
-                        <div className="card-body">
-                            <h5 className="card-title">Tire Services</h5>
-                            <p className="card-text">From tire rotations and balancing to tire replacements, Bob's team ensures that your vehicle's tires are in top condition, maximizing safety and performance.</p>
-                            <Link className="btn btn-secondary" to="/">Explore</Link>
+                    </section>
+                    <section className="pb-5 border-bottom">
+                        <div className="container text-center">
+                            <h3 className="m-4">
+                                <Link to="/blog" className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover fw-semibold">Blog from others</Link>
+                            </h3>
+                            <div className="row row-cols-2 gap-5 justify-content-center">
+                                {
+                                    blogList.map( blog => (
+                                        <SingleBlog key={blog.blogId} blog={blog} />
+                                    ))
+                                }
+                            </div>
                         </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    </main>
+                    </section>
+                    <section className="pb-5">
+                        <div className="container text-center">
+                            <h3 className="m-4">
+                                <Link to="/feedback" className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover fw-semibold">Feedback from other users</Link>
+                            </h3>
+                            <div className="row row-cols-2 gap-5 justify-content-center">
+                                {
+                                    feedbackList.map( feedback => (
+                                        <SingleFeedback key={feedback.feedId} feedback={feedback} />
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            )
+        }}
+    </Consumer>
   )
 }
 
