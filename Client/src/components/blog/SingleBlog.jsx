@@ -9,7 +9,7 @@ const SingleBlog = (props) => {
     <Consumer>
         { value => { const { dispatch } = value
             return(
-                <div className="card px-0 col-md-5">
+                <div className="card shadow px-0 col-md-5">
                     <img src="#" alt="Picture" className="card-img-top"/>
                     <h2 className="card-header secondary-bg-color">
                         {blogHeader}
@@ -21,7 +21,7 @@ const SingleBlog = (props) => {
                         <p className="card-text">
                             {blogBody}
                         </p>
-                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to="/">Edit</Link>
+                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>Edit</Link>
                         <Link className="btn btn-danger ms-3 fw-semibold">Delete</Link>
                     </div>
                 </div>
