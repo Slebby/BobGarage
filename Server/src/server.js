@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const { Feedback, Blog, User, CarService } = db.sequelize.models;
+const { Feedback, Blog, CarServices, User } = db.sequelize.models;
 
 // Feedback Routes.
 app.get('/api/feedback', async (req, res) => {
@@ -167,7 +167,7 @@ app.delete('/api/blog/delete/:id', async (req, res) => {
 // Car Service Routes
 app.get('/api/service', async (req, res) => {
     console.log('/api/service - GET');
-    const allServices = await CarService.findAll();
+    const allServices = await CarServices.findAll();
 
     res.send(allServices);
 });
@@ -176,14 +176,14 @@ app.get('/api/service/edit/:id', async (req, res) => {
     console.log('/api/service/edit/:id - GET');
     const id = parseInt(req.params.id);
 
-    const oneService = await CarService.findByPk(id);
+    const oneService = await CarServices.findByPk(id);
 
     if (oneService === 0) {
         console.log('Service not found!');
         res.send('No Service Found!');
     } else {
         console.log('One Service found!');
-        res.send('Service Found!');
+        res.send(oneService);
     }
 });
 
@@ -191,7 +191,7 @@ app.post('/api/service/add', async (req, res) => {
     console.log('/api/service/add - POST');
     const { serviceName, serviceDesc, serviceImage } = req.body;
 
-    const newService = await CarService.create({ serviceName, serviceImage, serviceDesc });
+    const newService = await CarServices.create({ serviceName, serviceImage, serviceDesc });
     console.log(newService.toJSON());
     res.send(newService);
 });
@@ -200,7 +200,7 @@ app.put('/api/service/edit/:id', async (req, res) => {
     console.log('/api/service/edit/:id - PUT');
     const id = parseInt(req.params.id);
     const { serviceName, serviceDesc, serviceImage } = req.body;
-    const editService = await CarService.update({ serviceName, serviceImage, serviceDesc }, {
+    const editService = await CarServices.update({ serviceName, serviceImage, serviceDesc }, {
         where: {
             serviceId: id
         }
@@ -218,7 +218,7 @@ app.put('/api/service/edit/:id', async (req, res) => {
 app.delete('/api/service/delete/:id', async (req, res) => {
     console.log('/api/service/delete/:id - DELETE');
     const id = parseInt(req.params.id);
-    const deleteService = await CarService.destroy({where: { serviceId: id }});
+    const deleteService = await CarServices.destroy({where: { serviceId: id }});
 
     if (deleteService === 0) {
         console.log('Service Delete Failed');
