@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Consumer } from '../../context/context';
 import axios from 'axios';
+import { FaPen, FaTrashCan } from 'react-icons/fa6';
+
 
 const SingleBlog = (props) => {
   const { blogId , blogHeader, blogTitle, blogBody } = props.blog;
@@ -28,8 +30,12 @@ const SingleBlog = (props) => {
                         <p className="card-text">
                             {blogBody}
                         </p>
-                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>Edit</Link>
-                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId, dispatch)}}>Delete</Link>
+                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
+                            <FaPen className="me-2 mb-1"/>Edit
+                        </Link>
+                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId, dispatch)}}>
+                            <FaTrashCan className="me-2 mb-1"/>Delete
+                        </Link>
                     </div>
                 </div>
             )
