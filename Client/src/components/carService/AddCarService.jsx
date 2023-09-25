@@ -8,7 +8,7 @@ const AddCarService = () => {
   const [formData, setFormData] = useState({
     serviceName: '',
     serviceDesc: '',
-    serviceImage: ''
+    serviceImage: null
   });
 
   const { serviceName, serviceDesc, serviceImage } = formData;
