@@ -81,11 +81,11 @@ app.delete('/api/feedback/delete/:id', async (req, res) => {
         }
     });
     if (deleteFeedback == 1){
-        console.log('Feedback Update failed');
-        res.send('Feedback has been updated!');
+        console.log('Feedback delete failed');
+        res.send('Feedback has been deleted!');
     } else {
-        console.log('Feedback Update success');
-        res.send('Feedback failed to update!');
+        console.log('Feedback delete success');
+        res.send('Feedback failed to delete!');
     }
 });
 
