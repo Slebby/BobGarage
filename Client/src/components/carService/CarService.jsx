@@ -11,7 +11,7 @@ const CarService = props => {
             return (
                 <main className="mb-5">
                     <div className="container text-center">
-                        <h3 className="m-4 fw-semibold">Check our Services</h3>
+                        <h3 className="m-4 fw-semibold">Our Services</h3>
                         <p className="text-start mx-4">
                             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                                 <FaPlus className="mb-1 me-1"/>Add
