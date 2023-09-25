@@ -44,6 +44,26 @@ const reducer = (state, action) => {
                 ...state,
                 blogList: [action.payload, ...state.blogList]
             };
+        // Car Service actions
+        case "DELETE_SERVICE":
+            return{
+                ...state,
+                serviceList: state.serviceList.filter(
+                    item => item.serviceId !== action.payload
+                )
+            };
+        case "UPDATE_SERVICE":
+            return{
+                ...state,
+                serviceList: state.serviceList.map(
+                    item => item.serviceId === action.payload.serviceId ? (item = action.payload) : item
+                )
+            }
+        case "ADD_SERVICE":
+            return{
+                ...state,
+                serviceList: [action.payload, ...state.serviceList]
+            }
         default:
             return state;
     }
@@ -53,13 +73,15 @@ export class Provider extends Component{
     async componentDidMount(){
         const resFeedback = await axios.get('/api/feedback');
         const resBlog = await axios.get('/api/blog');
+        const resService = await axios.get('/api/service');
         // console.log(res.data);
-        this.setState({ feedbackList: resFeedback.data, blogList: resBlog.data });
+        this.setState({ feedbackList: resFeedback.data, blogList: resBlog.data, serviceList: resService.data });
     };
 
     state = {
         feedbackList: [],
         blogList: [],
+        serviceList: [],
         dispatch: action => {
             this.setState(state => reducer(state, action));
         }
