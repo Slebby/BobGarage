@@ -7,7 +7,7 @@ import axios from 'axios';
 const EditBlog = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-      blogId: '',
+      blogId: 0,
       blogHeader: '',
       blogTitle: '',
       blogBody: '',
@@ -48,9 +48,9 @@ const EditBlog = () => {
       e.preventDefault();
   
       console.log('Edit Blog - Submitting Form...');
-  
+
       const updBlog = {
-        blogId: id,
+        blogId: parseInt(id),
         blogHeader,
         blogTitle,
         blogBody,

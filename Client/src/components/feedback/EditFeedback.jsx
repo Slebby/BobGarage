@@ -47,7 +47,7 @@ const EditFeedback = () => {
     console.log('Edit feedback - Submitting Form...');
 
     const updFeedback = {
-      feedId: id,
+      feedId: parseInt(id),
       feedbackTitle,
       feedbackBody
     };
@@ -55,9 +55,9 @@ const EditFeedback = () => {
     console.log(updFeedback);
 
     const res = await axios.put(`/api/feedback/edit/${id}`, updFeedback);
+    console.log(res.data);
 
-    // console.log(res.data);
-    dispatch({ type: 'UPDATE_FEEDBACK', payload: res.data });
+    dispatch({ type: 'UPDATE_FEEDBACK', payload: updFeedback });
     navigate('/feedback');
   };
   
