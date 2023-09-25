@@ -95,7 +95,7 @@ const EditFeedback = () => {
                                     <label htmlFor="floatingText" className="opacity-75">Body</label>
                                 </div>
                             </div>
-                            <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Submit</button>
+                            <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Edit</button>
                         </div>
                     </form>
                 </section>

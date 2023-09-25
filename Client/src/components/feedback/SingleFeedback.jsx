@@ -23,8 +23,8 @@ const SingleFeedback = (props) => {
                     <div className="card-body">
                         <h5 className="card-title">{feedbackTitle}</h5>
                         <p className="card-text">{feedbackBody}</p>
-                        <Link className="btn btn-secondary me-3" to={`./edit/${feedId}`}>Edit</Link>
-                        <Link className="btn btn-danger ms-3" onClick={() => {feedbackOnDelete(feedId, dispatch)}}>Delete</Link>
+                        <Link className="btn btn-secondary me-3 fw-semibold" to={`./edit/${feedId}`}>Edit</Link>
+                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {feedbackOnDelete(feedId, dispatch)}}>Delete</Link>
                     </div>
                 </div>
             )
