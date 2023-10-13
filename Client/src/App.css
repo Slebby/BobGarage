@@ -11,6 +11,16 @@
     color: whitesmoke;
 }
 
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
 footer span::selection, footer p::selection, header a::selection {
     background-color: var(--second-color);
     color: black;

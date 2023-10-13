@@ -22,21 +22,23 @@ function App() {
     <Provider>
       <Router>
         <Header branding='Bob Garage'/>
-          <Routes>
-            <Route path='/' element={<Home />}></Route>
-            <Route path='about' element={<About />}></Route>
-            <Route path='service' element={<CarService />}></Route>
-            <Route path='service/add' element={<AddCarService />}></Route>
-            <Route path='service/edit/:id' element={<EditCarService />}></Route>
-            <Route path='feedback' element={<Feedback />}></Route>
-            <Route path='feedback/add' element={<AddFeedback />}></Route>
-            <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
-            <Route path='blog' element={<Blog />}></Route>
-            <Route path='blog/add' element={<AddBlog />}></Route>
-            <Route path='blog/edit/:id' element={<EditBlog />}></Route> 
-            <Route path='login' element={<Login />}></Route>
-            <Route path='register' element={<Register />}></Route>
-          </Routes>
+          <main>
+            <Routes>
+              <Route path='/' element={<Home />}></Route>
+              <Route path='about' element={<About />}></Route>
+              <Route path='service' element={<CarService />}></Route>
+              <Route path='service/add' element={<AddCarService />}></Route>
+              <Route path='service/edit/:id' element={<EditCarService />}></Route>
+              <Route path='feedback' element={<Feedback />}></Route>
+              <Route path='feedback/add' element={<AddFeedback />}></Route>
+              <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
+              <Route path='blog' element={<Blog />}></Route>
+              <Route path='blog/add' element={<AddBlog />}></Route>
+              <Route path='blog/edit/:id' element={<EditBlog />}></Route> 
+              <Route path='login' element={<Login />}></Route>
+              <Route path='register' element={<Register />}></Route>
+            </Routes>
+          </main>
         <Footer/>
       </Router>
     </Provider>
