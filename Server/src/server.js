@@ -1,6 +1,8 @@
 const express = require('express');
 const config = require('./config/config');
 const db = require('./models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 
@@ -226,6 +228,79 @@ app.delete('/api/service/delete/:id', async (req, res) => {
     } else {
         console.log('Service Delete Success');
         res.send('Scceed to delete Service Data');
+    }
+});
+
+// User routes
+// Login Route
+// Allow user to login
+// /api/user
+// POST Request
+// Public route
+app.post('/api/user', async (req, res) => {
+    console.log('/api/user - POST');
+    const { email, password } = req.body;
+    try {
+        // Check if the user exists
+        const user = await User.findOne({ where: { email }});
+        
+        // if not there send a message
+        if (!user) {
+            return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }]});
+        }
+        
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }]});
+        }
+
+        res.send(user);
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ errors: [{ msg: 'Server Error' }] });
+    }
+})
+
+// Register Route
+// ALlow user to sign up
+// /api/user/new
+// POST request
+// Public route
+app.post('/api/user/new', async (req, res) => {
+    console.log('/api/user/new - POST');
+    const { username, email, userImage, password } = req.body;
+
+    try {
+        const user = await User.findOne({ where: { email }});
+    
+        if(user){
+            return res.status(400).json({ errors: [{ msg: 'User already registered' }]});
+        }
+        
+        const newUser = {
+            username,
+            email,
+            userImage,
+            password
+        };
+
+        const salt = await bcrypt.genSalt(10);
+        newUser.password = await bcrypt.hash(password, salt);
+
+        // console.log(newUser);
+
+        const userRes = await User.create({
+            username: newUser.username,
+            email: newUser.email,
+            userImage: newUser.userImage,
+            password: newUser.password,
+        });
+        
+        res.send(userRes);
+    } catch (error) {
+        console.error(error.message);
+
     }
 });
 
