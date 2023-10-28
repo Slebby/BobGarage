@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
-import { Consumer } from '../../context/context';
-import axios from 'axios';
 
 const AddFeedback = (props) => {
   const navigate = useNavigate();

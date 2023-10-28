@@ -1,8 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
-import { Consumer } from '../../context/context';
 
 const EditFeedback = () => {
   const [formData, setFormData] = useState({

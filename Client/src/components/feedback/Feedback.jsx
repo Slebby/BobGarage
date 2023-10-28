@@ -2,7 +2,6 @@ import React from 'react';
 import SingleFeedback from './SingleFeedback';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
-import { Consumer } from '../../context/context';
 
 const Feedback = (props) => {
 
