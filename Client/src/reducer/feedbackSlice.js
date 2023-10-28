@@ -41,4 +41,8 @@ const feedbackSlice = createSlice({
     }
 });
 
+export const selectAllFeedback = (state) => state.feedback.feedbackList;
+export const getFeedbackStatus = (state) => state.feedback.status;
+export const getFeedbackError = (state) => state.feedback.error;
+
 export default feedbackSlice.reducer;
