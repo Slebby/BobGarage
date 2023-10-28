@@ -254,7 +254,26 @@ app.post('/api/user', async (req, res) => {
             return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }]});
         }
 
-        res.send(user);
+        const payload = {
+            user: {
+                userId: user.userId,
+                username: user.username,
+                email: user.email,
+                userImage: user.userImage,
+                isStaff: user.isStaff
+            }
+        };
+
+        jwt.sign(payload, config.auth.jwtSecret, 
+            {
+                expiresIn: '7d',
+                algorithm: 'HS512'
+            },
+            (err, token) => {
+                if(err) throw err;
+                res.json({ token });
+            }
+            );
 
     } catch (error) {
         console.error(error.message);
@@ -297,7 +316,26 @@ app.post('/api/user/new', async (req, res) => {
             password: newUser.password,
         });
         
-        res.send(userRes);
+        const payload = {
+            user: {
+                userId: userRes.userId,
+                username: userRes.username,
+                email: userRes.email,
+                userImage: userRes.userImage,
+                isStaff: userRes.isStaff
+            }
+        };
+
+        jwt.sign(payload, config.auth.jwtSecret, 
+            {
+                expiresIn: '7d',
+                algorithm: 'HS512'
+            },
+            (err, token) => {
+                if(err) throw err;
+                res.json({ token });
+            }
+            );
     } catch (error) {
         console.error(error.message);
 
