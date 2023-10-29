@@ -1,15 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { removeFeedback } from '../../reducer/feedbackSlice';
 
-
-const SingleFeedback = (props) => {
-  const { feedId, feedbackBody, feedbackTitle } = props.feedback;
+const SingleFeedback = ({ feedback }) => {
+  const { feedId, feedbackBody, feedbackTitle } = feedback;
+  const dispatch = useDispatch();
 
   const feedbackOnDelete = (id) => {
     console.log('Deleted Clicked!');
     console.log(`Id: ${id}`);
 
+    try {
+      dispatch(removeFeedback(id)).unwrap();
+    } catch (err) {
+      console.log('Failed to delete feedback', err);
+    }
   };
   
   return (
@@ -27,6 +35,11 @@ const SingleFeedback = (props) => {
         </div>
     </div>
   )
+}
+
+SingleFeedback.propTypes = {
+  feedback: PropTypes.object,
+  removeFeedback: PropTypes.func
 }
 
 export default SingleFeedback

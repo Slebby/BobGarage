@@ -1,22 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFeedback, selectFeedbackByID } from '../../reducer/feedbackSlice';
 
 const EditFeedback = () => {
+  const dispatch = useDispatch();
+  
+  const { id } = useParams();
+  //   console.log(id);
+  
+  const navigate = useNavigate();
+  const feedback = useSelector((state) => selectFeedbackByID(state, id));
+
+  if(!feedback){
+    return(
+      <section>
+        <h2>Feedback not found!!!</h2>
+      </section>
+    )
+  }
+  
   const [formData, setFormData] = useState({
-    feedbackTitle: '',
-    feedbackBody: ''
+    feedbackTitle: feedback.feedbackTitle,
+    feedbackBody: feedback.feedbackBody,
+    UserUserId: feedback.UserUserId,
+    errors: {}
   });
 
-  const { id } = useParams();
-//   console.log(id);
-  const navigate = useNavigate();
+  const [requestStatus, setRequestStatus] = useState('idle');
 
-  useEffect(() => {
+  const { feedbackTitle, feedbackBody, UserUserId, errors } = formData;
 
-  }, []);
-
-  const { feedbackTitle, feedbackBody } = formData;
+  const canSave = feedbackTitle !== undefined && feedbackBody !== undefined && requestStatus === 'idle';
 
   const feedbackOnChange = (e) => {
     // console.log(e);
@@ -39,7 +55,20 @@ const EditFeedback = () => {
 
     console.log(updFeedback);
 
-
+    try {
+      if(canSave){
+        console.log('Can save... Updating');
+        setRequestStatus('pending');
+        dispatch(updateFeedback(updFeedback)).unwrap();
+      } else {
+        console.log('Cannot save changes');
+        return;
+      }
+    } catch (err) {
+      console.log('Failed to save feedback', err);
+    } finally {
+      setRequestStatus('idle');
+    }
     navigate('/feedback');
   };
   

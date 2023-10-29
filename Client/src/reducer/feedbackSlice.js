@@ -33,8 +33,29 @@ export const addNewFeedback = createAsyncThunk('feedback/addNewFeedback', async(
 });
 
 // Update feedback
+export const updateFeedback = createAsyncThunk('feedback/updateFeedback', async(feedback) => {
+    console.log(`Updating feedback id: ${feedback.feedId}`);
+    const id = feedback.feedId;
+    try {
+        const res = await axios.put(`/api/feedback/edit/${id}`, feedback);
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+});
 
 // Delete feedback
+export const removeFeedback = createAsyncThunk('feedback/removeFeedback', async(id) => {
+    console.log(`Deleting feedback: ${id}`);
+    try {
+        const res = await axios.delete(`/api/feedback/delete/${id}`);
+        if (res.status === 200) return id;
+        return `${res.status}: ${res.statusText}`;
+    } catch (err) {
+        return err.message;
+    }
+});
 
 const feedbackSlice = createSlice({
     name: 'feedback',
@@ -59,11 +80,34 @@ const feedbackSlice = createSlice({
                 state.feedback = action.payload;
                 state.feedbackList.push(action.payload);
             })
+            .addCase(updateFeedback.fulfilled, (state, action) => {
+                if (!action.payload) {
+                    console.log('Update could not complete');
+                    return;
+                }
+
+                const { feedId } = action.payload;
+                const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
+                state.feedbackList = [...newFeedList, action.payload];
+                state.feedback = action.payload;
+            })
+            .addCase(removeFeedback.fulfilled, (state, action) => {
+                if (!action.payload?.id) {
+                    console.log('Delete could not complete');
+                    console.log(action.payload);
+                    return;
+                }
+
+                const { feedId } = action.payload;
+                const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
+                state.feedbackList = newFeedList;
+            })
     }
 });
 
 export const selectAllFeedback = (state) => state.feedback.feedbackList;
 export const getFeedbackStatus = (state) => state.feedback.status;
 export const getFeedbackError = (state) => state.feedback.error;
+export const selectFeedbackByID = (state, id) => state.feedback.feedbackList.find(item => item.feedId === id);
 
 export default feedbackSlice.reducer;
