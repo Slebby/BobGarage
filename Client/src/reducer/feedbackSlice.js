@@ -57,6 +57,18 @@ export const removeFeedback = createAsyncThunk('feedback/removeFeedback', async(
     }
 });
 
+// Get single Feedback
+export const getSingleFeedback = createAsyncThunk('feedback/getSingleFeedabck', async(id) => {
+    console.log('Getting single feedback');
+    try {
+        const res = await axios.get(`/api/feedback/edit/${id}`);
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+})
+
 const feedbackSlice = createSlice({
     name: 'feedback',
     initialState,
@@ -88,7 +100,7 @@ const feedbackSlice = createSlice({
 
                 const { feedId } = action.payload;
                 const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
-                state.feedbackList = [...newFeedList, action.payload];
+                // state.feedbackList = [...newFeedList, action.payload];
                 state.feedback = action.payload;
             })
             .addCase(removeFeedback.fulfilled, (state, action) => {
@@ -101,6 +113,10 @@ const feedbackSlice = createSlice({
                 const { feedId } = action.payload;
                 const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
                 state.feedbackList = newFeedList;
+            })
+            .addCase(getSingleFeedback.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.feedback = action.payload;
             })
     }
 });
