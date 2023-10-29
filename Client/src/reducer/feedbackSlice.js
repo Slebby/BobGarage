@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
     feedbackList: [],
+    feedback: {},
     status: 'idle',
     error: null
 };
@@ -17,7 +18,23 @@ export const fetchFeedbackList = createAsyncThunk('feedback/fetchFeedback', asyn
     } catch (err) {
         return err.message;
     }
-})
+});
+
+// Add feedback
+export const addNewFeedback = createAsyncThunk('feedback/addNewFeedback', async(newFeedback) => {
+    console.log('Adding new feedback...');
+    try {
+        const res = await axios.post('/api/feedback/add', newFeedback);
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+// Update feedback
+
+// Delete feedback
 
 const feedbackSlice = createSlice({
     name: 'feedback',
@@ -37,6 +54,10 @@ const feedbackSlice = createSlice({
             .addCase(fetchFeedbackList.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(addNewFeedback.fulfilled, (state, action) => {
+                state.feedback = action.payload;
+                state.feedbackList.push(action.payload);
             })
     }
 });
