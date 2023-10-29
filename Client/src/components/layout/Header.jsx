@@ -10,8 +10,8 @@ const Header = props => {
     <header>
         <nav className="navbar navbar-expand-lg main-bg-color" data-bs-theme="dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">
-                    <img src="BobGarageLogo.png" alt="Bob Garage Logo" className="d-inline-block align-text-top" style={{width: "40%"}}/>
+                <Link className="navbar-brand" style={{width: "10%"}} to="/">
+                    <img src="BobGarageLogo.png" alt="Bob Garage Logo" className="d-inline-block align-text-top w-100"/>
                     {/* {props.branding} */}
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
