@@ -49,7 +49,7 @@ const blogSlice = createSlice({
 })
 
 export const selectAllBlogs = (state) => state.blog.blogList;
-export const selectBlogStatus = (state) => state.blog.status;
-export const selectBlogError = (state) => state.blog.error;
+export const getBlogStatus = (state) => state.blog.status;
+export const getBlogError = (state) => state.blog.error;
 
 export default blogSlice.reducer;
