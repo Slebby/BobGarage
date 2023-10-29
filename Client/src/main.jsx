@@ -6,9 +6,11 @@ import { store } from './store/store.js'
 import { Provider } from 'react-redux';
 import { fetchFeedbackList } from './reducer/feedbackSlice.js'
 import { fetchBlogList } from './reducer/blogSlice.js'
+import { fetchCarServiceList } from './reducer/carServiceSlice.js'
 
 store.dispatch(fetchFeedbackList());
 store.dispatch(fetchBlogList());
+store.dispatch(fetchCarServiceList());
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
