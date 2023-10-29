@@ -5,8 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { store } from './store/store.js'
 import { Provider } from 'react-redux';
 import { fetchFeedbackList } from './reducer/feedbackSlice.js'
+import { fetchBlogList } from './reducer/blogSlice.js'
 
 store.dispatch(fetchFeedbackList());
+store.dispatch(fetchBlogList());
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
