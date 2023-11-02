@@ -22,16 +22,24 @@ const Register = props => {
     })
   }
 
+    // checkbox handler
+    const onChangeCheckbox = (e) => {
+      // console.log(e);
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.checked,
+      });
+    };
+
   const authRegisterOnSubmit = e => {
     console.log('Registering...');
-    e.preventDefualt();
-
+    e.preventDefault();
 
   }
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
-      <form className="w-75" on onSubmit={e => authRegisterOnSubmit(e)}>
+      <form className="w-75" onSubmit={e => authRegisterOnSubmit(e)}>
         <div className="text-center fw-semibold fs-2 mt-4">
           <p className="mb-4">Sign Up</p>
         </div>
@@ -56,7 +64,7 @@ const Register = props => {
           <input type="password" name="rePwdInput" id="rePwdInput" className="form-control" value={rePwdInput} onChange={e => authOnChange(e)}/>
         </div>
         <div className="mb-3 form-check">
-          <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" value={checkBoxInput} onChange={e => authOnChange(e)}/>
+          <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" value={checkBoxInput} onChange={e => onChangeCheckbox(e)}/>
           <label htmlFor="checkBoxInput" className="form-check-label">Accept our Terms of Service.</label>
         </div>
         <div>
