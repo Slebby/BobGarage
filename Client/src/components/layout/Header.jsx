@@ -10,7 +10,7 @@ const Header = props => {
     <header>
         <nav className="navbar navbar-expand-lg main-bg-color" data-bs-theme="dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" style={{width: "10%"}} to="/">
+                <Link className="navbar-brand" style={{width: "8rem"}} to="/">
                     <img src="BobGarageLogo.png" alt="Bob Garage Logo" className="d-inline-block align-text-top w-100"/>
                     {/* {props.branding} */}
                 </Link>

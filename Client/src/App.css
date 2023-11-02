@@ -1,6 +1,6 @@
 /* global Variable */
 :root {
-    --icon-size: 10%;
+    --icon-size: 4rem;
     --main-color: #4B4B4B;
     --second-color: #D9D9D9;
 }
@@ -49,10 +49,11 @@ footer {
     background-color: #8f8f8f !important;
 }
 
+/* Icon size */
 .icon-size {
     width: var(--icon-size);
 }
 
 .icon-size-small {
-    width: calc(var(--icon-size) - 3%);
+    width: calc(var(--icon-size) - 1rem);
 }
