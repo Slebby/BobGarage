@@ -13,6 +13,8 @@ const EditFeedback = () => {
   const navigate = useNavigate();
   const feedback = useSelector((state) => selectFeedbackByID(state, id));
 
+  // console.log(feedback);
+
   if(!feedback){
     return(
       <section>
@@ -48,7 +50,7 @@ const EditFeedback = () => {
     console.log('Edit feedback - Submitting Form...');
 
     const updFeedback = {
-      feedId: parseInt(id),
+      feedId: id,
       feedbackTitle,
       feedbackBody
     };
