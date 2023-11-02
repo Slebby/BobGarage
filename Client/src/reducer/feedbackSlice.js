@@ -104,13 +104,13 @@ const feedbackSlice = createSlice({
                 state.feedback = action.payload;
             })
             .addCase(removeFeedback.fulfilled, (state, action) => {
-                if (!action.payload?.id) {
+                if (!action.payload) {
                     console.log('Delete could not complete');
                     console.log(action.payload);
                     return;
                 }
 
-                const { feedId } = action.payload;
+                const feedId = action.payload;
                 const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
                 state.feedbackList = newFeedList;
             })
