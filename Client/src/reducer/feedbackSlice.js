@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const baseRoute = '/api/feedback';
+
 const initialState = {
     feedbackList: [],
     feedback: {},
@@ -12,7 +14,7 @@ const initialState = {
 export const fetchFeedbackList = createAsyncThunk('feedback/fetchFeedback', async() => {
     console.log('Fetching Data...');
     try {
-        const res = await axios.get('/api/feedback');
+        const res = await axios.get(baseRoute);
         console.log(res.data);
         return res.data;
     } catch (err) {
@@ -24,7 +26,7 @@ export const fetchFeedbackList = createAsyncThunk('feedback/fetchFeedback', asyn
 export const addNewFeedback = createAsyncThunk('feedback/addNewFeedback', async(newFeedback) => {
     console.log('Adding new feedback...');
     try {
-        const res = await axios.post('/api/feedback/add', newFeedback);
+        const res = await axios.post(`${baseRoute}/add`, newFeedback);
         console.log(res.data);
         return res.data;
     } catch (err) {
@@ -37,7 +39,7 @@ export const updateFeedback = createAsyncThunk('feedback/updateFeedback', async(
     console.log(`Updating feedback id: ${feedback.feedId}`);
     const id = feedback.feedId;
     try {
-        const res = await axios.put(`/api/feedback/edit/${id}`, feedback);
+        const res = await axios.put(`${baseRoute}/edit/${id}`, feedback);
         console.log(res.data);
         return res.data;
     } catch (err) {
@@ -49,7 +51,7 @@ export const updateFeedback = createAsyncThunk('feedback/updateFeedback', async(
 export const removeFeedback = createAsyncThunk('feedback/removeFeedback', async(id) => {
     console.log(`Deleting feedback: ${id}`);
     try {
-        const res = await axios.delete(`/api/feedback/delete/${id}`);
+        const res = await axios.delete(`${baseRoute}/delete/${id}`);
         if (res.status === 200) return id;
         return `${res.status}: ${res.statusText}`;
     } catch (err) {
@@ -61,7 +63,7 @@ export const removeFeedback = createAsyncThunk('feedback/removeFeedback', async(
 export const getSingleFeedback = createAsyncThunk('feedback/getSingleFeedabck', async(id) => {
     console.log('Getting single feedback');
     try {
-        const res = await axios.get(`/api/feedback/edit/${id}`);
+        const res = await axios.get(`${baseRoute}/edit/${id}`);
         console.log(res.data);
         return res.data;
     } catch (err) {
