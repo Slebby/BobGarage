@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { addNewCarService } from '../../reducer/carServiceSlice';
 
 const AddCarService = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     serviceName: '',
     serviceDesc: '',
-    serviceImage: null
+    serviceImage: null,
+    errors: {}
   });
 
-  const { serviceName, serviceDesc, serviceImage } = formData;
+  const { serviceName, serviceDesc, serviceImage, errors } = formData;
   const navigate = useNavigate();
 
   const serviceOnChange = e => {
@@ -30,6 +34,8 @@ const AddCarService = () => {
         serviceDesc,
         serviceImage
     }
+
+    dispatch(addNewCarService(newService));
 
     navigate('/service');
   };
