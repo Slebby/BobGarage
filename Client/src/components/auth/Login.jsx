@@ -32,7 +32,7 @@ const Login = props => {
       password: pwdInput
     }
     
-    dispatch(login(credential));
+    dispatch(login(credential)).unwrap();
   }
 
   if(isAuth){

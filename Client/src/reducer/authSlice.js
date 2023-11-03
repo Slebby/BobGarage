@@ -28,7 +28,7 @@ export const login = createAsyncThunk('auth/login', async (credential) => {
 
             localStorage.setItem('token', res.data.token);
             setAuthToken(res.data.token);
-            const response = await axios.get(`${baseRoute}/auth`);
+            const response = await axios.get(baseRoute);
             console.log(response.data);
             return response.data;
         }
