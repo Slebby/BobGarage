@@ -1,14 +1,21 @@
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { removeCarService } from '../../reducer/carServiceSlice';
 
 
-const SingleCarService = (props) => {
-  const { serviceId, serviceName, serviceDesc, serviceImage } = props.carService;
-
+const SingleCarService = ({carService}) => {
+    const dispatch = useDispatch();
+  const { serviceId, serviceName, serviceDesc, serviceImage } = carService;
   const serviceOnDelete = (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
 
+    try {
+        dispatch(removeCarService(id)).unwrap();
+    } catch (err) {
+        console.log('Failed to delete car Service', err);
+    }
   };
     return (
         <div className="card shadow col-md-5 px-0">
