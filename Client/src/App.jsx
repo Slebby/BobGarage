@@ -15,6 +15,7 @@ import EditFeedback from './components/feedback/EditFeedback';
 import EditBlog from './components/blog/EditBlog';
 import AddCarService from './components/carService/AddCarService';
 import EditCarService from './components/carService/EditCarService';
+import Users from './components/users/Users';
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
             <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
             <Route path='blog' element={<Blog />}></Route>
             <Route path='blog/add' element={<AddBlog />}></Route>
-            <Route path='blog/edit/:id' element={<EditBlog />}></Route> 
+            <Route path='blog/edit/:id' element={<EditBlog />}></Route>
+            <Route path='users' element={<Users />}></Route>
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
           </Routes>
