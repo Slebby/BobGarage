@@ -1,14 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { removeBlog } from '../../reducer/blogSlice';
 
 
-const SingleBlog = (props) => {
-  const { blogId , blogHeader, blogTitle, blogBody } = props.blog;
+const SingleBlog = ({ blog }) => {
+  const dispatch = useDispatch();
+  const { blogId , blogHeader, blogTitle, blogBody } = blog;
   const blogOnDelete = (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
 
+    try {
+        dispatch(removeBlog(id)).unwrap();
+    } catch (err) {
+        console.log('Failed to delete feedback', err);
+    }
   };
 
     return(
