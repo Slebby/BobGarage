@@ -8,11 +8,20 @@ import { fetchFeedbackList } from './reducer/feedbackSlice.js'
 import { fetchBlogList } from './reducer/blogSlice.js'
 import { fetchCarServiceList } from './reducer/carServiceSlice.js'
 import { fetchUsers } from './reducer/userSlice.js'
+import { loadUser } from './reducer/authSlice.js'
+import setAuthToken from './utils/setAuthToken.js'
 
 store.dispatch(fetchFeedbackList());
 store.dispatch(fetchBlogList());
 store.dispatch(fetchCarServiceList());
 store.dispatch(fetchUsers());
+
+// If we have a token, load the user from the token
+const token = localStorage.getItem('token');
+if(token){
+  setAuthToken(token);
+  store.dispatch(loadUser());
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

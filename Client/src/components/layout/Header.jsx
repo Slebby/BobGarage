@@ -14,6 +14,8 @@ const Header = props => {
 
   const leave = e => {
     console.log('Leave click');
+
+    dispatch(logout());
   }
 
   const staffLinks = (
@@ -91,9 +93,8 @@ const Header = props => {
                                 <FaCircleInfo className="me-2 mb-1"/>About
                             </Link>
                         </li>
-                        { staffLinks }
-                        { loginRegisterLinks }
-                        { logoutLink }
+                        { isAuth && isStaff ? staffLinks : null }
+                        { isAuth ? logoutLink : loginRegisterLinks }
                     </ul>
                 </div>
             </div>

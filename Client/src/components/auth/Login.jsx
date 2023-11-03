@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../reducer/authSlice';
 
 const Login = props => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     emailInput: '',
     pwdInput: '',
@@ -31,6 +32,7 @@ const Login = props => {
     }
 
     dispatch(login(credential));
+    navigate('/');
   }
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">

@@ -4,6 +4,7 @@ const db = require('./models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('./middleware/auth');
+const admin = require('./middleware/admin');
 
 const app = express();
 
@@ -369,7 +370,7 @@ app.post('/api/user/new', async (req, res) => {
 // /api/users
 // GET Request
 // Private route (auth & staff)
-app.get('/api/users', async(req, res) => {
+app.get('/api/users', [auth, admin] ,async(req, res) => {
     console.log('/api/users - GET');
     const options = {
         attributes: { exclude: ['password'] }
