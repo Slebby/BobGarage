@@ -1,8 +1,15 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, getIsAuth } from '../../reducer/authSlice';
 
 const Register = props => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  
+  const [registerStatus, setRegisterStatus] = useState('idle');
+  
   const [formData, setFormData] = useState({
     usernameInput: '',
     emailInput: '',
@@ -12,31 +19,57 @@ const Register = props => {
     checkBoxInput: false,
     errors: {}
   });
-
+  
   const { usernameInput, emailInput, imageInput, pwdInput, rePwdInput, checkBoxInput, errors } = formData;
-
+  
   const authOnChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
-
-    // checkbox handler
-    const onChangeCheckbox = (e) => {
-      // console.log(e);
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.checked,
-      });
-    };
-
+  
+  const canSave = (usernameInput !== '' || emailInput !== '' || pwdInput !== '' || rePwdInput !== '' ) && registerStatus === 'idle';
+  
+  // checkbox handler
+  const onChangeCheckbox = (e) => {
+    // console.log(e);
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.checked,
+    });
+  };
+  
   const authRegisterOnSubmit = e => {
     console.log('Registering...');
     e.preventDefault();
-
+    
+    try {
+      if(canSave){
+        console.log('Saving new User...');
+        setRegisterStatus('pending');
+        
+        const newUser = {
+          username: usernameInput,
+          email: emailInput,
+          password: pwdInput,
+          userImage: imageInput
+        }
+        
+        dispatch(register(newUser)).unwrap();
+      }
+    } catch (err) {
+      console.log('Error: ', err);
+      return;
+    } finally {
+      setRegisterStatus('idle');
+    }
   }
-
+  
+  if(isAuth){
+    return <Navigate to='/' />
+  }
+  
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
       <form className="w-75" onSubmit={e => authRegisterOnSubmit(e)}>
@@ -53,7 +86,7 @@ const Register = props => {
         </div>
         <div className="mb-3">
           <label htmlFor="imageInput" className="form-label">Image</label>
-          <input type="email" name="imageInput" id="imageInput" className="form-control" value={imageInput} onChange={e => authOnChange(e)}/>
+          <input type="text" name="imageInput" id="imageInput" className="form-control" value={imageInput} onChange={e => authOnChange(e)}/>
         </div>
         <div className="mb-3">
           <label htmlFor="pwdInput" className="form-label">Password</label>
