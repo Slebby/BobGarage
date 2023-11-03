@@ -245,7 +245,7 @@ app.post('/api/user', async (req, res) => {
     const { email, password } = req.body;
     try {
         // Check if the user exists
-        const user = await User.findOne({ where: { email }});
+        const user = await User.findOne({ where: { email: email.toUpperCase() }});
         
         // if not there send a message
         if (!user) {
@@ -294,7 +294,7 @@ app.post('/api/user/new', async (req, res) => {
     const { username, email, userImage, password } = req.body;
 
     try {
-        const user = await User.findOne({ where: { email }});
+        const user = await User.findOne({ where: { email: email.toUpperCase() }});
     
         if(user){
             return res.status(400).json({ errors: [{ msg: 'User already registered' }]});
@@ -302,7 +302,7 @@ app.post('/api/user/new', async (req, res) => {
         
         const newUser = {
             username,
-            email,
+            email: email.toUpperCase(),
             userImage,
             password
         };

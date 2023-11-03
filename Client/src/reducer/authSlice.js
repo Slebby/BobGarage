@@ -13,10 +13,10 @@ const initialState = {
 // Login path api/user,
 // register path api/users/new
 
-export const login = createAsyncThunk('auth/login', async ({ email, password }) => {
+export const login = createAsyncThunk('auth/login', async (credential) => {
     console.log('logging in again...');
     try {
-        const res = await axios.post('/api/user', ({ email, password }));
+        const res = await axios.post('/api/user', credential);
         console.log(res.data);
         return res.data;
     } catch (err) {

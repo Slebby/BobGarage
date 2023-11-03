@@ -22,10 +22,15 @@ const Login = props => {
   };
 
   const authLoginOnSubmit = e => {
-    e.preventDefualt();
+    e.preventDefault();
     console.log('Logging in...');
 
-    dispatch(login({emailInput, pwdInput}));
+    const credential = {
+      email: emailInput,
+      password: pwdInput
+    }
+
+    dispatch(login(credential));
   }
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
