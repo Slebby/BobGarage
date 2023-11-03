@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { addNewBlog } from '../../reducer/blogSlice';
 
 const AddBlog = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     blogHeader: '',
     blogTitle: '',
@@ -11,7 +14,7 @@ const AddBlog = (props) => {
     errors: {}
   });
 
-  const {blogId, blogHeader, blogTitle, blogBody} = formData;
+  const { blogHeader, blogTitle, blogBody, errors } = formData;
 
   const blogOnChange = e => {
     // console.log(e);
@@ -33,7 +36,7 @@ const AddBlog = (props) => {
     }
 
     console.log(newBlog);
-
+    dispatch(addNewBlog(newBlog));
     navigate('/blog');
   };
   
