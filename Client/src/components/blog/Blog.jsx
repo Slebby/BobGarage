@@ -5,13 +5,14 @@ import { FaMicroblog } from 'react-icons/fa6';
 import SingleBlog from './SingleBlog';
 import { useSelector } from 'react-redux';
 import { selectAllBlogs, getBlogError, getBlogStatus } from '../../reducer/blogSlice';
+import { getIsAuth } from '../../reducer/authSlice';
 
 const Blog = props => {
     const pathLocation = useLocation().pathname;
     const blogList = useSelector(selectAllBlogs);
     const blogStatus = useSelector(getBlogStatus);
     const blogError = useSelector(getBlogError);
-
+    const isAuth = useSelector(getIsAuth);
     console.log(blogList);
 
     const homePath = pathLocation === '/';
@@ -33,13 +34,13 @@ const Blog = props => {
                         ) : 'Blogs'}
                     </h3>
                     {homePath ? ''
-                    : (
+                    : (isAuth) ? (
                         <p className="text-start mx-4">
                             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                                 <FaMicroblog className="mb-1 me-1"/>Post
                             </Link>
                         </p>
-                    )}
+                    ) : null}
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
                             blogList.map(

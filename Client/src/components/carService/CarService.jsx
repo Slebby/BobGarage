@@ -4,12 +4,15 @@ import SingleCarService from './SingleCarService';
 import { FaPlus, FaVolumeHigh } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { selectAllCarServices, getCarServiceStatus, getCarServiceError } from '../../reducer/carServiceSlice';
+import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const CarService = props => {
     const pathLocation = useLocation().pathname;
     const serviceList = useSelector(selectAllCarServices);
     const carServiceStatus = useSelector(getCarServiceStatus);
     const carServiceError = useSelector(getCarServiceError);
+    const isAuth = useSelector(getIsAuth);
+    const isStaff = useSelector(getIsStaff);
     // console.log(pathLocation);
     console.log(serviceList);
 
@@ -32,13 +35,13 @@ const CarService = props => {
                         ) : 'Our Services'}
                     </h3>
                         {homePath ? ''
-                        : (
+                        : (isAuth && isStaff) ? (
                             <p className="text-start mx-4">
                                 <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                                     <FaPlus className="mb-1 me-1"/>Add
                                 </Link>
                             </p>
-                        )}
+                        ) : null}
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
                             serviceList.map( item => (
