@@ -1,39 +1,44 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../reducer/authSlice';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, getIsAuth } from '../../reducer/authSlice';
 
 const Login = props => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isAuth = useSelector(getIsAuth);
+
   const [formData, setFormData] = useState({
     emailInput: '',
     pwdInput: '',
     errors: {}
   });
-
+  
   const { emailInput, pwdInput, errors } = formData;
-
+  
   const authOnChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   };
-
+  
   const authLoginOnSubmit = e => {
     e.preventDefault();
     console.log('Logging in...');
-
+    
     const credential = {
       email: emailInput,
       password: pwdInput
     }
-
+    
     dispatch(login(credential));
-    navigate('/');
   }
+
+  if(isAuth){
+    return <Navigate to="/" />
+  }
+
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
         <form className="w-75" onSubmit={e => authLoginOnSubmit(e)}>
