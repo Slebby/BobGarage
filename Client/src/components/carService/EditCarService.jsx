@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCarServiceByID, updateCarService } from '../../reducer/carServiceSlice';
 
 const EditCarService = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  //   console.log(id);
+  const carService = useSelector((state) => selectCarServiceByID(state, id));
+  console.log(carService);
+  if(!carService){
+    return(
+        <Fragment>
+            <h2>Car Service not found!</h2>
+        </Fragment>
+    )
+  }
+  
   const [formData, setFormData] = useState({
-    serviceName: '',
-    serviceDesc: '',
-    serviceImage: null
+    serviceName: carService.serviceName,
+    serviceDesc: carService.serviceDesc,
+    serviceImage: null,
+    errors: {}
   });
 
-  const { serviceName, serviceDesc, serviceImage } = formData;
-  const navigate = useNavigate();
-  const { id } = useParams();
-//   console.log(id);
-
-  useEffect(() => {
-
-  }, []);
+  const { serviceName, serviceDesc, serviceImage, errors } = formData;
 
   const serviceOnChange = (e) => {
     // console.log(e);
@@ -31,12 +41,13 @@ const EditCarService = () => {
     console.log('Edit Service - Submitting form...');
 
     const updService = {
-        serviceId: parseInt(id),
+        serviceId: id,
         serviceName,
         serviceDesc,
         serviceImage
     }
 
+    dispatch(updateCarService(updService));
     navigate('/service');
   };
 

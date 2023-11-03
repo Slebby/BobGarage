@@ -215,7 +215,8 @@ app.put('/api/service/edit/:id', async (req, res) => {
         res.send('Failed to update Service Data!');
     } else {
         console.log('Service Update Success');
-        res.send('Succeed to update Service Data');
+        const existService = await CarServices.findByPk(id);
+        res.send(existService);
     }
 });
 
