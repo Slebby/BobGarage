@@ -27,8 +27,12 @@ const EditBlog = () => {
       blogBody: blog.blogBody,
       errors: {}
     });
-  
+
+    const [requestStatus, setRequestStatus] = useState('idle');
+
     const { blogHeader, blogTitle, blogBody } = formData;
+
+    const canSave = blogHeader !== undefined && blogTitle !== undefined && blogBody !== undefined && requestStatus === 'idle';
   
     const blogOnChange = e => {
       // console.log(e);
@@ -51,7 +55,20 @@ const EditBlog = () => {
       }
   
       console.log(updBlog);
-      dispatch(updateBlog(updBlog));
+      try {
+        if(canSave) {
+            console.log('Can save... updating');
+            setRequestStatus('pending');
+            dispatch(updateBlog(updBlog));
+        } else {
+            console.log('Cannot Save...');
+            return;
+        }
+      } catch (err) {
+        console.log('Failed to save blog', err);
+      } finally {
+        setRequestStatus('idle');
+      }
       navigate('/blog');
     };
     return (

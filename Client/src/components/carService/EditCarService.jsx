@@ -26,7 +26,11 @@ const EditCarService = () => {
     errors: {}
   });
 
+  const [requestStatus, setRequestStatus] = useState('idle');
+
   const { serviceName, serviceDesc, serviceImage, errors } = formData;
+
+  const canSave = serviceName !== undefined && serviceDesc !== undefined && serviceImage !== undefined && requestStatus === 'idle';
 
   const serviceOnChange = (e) => {
     // console.log(e);
@@ -47,7 +51,20 @@ const EditCarService = () => {
         serviceImage
     }
 
-    dispatch(updateCarService(updService));
+    try {
+        if(canSave){
+            console.log('Can save... updating');
+            setRequestStatus('pending');
+            dispatch(updateCarService(updService));
+        } else {
+            console.log('Cannot Save');
+            return;
+        }
+    } catch (err) {
+        console.log('Failed to save the car service', err)
+    } finally {
+        setRequestStatus('idle');
+    }
     navigate('/service');
   };
 
