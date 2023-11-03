@@ -20,17 +20,17 @@ const Header = props => {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/service' ? 'active' : ''}`} to="/service">
+                            <Link className={`nav-link ${pathLocation.includes('/service') ? 'active' : ''}`} to="/service">
                                 <FaScrewdriverWrench className="me-2 mb-1"/>Services
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/feedback' || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">
+                            <Link className={`nav-link ${pathLocation.includes('/feedback') || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">
                                 <FaComments className="me-2 mb-1"/>Feedback
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/blog' || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">
+                            <Link className={`nav-link ${pathLocation.includes('/blog') || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">
                                 <FaMicroblog className="me-2 mb-1"/>Blog
                             </Link>
                         </li>
