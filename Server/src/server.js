@@ -193,9 +193,9 @@ app.get('/api/service/edit/:id', async (req, res) => {
 
 app.post('/api/service/add', async (req, res) => {
     console.log('/api/service/add - POST');
-    const { serviceName, serviceDesc, serviceImage } = req.body;
+    const { serviceName, serviceDesc, serviceImage, servicePrice } = req.body;
 
-    const newService = await CarServices.create({ serviceName, serviceImage, serviceDesc });
+    const newService = await CarServices.create({ serviceName, serviceImage, serviceDesc, servicePrice });
     console.log(newService.toJSON());
     res.send(newService);
 });
