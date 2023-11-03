@@ -57,3 +57,14 @@ footer {
 .icon-size-small {
     width: calc(var(--icon-size) - 1rem);
 }
+
+/* Hide the default spinner arrows for input number */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  display: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Other modern browsers */
+}
