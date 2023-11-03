@@ -364,6 +364,20 @@ app.post('/api/user/new', async (req, res) => {
     }
 });
 
+// Get all users route
+// return all users
+// /api/users
+// GET Request
+// Private route (auth & staff)
+app.get('/api/users', async(req, res) => {
+    console.log('/api/users - GET');
+    const options = {
+        attributes: { exclude: ['password'] }
+    };
+    const userList = await User.findAll(options);
+    res.send(userList);
+});
+
 db.sequelize.sync({ alter: true }).then(() => {
     app.listen(config.port,
         () => console.log(`Server is running on port: ${config.port}`)
