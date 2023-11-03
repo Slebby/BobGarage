@@ -140,10 +140,11 @@ app.put('/api/blog/edit/:id', async (req, res) => {
     
     if (editBlog == 0) {
         console.log('Blog Update Failed!');
-        res.send('Blog failed to update!');
+        res.send('Blog failed to update');
     } else {
         console.log('Blog Update Success!');
-        res.send('Blog has been updated!');
+        const existBlog = await Blog.findByPk(id);
+        res.send(existBlog);
     }
 });
 
