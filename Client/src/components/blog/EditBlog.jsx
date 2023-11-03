@@ -1,23 +1,34 @@
-import { useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBlog, selectBlogByID } from '../../reducer/blogSlice';
 
 const EditBlog = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-      blogHeader: '',
-      blogTitle: '',
-      blogBody: '',
-      errors: {}
-    });
+    const dispatch = useDispatch();
 
     const { id } = useParams();
     // console.log(id);
 
-    useEffect(() => {
-    }, [])
+    const blog = useSelector((state) => selectBlogByID(state, id));
+    // console.log(blog);
+    if(!blog){
+        return (
+            <Fragment>
+                <h2>Blog not found!</h2>
+            </Fragment>
+        )
+    }
+
+    const [formData, setFormData] = useState({
+      blogHeader: blog.blogHeader,
+      blogTitle: blog.blogTitle,
+      blogBody: blog.blogBody,
+      errors: {}
+    });
   
-    const { blogHeader, blogTitle, blogBody} = formData;
+    const { blogHeader, blogTitle, blogBody } = formData;
   
     const blogOnChange = e => {
       // console.log(e);
@@ -33,14 +44,14 @@ const EditBlog = () => {
       console.log('Edit Blog - Submitting Form...');
 
       const updBlog = {
-        blogId: parseInt(id),
+        blogId: id,
         blogHeader,
         blogTitle,
         blogBody,
       }
   
       console.log(updBlog);
-  
+      dispatch(updateBlog(updBlog));
       navigate('/blog');
     };
     return (
