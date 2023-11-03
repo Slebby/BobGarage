@@ -1,12 +1,14 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
-
+import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const SingleBlog = ({ blog }) => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  const isStaff = useSelector(getIsStaff);
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
   const blogOnDelete = (id) => {
     console.log('Delete Clicked!');
@@ -32,12 +34,16 @@ const SingleBlog = ({ blog }) => {
                 <p className="card-text">
                     {blogBody}
                 </p>
-                <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
-                    <FaPen className="me-2 mb-1"/>Edit
-                </Link>
-                <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId)}}>
-                    <FaTrashCan className="me-2 mb-1"/>Delete
-                </Link>
+                {(isAuth && isStaff) && (
+                    <Fragment>
+                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
+                            <FaPen className="me-2 mb-1"/>Edit
+                        </Link>
+                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId)}}>
+                            <FaTrashCan className="me-2 mb-1"/>Delete
+                        </Link>
+                    </Fragment>
+                )}
             </div>
         </div>
     )

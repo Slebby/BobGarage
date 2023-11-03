@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeCarService } from '../../reducer/carServiceSlice';
+import { Fragment } from 'react';
+import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 
 const SingleCarService = ({carService}) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  const isStaff = useSelector(getIsStaff);
   const { serviceId, serviceName, serviceDesc, serviceImage, servicePrice } = carService;
   const serviceOnDelete = (id) => {
     console.log('Delete Clicked!');
@@ -30,12 +34,17 @@ const SingleCarService = ({carService}) => {
                 <p className="card-subtitle fs-4 fw-semibold mb-3">
                     Price: &#x0024;{servicePrice.toFixed(2)}
                 </p>
-                <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${serviceId}`}>
-                    <FaPen className="me-2 mb-1"/>Edit
-                </Link>
-                <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => serviceOnDelete(serviceId)}>
-                    <FaTrashCan className="me-2 mb-1"/>Delete
-                </Link>
+                {(isAuth && isStaff) && (
+                    <Fragment>
+                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${serviceId}`}>
+                            <FaPen className="me-2 mb-1"/>Edit
+                        </Link>
+                        <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => serviceOnDelete(serviceId)}>
+                            <FaTrashCan className="me-2 mb-1"/>Delete
+                        </Link>
+                    </Fragment>
+                )}
+
             </div>
         </div>
     )
