@@ -1,11 +1,63 @@
-import React from 'react'
+import { Fragment } from 'react'
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
-import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRightToBracket, FaPersonChalkboard } from 'react-icons/fa6';
+import { Link, useLocation, NavLink } from 'react-router-dom';
+import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRightToBracket, FaPersonChalkboard, FaPersonWalkingDashedLineArrowRight, FaPerson } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
 
 const Header = props => {
   const pathLocation = useLocation().pathname;
-//   console.log(pathLocation);
+  // console.log(pathLocation);
+  const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  const isStaff = useSelector(getIsStaff);
+
+  const leave = e => {
+    console.log('Leave click');
+  }
+
+  const staffLinks = (
+    <Fragment key={'1'}>
+        <li className="nav-item">
+            <Link className="nav-link" to="/users">
+                <FaPerson className="me-2 mb-1"/>Users
+            </Link>
+        </li>
+    </Fragment>
+  );
+
+  const authLink = (
+    <Fragment key={'2'}>
+        <li className="nav-item">
+
+        </li>
+    </Fragment>
+  );
+
+  const loginRegisterLinks = (
+    <Fragment key={'3'}>
+        <li className="nav-item">
+            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">
+                <FaArrowRightToBracket className="me-2 mb-1"/>Login
+            </Link>
+        </li>
+        <li className="nav-item">
+            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">
+                <FaPersonChalkboard className="me-2 mb-1"/>Sign Up
+            </Link>
+        </li>
+    </Fragment>
+  );
+
+  const logoutLink = (
+    <Fragment key={'4'}>
+        <li className="nav-item">
+            <NavLink onClick={e => leave(e)} className="nav-link" to="/login">
+                <FaPersonWalkingDashedLineArrowRight className="me-2 mb-1"/>Sign out
+            </NavLink>
+        </li>
+    </Fragment>
+  );
   return (
     <header>
         <nav className="navbar navbar-expand-lg main-bg-color" data-bs-theme="dark">
@@ -25,12 +77,12 @@ const Header = props => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation.includes('/feedback') || pathLocation === '/feedback/add' ? 'active' : ''}`} to="/feedback">
+                            <Link className={`nav-link ${pathLocation.includes('/feedback') ? 'active' : ''}`} to="/feedback">
                                 <FaComments className="me-2 mb-1"/>Feedback
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation.includes('/blog') || pathLocation === '/blog/add' ? 'active' : ''}`} to="/blog">
+                            <Link className={`nav-link ${pathLocation.includes('/blog') ? 'active' : ''}`} to="/blog">
                                 <FaMicroblog className="me-2 mb-1"/>Blog
                             </Link>
                         </li>
@@ -39,16 +91,9 @@ const Header = props => {
                                 <FaCircleInfo className="me-2 mb-1"/>About
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/login' ? 'active' : ''}`} to="/login">
-                                <FaArrowRightToBracket className="me-2 mb-1"/>Login
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${pathLocation === '/register' ? 'active' : ''}`} to="/register">
-                                <FaPersonChalkboard className="me-2 mb-1"/>Sign Up
-                            </Link>
-                        </li>
+                        { staffLinks }
+                        { loginRegisterLinks }
+                        { logoutLink }
                     </ul>
                 </div>
             </div>

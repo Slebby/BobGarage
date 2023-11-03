@@ -3,6 +3,7 @@ const config = require('./config/config');
 const db = require('./models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const auth = require('./middleware/auth');
 
 const app = express();
 
@@ -283,6 +284,24 @@ app.post('/api/user', async (req, res) => {
         res.status(500).json({ errors: [{ msg: 'Server Error' }] });
     }
 })
+
+// Get the logged in user.
+// /api/user/auth
+// Private route (must be logged in)
+app.get('/api/user/auth', auth, async(req, res) => {
+    console.log('/api/user/auth - GET');
+    const options = {
+        attributes: { exclude: ['password'] }
+    };
+    
+    try {
+        const user = await User.findByPk(req.user.userId, options);
+        console.log(user);
+        res.send(user);
+    } catch (error) {
+        res.status(500).send('Server Error');
+    }
+});
 
 // Register Route
 // ALlow user to sign up
