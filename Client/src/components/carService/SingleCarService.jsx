@@ -27,9 +27,9 @@ const SingleCarService = ({carService}) => {
                 <p className="card-text">
                     {serviceDesc}
                 </p>
-                <h4 className="card-subtitle mb-3">
+                <p className="card-subtitle fs-4 fw-semibold mb-3">
                     Price: &#x0024;{servicePrice.toFixed(2)}
-                </h4>
+                </p>
                 <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${serviceId}`}>
                     <FaPen className="me-2 mb-1"/>Edit
                 </Link>
