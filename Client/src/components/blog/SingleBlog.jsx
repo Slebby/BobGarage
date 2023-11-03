@@ -15,7 +15,7 @@ const SingleBlog = ({ blog }) => {
     try {
         dispatch(removeBlog(id)).unwrap();
     } catch (err) {
-        console.log('Failed to delete feedback', err);
+        console.log('Failed to delete blog', err);
     }
   };
 
