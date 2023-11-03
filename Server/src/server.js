@@ -345,7 +345,7 @@ app.post('/api/user/new', async (req, res) => {
     }
 });
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
     app.listen(config.port,
         () => console.log(`Server is running on port: ${config.port}`)
     );

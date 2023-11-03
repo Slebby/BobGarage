@@ -42,7 +42,8 @@ const CarService = sequelize.define('CarServices', {
     },
     serviceName: { type: DataTypes.STRING },
     serviceDesc: { type: DataTypes.STRING },
-    serviceImage: { type: DataTypes.STRING }
+    serviceImage: { type: DataTypes.STRING },
+    servicePrice: { type: DataTypes.DECIMAL(10, 2)}
 });
 
 const User = sequelize.define('User', {
