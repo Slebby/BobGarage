@@ -65,7 +65,8 @@ app.put('/api/feedback/edit/:id', async (req, res) => {
     
     if (editFeedback == 1){
         console.log(`Update status: ${editFeedback}`);
-        res.send('Feedback has been updated!');
+        const existFeedback = await Feedback.findByPk(id);
+        res.send(existFeedback);
     } else {
         console.log(`Update status: ${editFeedback}`);
         res.send('Feedback failed to update!');

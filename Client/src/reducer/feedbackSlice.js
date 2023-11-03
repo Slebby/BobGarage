@@ -102,7 +102,7 @@ const feedbackSlice = createSlice({
 
                 const { feedId } = action.payload;
                 const newFeedList = state.feedbackList.filter( item => item.feedId !== feedId );
-                // state.feedbackList = [...newFeedList, action.payload];
+                state.feedbackList = [...newFeedList, action.payload];
                 state.feedback = action.payload;
             })
             .addCase(removeFeedback.fulfilled, (state, action) => {
