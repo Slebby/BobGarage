@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,19 +18,28 @@ const EditCarService = () => {
         </Fragment>
     )
   }
+
+  // split the price based on decimal point
+  const priceFloat = carService.servicePrice;
+  const priceString = priceFloat.toString();
+  const priceParts = priceString.split('.');
+  // Check if it's 2 digits number or not
+  const priceDecimal = priceParts[1] >= 0 && priceParts[1] <= 9 ? priceParts[1].padEnd(2, '0') : priceParts[1];
   
   const [formData, setFormData] = useState({
     serviceName: carService.serviceName,
     serviceDesc: carService.serviceDesc,
-    serviceImage: null,
+    serviceImage: carService.serviceImage,
+    servicePrice: priceParts[0],
+    servicePriceDecimal: priceDecimal || '00',
     errors: {}
   });
 
   const [requestStatus, setRequestStatus] = useState('idle');
 
-  const { serviceName, serviceDesc, serviceImage, errors } = formData;
+  const { serviceName, serviceDesc, serviceImage, servicePrice, servicePriceDecimal, errors } = formData;
 
-  const canSave = serviceName !== undefined && serviceDesc !== undefined && serviceImage !== undefined && requestStatus === 'idle';
+  const canSave = serviceName !== undefined && serviceDesc !== undefined && serviceImage !== undefined && servicePrice !== undefined && servicePriceDecimal !== undefined && requestStatus === 'idle';
 
   const serviceOnChange = (e) => {
     // console.log(e);
@@ -40,6 +49,39 @@ const EditCarService = () => {
     });
   };
 
+    // Handle Number Input
+    const handleKeyPress = (e) => {
+        // Allow number only
+        const regex = /^[A-Za-z]$/;
+        const keyCode = e.key;
+        const disabledKeys = ['.', '-', '+', 'ArrowUp', 'ArrowDown'];
+
+        if (regex.test(keyCode) || disabledKeys.includes(keyCode)) {
+            e.preventDefault();
+        }
+    };
+
+    const numberOnChange = (e, digit) => {
+    if (e.target.value.length <= digit ){
+        setFormData({
+            ...formData, [e.target.name]: e.target.value
+        });
+    }
+    }
+
+    const numberOnScroll = e => {
+    e.preventDefault();
+    }
+
+    useEffect(() => {
+    const inputElement = document.querySelector('input[type="number"]');
+    inputElement.addEventListener('wheel', numberOnScroll, { passive: false });
+
+    return () => {
+        inputElement.removeEventListener('wheel', numberOnScroll);
+    };
+    }, []);
+
   const serviceOnSubmit = async (e) => {
     e.preventDefault();
     console.log('Edit Service - Submitting form...');
@@ -48,7 +90,8 @@ const EditCarService = () => {
         serviceId: id,
         serviceName,
         serviceDesc,
-        serviceImage
+        serviceImage,
+        servicePrice: parseFloat(`${servicePrice}.${servicePriceDecimal}`)
     }
 
     try {
@@ -97,6 +140,30 @@ const EditCarService = () => {
                             style={{height: "20rem"}} value={serviceDesc}
                             onChange={e => serviceOnChange(e)} />
                             <label htmlFor="floatingText" className="opacity-75">Description</label>
+                        </div>
+                    </div>
+                    <div className="input-group card-subtitle my-1 w-50 container">
+                        <span className="input-group-text fs-4">&#x0024;</span>
+                        <div className="form-floating w-10">
+                            <input
+                            type="number"
+                            name="servicePrice"
+                            id="servicePrice"
+                            placeholder="Number"
+                            className="form-control"
+                            value={servicePrice ? servicePrice : ''}
+                            onChange={e => numberOnChange(e, 10)}
+                            onKeyDown={e => handleKeyPress(e)}
+                            inputMode="numeric"
+                            pattern="[0-9]*"/>
+                            <label htmlFor="servicePrice" className="opacity-75">Price</label>
+                        </div>
+                        <span className="input-group-text fs-4">&#x002E;</span>
+                        <div className="form-floating">
+                            <input type="number" name="servicePriceDecimal" id="servicePriceDecimal" placeholder="00" className="form-control" value={servicePriceDecimal ? servicePriceDecimal : ''}
+                            onKeyDown={e => handleKeyPress(e)}
+                            onChange={e => numberOnChange(e, 2)}/>
+                            <label htmlFor="servicePriceDecimal" className="opacity-75">Decimal &#x0028;00&#x0029;</label>
                         </div>
                     </div>
                     <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Update</button>

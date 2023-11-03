@@ -203,8 +203,8 @@ app.post('/api/service/add', async (req, res) => {
 app.put('/api/service/edit/:id', async (req, res) => {
     console.log('/api/service/edit/:id - PUT');
     const id = parseInt(req.params.id);
-    const { serviceName, serviceDesc, serviceImage } = req.body;
-    const editService = await CarServices.update({ serviceName, serviceImage, serviceDesc }, {
+    const { serviceName, serviceDesc, serviceImage, servicePrice } = req.body;
+    const editService = await CarServices.update({ serviceName, serviceImage, serviceDesc, servicePrice }, {
         where: {
             serviceId: id
         }
