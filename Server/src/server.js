@@ -239,11 +239,11 @@ app.delete('/api/service/delete/:id', async (req, res) => {
 // User routes
 // Login Route
 // Allow user to login
-// /api/user
+// /api/auth
 // POST Request
 // Public route
-app.post('/api/user', async (req, res) => {
-    console.log('/api/user - POST');
+app.post('/api/auth', async (req, res) => {
+    console.log('/api/auth - POST');
     const { email, password } = req.body;
     try {
         // Check if the user exists
@@ -287,10 +287,10 @@ app.post('/api/user', async (req, res) => {
 })
 
 // Get the logged in user.
-// /api/user/auth
+// /api/auth/auth
 // Private route (must be logged in)
-app.get('/api/user/auth', auth, async(req, res) => {
-    console.log('/api/user/auth - GET');
+app.get('/api/auth', auth, async(req, res) => {
+    console.log('/api/auth - GET');
     const options = {
         attributes: { exclude: ['password'] }
     };
@@ -306,11 +306,11 @@ app.get('/api/user/auth', auth, async(req, res) => {
 
 // Register Route
 // ALlow user to sign up
-// /api/user/new
+// /api/auth/new
 // POST request
 // Public route
-app.post('/api/user/new', async (req, res) => {
-    console.log('/api/user/new - POST');
+app.post('/api/auth/new', async (req, res) => {
+    console.log('/api/auth/new - POST');
     const { username, email, userImage, password } = req.body;
 
     try {

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 
-const baseRoute = '/api/user';
+const baseRoute = '/api/auth';
 
 const initialState = {
     user: {},
@@ -13,8 +13,8 @@ const initialState = {
     error: null
 };
 
-// Login path api/user,
-// register path api/users/new
+// Login path api/auth,
+// register path api/auth/new
 
 export const login = createAsyncThunk('auth/login', async (credential) => {
     console.log('logging in again...');
@@ -41,7 +41,17 @@ export const register = createAsyncThunk('auth/register', async(newUser) => {
     console.log('Creating new user...');
     try {
         const res = await axios.post(`${baseRoute}/new`, newUser);
-        console.log(res.data);
+        console.log(res.data.token); // token
+        if(res.data){
+            if(res.status === 400){
+                throw Error({ message: res.data });
+            }
+
+            localStorage.setItem('token', res.data.token);
+            setAuthToken(localStorage.token);
+            const response = await axios.get(baseRoute);
+            return response.data;
+        }
         return res.data;
     } catch (err) {
         return err.message;
@@ -50,7 +60,7 @@ export const register = createAsyncThunk('auth/register', async(newUser) => {
 
 export const loadUser = createAsyncThunk('auth/loadUser', async() => {
     try {
-        const res = await axios.get(`${baseRoute}/auth`);
+        const res = await axios.get(baseRoute);
         return res.data;
     } catch (err) {
         return err.message;
@@ -97,6 +107,23 @@ const authSlice = createSlice({
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.user = action.payload;
+            })
+            .addCase(register.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.isAuth = true;
+                state.isStaff = action.payload.isStaff;
+                state.token = localStorage.getItem('token');
+                state.user = action.payload;
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.status = 'failed';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.error = action.error.message;
             })
     }
 })
