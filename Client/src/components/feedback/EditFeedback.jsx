@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,9 +17,9 @@ const EditFeedback = () => {
 
   if(!feedback){
     return(
-      <section>
+      <Fragment>
         <h2>Feedback not found!!!</h2>
-      </section>
+      </Fragment>
     )
   }
   
