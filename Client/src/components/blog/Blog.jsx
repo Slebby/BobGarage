@@ -6,6 +6,7 @@ import SingleBlog from './SingleBlog';
 import { useSelector } from 'react-redux';
 import { selectAllBlogs, getBlogError, getBlogStatus } from '../../reducer/blogSlice';
 import { getIsAuth } from '../../reducer/authSlice';
+import { selectAll_User } from '../../reducer/userSlice';
 
 const Blog = props => {
     const pathLocation = useLocation().pathname;
@@ -14,6 +15,7 @@ const Blog = props => {
     const blogError = useSelector(getBlogError);
     const isAuth = useSelector(getIsAuth);
     console.log(blogList);
+    const userNameLists = useSelector(selectAll_User);
 
     const homePath = pathLocation === '/';
 
@@ -44,7 +46,9 @@ const Blog = props => {
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
                             blogList.map(
-                                item => (<SingleBlog key={ item.blogId } blog={item}/>)
+                                item => {
+                                let user = userNameLists.filter( u => u.userId === item.myUserBlogId);
+                                return <SingleBlog key={ item.blogId } blog={item} user={user}/>}
                             )
                         }
                     </div>

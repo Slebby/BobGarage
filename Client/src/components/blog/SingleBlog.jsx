@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
-const SingleBlog = ({ blog }) => {
+const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
+  const [{ username }] = user;
+  console.log(user);
   const blogOnDelete = (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
@@ -22,7 +24,7 @@ const SingleBlog = ({ blog }) => {
   };
 
     return(
-        <div className="card shadow px-0 col-md-5">
+        <section className="card shadow px-0 col-md-5">
             <img src="#" alt="Picture" className="card-img-top"/>
             <h2 className="card-header secondary-bg-color">
                 {blogHeader}
@@ -45,7 +47,10 @@ const SingleBlog = ({ blog }) => {
                     </Fragment>
                 )}
             </div>
-        </div>
+            <div className="card-footer fs-5 fw-semibold">
+                <span>- {username}</span>
+            </div>
+        </section>
     )
 
 }
