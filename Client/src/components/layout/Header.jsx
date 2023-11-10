@@ -21,7 +21,7 @@ const Header = props => {
   const staffLinks = (
     <Fragment key={'1'}>
         <li className="nav-item">
-            <Link className="nav-link" to="/users">
+            <Link className={`nav-link ${pathLocation === '/users' ? 'active' : ''}`} to="/users">
                 <FaPerson className="me-2 mb-1"/>Users
             </Link>
         </li>
