@@ -29,9 +29,9 @@ const Users = () => {
     content = <p>Loading...</p>
   } else if (userStatus === 'succeeded'){
     content = 
-    <div className="m-3">
+    <section className="my-5 container">
         <h2>Users</h2>
-        <table className="table table-striped">
+        <table className="table table-striped text-center">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -51,7 +51,7 @@ const Users = () => {
                 }
             </tbody>
         </table>
-    </div>
+    </section>
   } else if (userStatus === 'failed'){
     console.log('Error');
     content = <p>{userError}</p>
