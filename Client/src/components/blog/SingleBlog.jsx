@@ -50,7 +50,8 @@ const SingleBlog = ({ blog, user }) => {
                 )}
             </div>
             <div className="card-footer fs-5 fw-semibold">
-                <span>- {username}</span>
+                <span className="fw-normal fs-6 d-block">Posted by</span>
+                <span>{username}</span>
             </div>
         </section>
     )
