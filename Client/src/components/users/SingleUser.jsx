@@ -23,7 +23,7 @@ const SingleUser = ({ user }) => {
             </Link>
         </td>
         <td>
-            <Link className="btn btn-danger ms-3 fw-semibold w-50" onClick={() => {feedbackOnDelete(user.userId)}}>
+            <Link className="btn btn-danger ms-3 fw-semibold w-50" onClick={() => {userOnDelete(user.userId)}}>
               <FaTrashCan className="me-2 mb-1"/>Delete
             </Link>
         </td>

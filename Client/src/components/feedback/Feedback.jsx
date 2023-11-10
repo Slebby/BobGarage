@@ -29,7 +29,7 @@ const Feedback = (props) => {
                             <Link to="/feedback" className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover fw-semibold">
                                 Feedback from other users
                             </Link>
-                        ) : 'Feedback List'}
+                        ) : 'Feedback'}
                     </h3>
                     {homePath ? ''
                     : (isAuth) ? (
