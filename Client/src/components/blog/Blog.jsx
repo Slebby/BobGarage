@@ -14,7 +14,6 @@ const Blog = props => {
     const blogStatus = useSelector(getBlogStatus);
     const blogError = useSelector(getBlogError);
     const isAuth = useSelector(getIsAuth);
-    console.log(blogList);
     const userNameLists = useSelector(selectAll_User);
 
     const homePath = pathLocation === '/';
