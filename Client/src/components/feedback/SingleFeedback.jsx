@@ -5,7 +5,6 @@ import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
 import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
-import { getUserByID } from '../../reducer/userSlice';
 
 const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle } = feedback;
