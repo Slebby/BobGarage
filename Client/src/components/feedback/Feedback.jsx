@@ -5,6 +5,7 @@ import { FaPlus } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { selectAllFeedback, getFeedbackStatus, getFeedbackError } from '../../reducer/feedbackSlice';
 import { getIsAuth } from '../../reducer/authSlice';
+import { selectAll_User } from '../../reducer/userSlice';
 
 const Feedback = (props) => {
     const pathLocation = useLocation().pathname;
@@ -14,6 +15,7 @@ const Feedback = (props) => {
     const isAuth = useSelector(getIsAuth);
     console.log(feedbackList);
     const homePath = pathLocation === '/';
+    const userNameLists = useSelector(selectAll_User);
     
     let content;
     if (feedbackStatus === 'loading'){
@@ -41,9 +43,11 @@ const Feedback = (props) => {
                     ) : null}
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
-                            feedbackList.map( item => (
-                                <SingleFeedback key={item.feedId} feedback={item} />
-                            ))
+                            feedbackList.map( item => {
+                                console.log(item.myUserFeedbackId);
+                                let user = userNameLists.filter( u => u.userId === item.myUserFeedbackId);
+                                return <SingleFeedback key={item.feedId} feedback={item} user={user}/>
+                            })
                         }
                     </div>
                 </div>

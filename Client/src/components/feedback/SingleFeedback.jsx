@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
-const SingleFeedback = ({ feedback }) => {
+const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle } = feedback;
+  const [{ userId, username }] = user;
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
@@ -24,7 +25,6 @@ const SingleFeedback = ({ feedback }) => {
   
   return (
     <div className="card shadow col-md-5">
-        <img src="#" alt="Picture" className="card-img-top"/>
         <div className="card-body">
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
@@ -38,6 +38,9 @@ const SingleFeedback = ({ feedback }) => {
                 </Link>
               </Fragment>
             )}
+        </div>
+        <div className="card-footer fs-5 fw-semibold">
+          <span>- {username}</span>
         </div>
     </div>
   )
