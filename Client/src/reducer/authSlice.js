@@ -77,7 +77,7 @@ const authSlice = createSlice({
             state.token = null;
             state.isAuth = false;
             state.isStaff = false;
-            state.user = null;
+            state.user = {};
             state.status = 'idle';
         }
     },

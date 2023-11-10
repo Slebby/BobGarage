@@ -3,15 +3,17 @@ import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
-import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
 
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
-  const [{ username }] = user;
-  console.log(user);
+  const [{ userId, username }] = user;
+  const authUserID = useSelector(getAuthUserID);
+  const sameAuthUser = userId === authUserID;
+  
   const blogOnDelete = (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
@@ -36,7 +38,7 @@ const SingleBlog = ({ blog, user }) => {
                 <p className="card-text">
                     {blogBody}
                 </p>
-                {(isAuth && isStaff) && (
+                {((isAuth && isStaff) || (sameAuthUser && isAuth)) && (
                     <Fragment>
                         <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
                             <FaPen className="me-2 mb-1"/>Edit

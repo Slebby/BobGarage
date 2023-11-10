@@ -32,7 +32,7 @@ const SingleFeedback = ({ feedback, user }) => {
         <div className="card-body">
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
-            {(isAuth && isStaff) || (sameAuthUser) && (
+            {((isAuth && isStaff) || (sameAuthUser && isAuth)) && (
               <Fragment>
                 <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${feedId}`}>
                   <FaPen className="me-2 mb-1"/>Edit
