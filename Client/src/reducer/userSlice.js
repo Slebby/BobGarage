@@ -11,6 +11,7 @@ const initialState = {
     errors: {}
 };
 
+// get all information
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async() => {
     console.log('Fetching Users...');
     try {
@@ -20,6 +21,17 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async() => {
         return err.message;
     }
 });
+
+// get only the names
+export const fetchUsersNames = createAsyncThunk('users/fetchUsersNames', async() => {
+    console.log('Fetching Users Names...');
+    try {
+        const res = await axios.get(`${baseRoute}/names`);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+})
 
 const userSlice = createSlice({
     name: 'users',
@@ -37,6 +49,17 @@ const userSlice = createSlice({
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.status = 'failed';
                 state.errors = action.error.message;
+            })
+            .addCase(fetchUsersNames.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchUsersNames.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.all_Users = action.payload;
+            })
+            .addCase(fetchUsersNames.rejected, (state, action) => {
+                state.status = 'failed';
+                state.all_Users = action.error.message;
             })
     }
 });

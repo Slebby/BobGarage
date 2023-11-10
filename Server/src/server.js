@@ -287,7 +287,7 @@ app.post('/api/auth', async (req, res) => {
 })
 
 // Get the logged in user.
-// /api/auth/auth
+// /api/auth
 // Private route (must be logged in)
 app.get('/api/auth', auth, async(req, res) => {
     console.log('/api/auth - GET');
@@ -378,6 +378,20 @@ app.get('/api/users', [auth, admin] ,async(req, res) => {
     const userList = await User.findAll(options);
     res.send(userList);
 });
+
+// Get users Names
+// return users names and such
+// /api/users/names
+// GET Request
+// Public route - will shown on the feedback and blog
+app.get('/api/users/names', async(req, res) => {
+    console.log('/api/users/names - GET');
+    const options = {
+        attributes: { exclude: ['password', 'email', 'isStaff'] }
+    };
+    const userList = await User.findAll(options);
+    res.send(userList);
+})
 
 db.sequelize.sync({ alter: true }).then(() => {
     app.listen(config.port,
