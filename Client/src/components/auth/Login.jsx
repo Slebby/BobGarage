@@ -2,11 +2,12 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, getIsAuth } from '../../reducer/authSlice';
+import { login, getIsAuth, getAuthStatus } from '../../reducer/authSlice';
 
 const Login = props => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
+  const loginError = useSelector(getAuthStatus);
 
   const [formData, setFormData] = useState({
     emailInput: '',
@@ -45,6 +46,11 @@ const Login = props => {
           <div className="text-center fw-semibold fs-2 mt-4">
             <p className="mb-4">Login</p>
           </div>
+          { loginError === 'error' && (
+            <div className="container text-center text-danger bg-danger-subtle border border-danger rounded py-3 my-2 w-50">
+              <span>Invalid Email or Password</span>
+            </div>
+          )}
           <div className="mb-3">
             <label htmlFor="emailInput" className="form-label">Email</label>
             <input type="email" name="emailInput" id="emailInput" className="form-control" value={emailInput} onChange={e => authOnChange(e)}/>
