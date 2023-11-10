@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
-import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getUserByID } from '../../reducer/userSlice';
 
 const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle } = feedback;
@@ -12,6 +13,10 @@ const SingleFeedback = ({ feedback, user }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
+  const authUserID = useSelector(getAuthUserID);
+
+  const sameAuthUser = userId === authUserID;
+
   const feedbackOnDelete = (id) => {
     console.log('Deleted Clicked!');
     console.log(`Id: ${id}`);
@@ -28,7 +33,7 @@ const SingleFeedback = ({ feedback, user }) => {
         <div className="card-body">
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
-            {(isAuth && isStaff) && (
+            {(isAuth && isStaff) || (sameAuthUser) && (
               <Fragment>
                 <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${feedId}`}>
                   <FaPen className="me-2 mb-1"/>Edit
