@@ -1,9 +1,24 @@
-import { Fragment } from 'react';
-import { useSelector } from 'react-redux';
-import { selectUsers, getUsersStatus, getUsersErrors } from '../../reducer/userSlice';
+import { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUsers, getUsersStatus, getUsersErrors, fetchUsers } from '../../reducer/userSlice';
 import SingleUser from './SingleUser';
+import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { Navigate } from 'react-router-dom';
 
 const Users = () => {
+  const dispatch = useDispatch();
+  const isStaff = useSelector(getIsStaff);
+  const isAuth = useSelector(getIsAuth);
+
+  if(!isStaff && !isAuth){
+    return <Navigate to='/' />
+  }
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  });
+
+
   const userList = useSelector(selectUsers);
   const userStatus = useSelector(getUsersStatus);
   const userError = useSelector(getUsersErrors);
