@@ -391,9 +391,71 @@ app.get('/api/users/names', async(req, res) => {
     };
     const userList = await User.findAll(options);
     res.send(userList);
-})
+});
 
-db.sequelize.sync({ alter: true }).then(() => {
+// Update user Names
+// return new user names and such
+// /api/users/edit/:id
+// PUT Request
+// Private route - Only the admin and the owner can edit
+app.put('/api/users/edit/:id', async(req, res) => {
+    console.log('/api/users/edit/:id - PUT');
+    const id = parseInt(req.params.id);
+    const { username, userImage } = req.body;
+
+    const editUser = await User.update({ username, userImage }, {
+        where: {
+            userId: id
+        }
+    });
+    
+    if (editUser == 0) {
+        console.log('User Update Failed!');
+        res.send('User failed to update');
+    } else {
+        console.log('User Update Success!');
+        const existUser = await User.findByPk(id);
+        res.send(existUser);
+    }
+});
+
+// Delete user Names
+// Remove user
+// /api/users/delete/:id
+// DELETE Request
+// Private route - Only the admin delete
+app.delete('/api/users/delete/:id', async(req, res) => {
+    console.log('/api/users/delete/:id - DELETE');
+    const id = parseInt(req.params.id);
+
+    const removingUserFeedback = await Feedback.destroy({
+        where: {
+            myUserFeedbackId: id
+        }
+    });
+
+    const removingUserBlog = await Blog.destroy({
+        where: {
+            myUserBlogId: id
+        }
+    });
+
+    const removingUser = await User.destroy({ 
+        where: {
+            userId: id
+        }
+    });
+
+    if (removingUser == 0 || removingUserFeedback == 0 || removingUserBlog == 0) {
+        console.log('User delete Failed!');
+        res.send('User failed to delete!');
+    } else {
+        console.log('User delete Success!');
+        res.send('User has been deleted!');
+    }
+});
+
+db.sequelize.sync().then(() => {
     app.listen(config.port,
         () => console.log(`Server is running on port: ${config.port}`)
     );
