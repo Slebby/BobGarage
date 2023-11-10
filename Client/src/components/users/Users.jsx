@@ -16,7 +16,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(fetchUsers());
-  });
+  }, []);
 
 
   const userList = useSelector(selectUsers);
