@@ -87,11 +87,16 @@ const authSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(login.fulfilled, (state, action) => {
+                if(typeof(action.payload) !== "object"){
+                    state.status = 'error';
+                    state.error = action.payload;
+                    return;
+                }
                 state.status = 'succeeded';
+                state.user = action.payload;
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.token = localStorage.getItem('token');
-                state.user = action.payload;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'falied';
