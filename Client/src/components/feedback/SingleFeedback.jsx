@@ -8,7 +8,7 @@ import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle } = feedback;
-  const [{ userId, username }] = user;
+  const [{ userId, username }] = user.length !== 0 ? user : [{}];
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
@@ -44,7 +44,7 @@ const SingleFeedback = ({ feedback, user }) => {
             )}
         </div>
         <div className="card-footer fs-5 fw-semibold">
-          <span>- {username || 'Deleted User'}</span>
+          <span className={!username ? 'text-danger fw-bold': ''}>- {username || 'Deleted User'}</span>
         </div>
     </div>
   )
