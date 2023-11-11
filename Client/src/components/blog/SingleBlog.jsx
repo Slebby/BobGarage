@@ -10,8 +10,7 @@ const SingleBlog = ({ blog, user }) => {
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
-  const userId = user.length !== 0 ? user[0].userId : null;
-  const username = user.length !== 0 ? user[0].username : null;
+  const [{ userId, username }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
 
