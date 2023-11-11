@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewBlog } from '../../reducer/blogSlice';
+import { getAuthUserID } from '../../reducer/authSlice';
 
 const AddBlog = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userId = useSelector(getAuthUserID);
   const [formData, setFormData] = useState({
     blogHeader: '',
     blogTitle: '',
     blogBody: '',
+    myUserBlogId: userId,
     errors: {}
   });
 
-  const { blogHeader, blogTitle, blogBody, errors } = formData;
+  const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
 
   const blogOnChange = e => {
     // console.log(e);
@@ -33,6 +36,7 @@ const AddBlog = (props) => {
       blogHeader,
       blogTitle,
       blogBody,
+      myUserBlogId
     }
 
     console.log(newBlog);

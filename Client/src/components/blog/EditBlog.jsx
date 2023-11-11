@@ -25,12 +25,13 @@ const EditBlog = () => {
       blogHeader: blog.blogHeader,
       blogTitle: blog.blogTitle,
       blogBody: blog.blogBody,
+      myUserBlogId: blog.myUserBlogId,
       errors: {}
     });
 
     const [requestStatus, setRequestStatus] = useState('idle');
 
-    const { blogHeader, blogTitle, blogBody } = formData;
+    const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
 
     const canSave = blogHeader !== undefined && blogTitle !== undefined && blogBody !== undefined && requestStatus === 'idle';
   
@@ -52,6 +53,7 @@ const EditBlog = () => {
         blogHeader,
         blogTitle,
         blogBody,
+        myUserBlogId
       }
   
       console.log(updBlog);
