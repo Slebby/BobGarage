@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewFeedback } from '../../reducer/feedbackSlice';
+import { getAuthUserID } from '../../reducer/authSlice';
 
 const AddFeedback = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userId = useSelector(getAuthUserID);
+  console.log(userId);
   const [formData, setFormData] = useState({
     feedbackTitle: '',
     feedbackBody: '',
+    myUserFeedbackId: userId,
     errors: {}
   });
 
-  const { feedbackTitle, feedbackBody, errors } = formData;
+  const { feedbackTitle, feedbackBody, myUserFeedbackId, errors } = formData;
 
   const feedbackOnChange = (e) => {
     // console.log(e);
@@ -30,7 +34,8 @@ const AddFeedback = (props) => {
 
     const newFeedback = {
       feedbackTitle,
-      feedbackBody
+      feedbackBody,
+      myUserFeedbackId
     };
 
     console.log(newFeedback);

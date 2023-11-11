@@ -26,13 +26,13 @@ const EditFeedback = () => {
   const [formData, setFormData] = useState({
     feedbackTitle: feedback.feedbackTitle,
     feedbackBody: feedback.feedbackBody,
-    UserUserId: feedback.UserUserId,
+    myUserFeedbackId: feedback.myUserFeedbackId,
     errors: {}
   });
 
   const [requestStatus, setRequestStatus] = useState('idle');
 
-  const { feedbackTitle, feedbackBody, UserUserId, errors } = formData;
+  const { feedbackTitle, feedbackBody, myUserFeedbackId, errors } = formData;
 
   const canSave = feedbackTitle !== undefined && feedbackBody !== undefined && requestStatus === 'idle';
 
@@ -52,7 +52,8 @@ const EditFeedback = () => {
     const updFeedback = {
       feedId: id,
       feedbackTitle,
-      feedbackBody
+      feedbackBody,
+      myUserFeedbackId
     };
 
     console.log(updFeedback);

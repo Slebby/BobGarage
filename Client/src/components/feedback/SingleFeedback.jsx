@@ -44,7 +44,7 @@ const SingleFeedback = ({ feedback, user }) => {
             )}
         </div>
         <div className="card-footer fs-5 fw-semibold">
-          <span>- {username}</span>
+          <span>- {username || 'Deleted User'}</span>
         </div>
     </div>
   )
