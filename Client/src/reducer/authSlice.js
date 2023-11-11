@@ -139,6 +139,7 @@ export const getIsStaff = (state) => state.auth.isStaff;
 export const getAuthUser = (state) => state.auth.user;
 export const getAuthUserID = (state) => state.auth.user.userId;
 export const getAuthStatus = (state) => state.auth.status;
+export const getAuthUserUsername = (state) => state.auth.user.username;
 
 export const { logout } = authSlice.actions;
 

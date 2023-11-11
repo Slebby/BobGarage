@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation, NavLink } from 'react-router-dom';
 import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRightToBracket, FaPersonChalkboard, FaPersonWalkingDashedLineArrowRight, FaPerson } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
+import { getAuthUserUsername, getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
 
 const Header = props => {
   const pathLocation = useLocation().pathname;
@@ -11,6 +11,7 @@ const Header = props => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
+  const authUsername = useSelector(getAuthUserUsername);
 
   const leave = e => {
     console.log('Leave click');
@@ -52,7 +53,7 @@ const Header = props => {
   );
 
   const logoutLink = (
-    <Fragment key={'4'}>
+      <Fragment key={'4'}>
         <li className="nav-item">
             <NavLink onClick={e => leave(e)} className="nav-link" to="/login">
                 <FaPersonWalkingDashedLineArrowRight className="me-2 mb-1"/>Sign out
@@ -60,6 +61,16 @@ const Header = props => {
         </li>
     </Fragment>
   );
+
+  const userName = (
+    <Fragment key={'5'}>
+        <li className="navbar-text">
+            <span className="fw-semibold me-2">Username:</span>
+            <span>{authUsername}</span>   
+        </li>
+    </Fragment>
+  );
+
   return (
     <header>
         <nav className="navbar navbar-expand-lg main-bg-color" data-bs-theme="dark">
@@ -94,7 +105,7 @@ const Header = props => {
                             </Link>
                         </li>
                         { isAuth && isStaff ? staffLinks : null }
-                        { isAuth ? logoutLink : loginRegisterLinks }
+                        { isAuth ? [logoutLink, userName] : loginRegisterLinks }
                     </ul>
                 </div>
             </div>
