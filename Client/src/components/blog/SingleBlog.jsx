@@ -10,10 +10,11 @@ const SingleBlog = ({ blog, user }) => {
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
-  const [{ userId, username }] = user;
+  const userId = user.length !== 0 ? user[0].userId : null;
+  const username = user.length !== 0 ? user[0].username : null;
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
-  
+
   const blogOnDelete = (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
@@ -51,7 +52,7 @@ const SingleBlog = ({ blog, user }) => {
             </div>
             <div className="card-footer fs-5 fw-semibold">
                 <span className="fw-normal fs-6 d-block">Posted by</span>
-                <span>{username || 'Deleted User'}</span>
+                <span className={!username ? 'text-danger' : ''}>{username || 'Deleted User'}</span>
             </div>
         </section>
     )
