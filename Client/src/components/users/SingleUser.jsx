@@ -18,12 +18,12 @@ const SingleUser = ({ user }) => {
         <td>{user.isStaff ? 'Yes' : 'No'}</td>
         <td>{user.userImage}</td>
         <td>
-            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light w-50" to={`./edit/${user.userId}`}>
+            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${user.userId}`}>
               <FaPen className="me-2 mb-1"/>Edit
             </Link>
         </td>
         <td>
-            <Link className="btn btn-danger ms-3 fw-semibold w-50" onClick={() => {userOnDelete(user.userId)}}>
+            <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {userOnDelete(user.userId)}}>
               <FaTrashCan className="me-2 mb-1"/>Delete
             </Link>
         </td>
