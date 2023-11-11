@@ -13,7 +13,7 @@ const SingleFeedback = ({ feedback, user }) => {
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const authUserID = useSelector(getAuthUserID);
-
+  const staffRole = isAuth && isStaff;
   const sameAuthUser = userId === authUserID;
 
   const feedbackOnDelete = (id) => {
@@ -32,11 +32,13 @@ const SingleFeedback = ({ feedback, user }) => {
         <div className="card-body">
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
-            {((isAuth && isStaff) || (sameAuthUser && isAuth)) && (
+            {(staffRole || sameAuthUser) && (
               <Fragment>
-                <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${feedId}`}>
-                  <FaPen className="me-2 mb-1"/>Edit
-                </Link>
+                {(!staffRole) && (
+                  <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${feedId}`}>
+                    <FaPen className="me-2 mb-1"/>Edit
+                  </Link>
+                )}
                 <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {feedbackOnDelete(feedId)}}>
                   <FaTrashCan className="me-2 mb-1"/>Delete
                 </Link>

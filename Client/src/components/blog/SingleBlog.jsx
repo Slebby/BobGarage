@@ -9,6 +9,7 @@ const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
+  const staffRole = isAuth && isStaff;
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
   const [{ userId, username }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
@@ -38,11 +39,13 @@ const SingleBlog = ({ blog, user }) => {
                 <p className="card-text">
                     {blogBody}
                 </p>
-                {((isAuth && isStaff) || (sameAuthUser && isAuth)) && (
+                {(staffRole || sameAuthUser) && (
                     <Fragment>
-                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
-                            <FaPen className="me-2 mb-1"/>Edit
-                        </Link>
+                        {!staffRole && (
+                            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
+                                <FaPen className="me-2 mb-1"/>Edit
+                            </Link>
+                        )}
                         <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {blogOnDelete(blogId)}}>
                             <FaTrashCan className="me-2 mb-1"/>Delete
                         </Link>
