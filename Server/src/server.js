@@ -41,12 +41,12 @@ app.get('/api/feedback/edit/:id', async (req, res) => {
 app.post('/api/feedback/add', async (req, res) => {
     console.log('/api/feedback/add - POST');
 
-    const { feedbackBody, feedbackTitle, UserUserId } = req.body;
+    const { feedbackBody, feedbackTitle, myUserFeedbackId } = req.body;
 
     const newFeedback = await Feedback.create({
         feedbackTitle,
         feedbackBody,
-        UserUserId
+        myUserFeedbackId
     });
     console.log(newFeedback.toJSON());
     res.send(newFeedback);
@@ -57,9 +57,9 @@ app.put('/api/feedback/edit/:id', async (req, res) => {
     let id = req.params.id;
     id = parseInt(id);
 
-    const { feedbackBody, feedbackTitle, UserUserId } = req.body;
+    const { feedbackBody, feedbackTitle, myUserFeedbackId } = req.body;
 
-    const editFeedback = await Feedback.update({ feedbackTitle, feedbackBody, UserUserId }, { 
+    const editFeedback = await Feedback.update({ feedbackTitle, feedbackBody, myUserFeedbackId }, { 
         where: {
             feedId: id
         }
@@ -121,8 +121,8 @@ app.get('/api/blog/edit/:id', async (req, res) => {
 app.post('/api/blog/add', async (req, res) => {
     console.log('/api/blog/add - POST');
     
-    const { blogHeader, blogTitle, blogBody, UserUserId } = req.body;
-    const newBlog = await Blog.create({ blogHeader, blogTitle, blogBody, UserUserId});
+    const { blogHeader, blogTitle, blogBody, myUserBlogId } = req.body;
+    const newBlog = await Blog.create({ blogHeader, blogTitle, blogBody, myUserBlogId});
 
     console.log(newBlog.toJSON());
     res.send(newBlog);
@@ -133,8 +133,8 @@ app.put('/api/blog/edit/:id', async (req, res) => {
     let id = req.params.id;
     id = parseInt(id);
 
-    const { blogHeader, blogTitle, blogBody, UserUserId } = req.body;
-    const editBlog = await Blog.update({ blogHeader, blogTitle, blogBody, UserUserId }, {
+    const { blogHeader, blogTitle, blogBody, myUserBlogId } = req.body;
+    const editBlog = await Blog.update({ blogHeader, blogTitle, blogBody, myUserBlogId }, {
         where: {
             blogId: id
         }
@@ -428,13 +428,13 @@ app.delete('/api/users/delete/:id', async(req, res) => {
     console.log('/api/users/delete/:id - DELETE');
     const id = parseInt(req.params.id);
 
-    const removingUserFeedback = await Feedback.destroy({
+    const removingUserFeedback = await Feedback.update({ myUserFeedbackId: null } ,{
         where: {
             myUserFeedbackId: id
         }
     });
 
-    const removingUserBlog = await Blog.destroy({
+    const removingUserBlog = await Blog.update({ myUserBlogId: null }, {
         where: {
             myUserBlogId: id
         }
