@@ -1,11 +1,17 @@
 import { Fragment, useState } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFeedback, selectFeedbackByID } from '../../reducer/feedbackSlice';
+import { getIsAuth } from '../../reducer/authSlice';
 
 const EditFeedback = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  
+  if(!isAuth){
+    return <Navigate to='/feedback' />
+  }
   
   const { id } = useParams();
   //   console.log(id);

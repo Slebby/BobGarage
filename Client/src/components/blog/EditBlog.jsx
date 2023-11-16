@@ -1,12 +1,18 @@
 import { Fragment, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBlog, selectBlogByID } from '../../reducer/blogSlice';
+import { getIsAuth } from '../../reducer/authSlice';
 
 const EditBlog = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isAuth = useSelector(getIsAuth);
+  
+    if(!isAuth){
+      return <Navigate to='/blog' />
+    }
 
     const { id } = useParams();
     // console.log(id);
@@ -20,6 +26,8 @@ const EditBlog = () => {
             </Fragment>
         )
     }
+
+    
 
     const [formData, setFormData] = useState({
       blogHeader: blog.blogHeader,

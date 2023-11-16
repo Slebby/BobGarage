@@ -1,12 +1,20 @@
 import { useState, Fragment, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCarServiceByID, updateCarService } from '../../reducer/carServiceSlice';
+import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const EditCarService = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isStaff = useSelector(getIsStaff);
+  const isAuth = useSelector(getIsAuth);
+
+  if(!isStaff && !isAuth){
+    return <Navigate to='/service' />
+  }
+
   const { id } = useParams();
   //   console.log(id);
   const carService = useSelector((state) => selectCarServiceByID(state, id));

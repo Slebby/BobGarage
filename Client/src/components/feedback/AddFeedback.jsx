@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewFeedback } from '../../reducer/feedbackSlice';
-import { getAuthUserID } from '../../reducer/authSlice';
+import { getAuthUserID, getIsAuth } from '../../reducer/authSlice';
 
 const AddFeedback = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
+  
+  if(!isAuth){
+    return <Navigate to='/feedback' />
+  }
+
   const userId = useSelector(getAuthUserID);
   console.log(userId);
   const [formData, setFormData] = useState({
