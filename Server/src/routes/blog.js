@@ -1,5 +1,11 @@
 // File: src/routes/blog.js
 // This will hold all endpoints that related to Blog
+// Blog Routes.
+// Add blog - /api/blog/add
+// Update blog - /api/blog/edit/:id
+// Get All blog - /api/blog
+// Get blog by ID - /api/blog/edit/:id
+// Delete blog - /api/blog/delete/:id
 
 const express = require('express');
 const db = require('../models');
@@ -8,7 +14,11 @@ const { Blog } = db.sequelize.models;
 
 const router = express.Router();
 
-// Blog Routes.
+// Get All blog
+// /api/blog
+// Get all the blog from the database
+// GET request
+// Public route - Everyone can see the blog
 router.get('/', async (req, res) => {
     console.log('/api/blog - GET');
     
@@ -16,6 +26,11 @@ router.get('/', async (req, res) => {
     res.send(allBlogs);
 });
 
+// Get blog by ID
+// /api/blog/edit/:id
+// Get one blog by the id
+// GET request
+// Private route - only auth and the owner could get the blog
 router.get('/edit/:id', async (req, res) => {
     console.log('/api/blog/edit/:id - GET');
     let id = req.params.id;
@@ -32,6 +47,11 @@ router.get('/edit/:id', async (req, res) => {
     }
 });
 
+// Add blog
+// /api/blog/add
+// Add the new blog
+// POST request
+// Private route - auth and could add the blog
 router.post('/add', async (req, res) => {
     console.log('/api/blog/add - POST');
     
@@ -42,6 +62,11 @@ router.post('/add', async (req, res) => {
     res.send(newBlog);
 });
 
+// Update blog
+// /api/blog/edit/:id
+// This will edit the endpoint
+// PUT request
+// Private route - only auth and the owner could edit the blog
 router.put('/edit/:id', async (req, res) => {
     console.log('/api/blog/edit/:id - PUT');
     let id = req.params.id;
@@ -64,6 +89,11 @@ router.put('/edit/:id', async (req, res) => {
     }
 });
 
+// Delete blog
+// /api/blog/delete/:id
+// delete the blog from the database
+// DELETE request
+// Private route - only auth, admin and the owner could delete the blog
 router.delete('/delete/:id', async (req, res) => {
     console.log('/api/blog/delete/:id - DELETE');
     let id = req.params.id;
