@@ -40,7 +40,6 @@ const Users = () => {
                     <th scope="col">Staff</th>
                     <th scope="col">Image</th>
                     <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody className="table-group-divider">

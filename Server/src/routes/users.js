@@ -38,32 +38,6 @@ router.get('/names', async(req, res) => {
     res.send(userList);
 });
 
-// Update user Names
-// return new user names and such
-// /api/users/edit/:id
-// PUT Request
-// Private route - Only the admin and the owner can edit
-router.put('/edit/:id', async(req, res) => {
-    console.log('/api/users/edit/:id - PUT');
-    const id = parseInt(req.params.id);
-    const { username, userImage } = req.body;
-
-    const editUser = await User.update({ username, userImage }, {
-        where: {
-            userId: id
-        }
-    });
-    
-    if (editUser == 0) {
-        console.log('User Update Failed!');
-        res.send('User failed to update');
-    } else {
-        console.log('User Update Success!');
-        const existUser = await User.findByPk(id);
-        res.send(existUser);
-    }
-});
-
 // Delete user Names
 // Remove user
 // /api/users/delete/:id

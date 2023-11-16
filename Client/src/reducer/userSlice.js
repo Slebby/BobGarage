@@ -33,18 +33,6 @@ export const fetchUsersNames = createAsyncThunk('users/fetchUsersNames', async()
     }
 });
 
-// Update user information
-export const updateUserNames = createAsyncThunk('users/updateUserNames', async(user) => {
-    console.log(`Updating User Names ${user.userId}`);
-    const id = user.userId;
-    try {
-        const res = await axios.put(`${baseRoute}/edit/${id}`, user);
-        return res.data;
-    } catch (err) {
-        return err.message;
-    }
-});
-
 // Delete user
 export const removeUser = createAsyncThunk('users/removeUser', async(id) => {
     console.log(`Delete User ${id}`);
@@ -84,16 +72,6 @@ const userSlice = createSlice({
             .addCase(fetchUsersNames.rejected, (state, action) => {
                 state.status = 'failed';
                 state.all_Users = action.error.message;
-            })
-            .addCase(updateUserNames.fulfilled, (state, action) => {
-                if (!action.payload) {
-                    console.log('Update could not complete');
-                    return;
-                }
-
-                const { userId } = action.payload;
-                const newUserList = state.userList.filter( item => item.userId !== userId);
-                state.userList = [...newUserList, action.payload];
             })
             .addCase(removeUser.fulfilled, (state, action) => {
                 if (!action.payload) {
