@@ -39,7 +39,7 @@ const SingleBlog = ({ blog, user }) => {
                 <p className="card-text">
                     {blogBody}
                 </p>
-                {(staffRole || sameAuthUser) && (
+                {((staffRole || sameAuthUser) && isAuth) && (
                     <Fragment>
                         {!staffRole && (
                             <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
