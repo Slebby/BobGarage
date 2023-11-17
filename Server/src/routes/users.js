@@ -4,7 +4,7 @@
 const express = require('express');
 const db = require('../models');
 
-const { User } = db.sequelize.models;
+const { User, Feedback, Blog } = db.sequelize.models;
 
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
