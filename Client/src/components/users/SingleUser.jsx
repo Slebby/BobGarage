@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { removeUser } from '../../reducer/userSlice';
 
 const SingleUser = ({ user }) => {
   const dispatch = useDispatch();
@@ -9,6 +10,12 @@ const SingleUser = ({ user }) => {
   const userOnDelete = (id) => {
     console.log('Deleted user clicked');
     console.log(`ID Clicked is ${id}`);
+
+    try {
+      dispatch(removeUser(id)).unwrap();
+    } catch (err) {
+      console.log('Failed to delete user', err);
+    }
   }
   return (
     <tr>
