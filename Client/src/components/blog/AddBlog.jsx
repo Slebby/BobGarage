@@ -34,21 +34,60 @@ const AddBlog = (props) => {
     });
   };
 
+  const errorHandling = () => {
+    console.log('Checking for error...');
+
+    const newErrors = {};
+
+    if(blogHeader === "") {
+      console.log('Header is empty');
+      newErrors.headerErr = "Header is empty";
+    }
+    if(blogTitle === ""){
+      console.log('Title is empty');
+      newErrors.titleErr = "Title is empty";
+    }
+    if(blogBody === ""){
+      console.log('Body is empty');
+      newErrors.bodyErr = "Body is empty";
+    }
+
+    console.log('Checking Error Done');
+
+    if(Object.keys(newErrors).length === 0){
+      console.log("No Errors");
+      setFormData({
+        ...formData,
+        errors: {}
+      });
+
+      return false;
+    } else {
+      setFormData({
+        ...formData,
+        errors: {...newErrors}
+      })
+      return true;
+    }
+  };
+
   const blogOnSubmit = async (e) => {
     e.preventDefault();
 
     console.log('Add Blog - Submitting Form...');
 
-    const newBlog = {
-      blogHeader,
-      blogTitle,
-      blogBody,
-      myUserBlogId
+    if(!errorHandling()){
+      const newBlog = {
+        blogHeader,
+        blogTitle,
+        blogBody,
+        myUserBlogId
+      }
+  
+      console.log(newBlog);
+      // dispatch(addNewBlog(newBlog));
+      // navigate('/blog');
     }
-
-    console.log(newBlog);
-    dispatch(addNewBlog(newBlog));
-    navigate('/blog');
   };
   
   return (
@@ -61,14 +100,17 @@ const AddBlog = (props) => {
         </p>
         <section className="card shadow secondary-bg-color border-0">
             <form onSubmit={e => blogOnSubmit(e)}>
-                <header className="card-header header-bg-color border-bottom-0">
+                <div className="card-header header-bg-color border-bottom-0">
                     <div className="form-floating">
                         <input type="text" name="blogHeader" placeholder="Header Text Here" id="floatingHeader" className="form-control"
                         onChange={e => blogOnChange(e)}
                         value={blogHeader} />
                         <label htmlFor="floatingHeader" className="opacity-75">Header</label>
+                        {errors.headerErr && (
+                          <div className="invalid-tooltip">{errors.headerErr}</div>
+                        )}
                     </div>
-                </header>
+                </div>
                 
                 <div className="card-body">
                     <div className="card-title">
@@ -77,6 +119,9 @@ const AddBlog = (props) => {
                             onChange={e => blogOnChange(e)}
                             value={blogTitle} />
                             <label htmlFor="floatingTitle" className="opacity-75">Title</label>
+                            {errors.titleErr && (
+                              <div className="invalid-tooltip">{errors.titleErr}</div>
+                            )}
                         </div>
                     </div>
                     <div className="card-text">
@@ -85,6 +130,9 @@ const AddBlog = (props) => {
                             onChange={e => blogOnChange(e)}
                             value={blogBody} />
                             <label htmlFor="floatingText" className="opacity-75">Body</label>
+                            {errors.bodyErr && (
+                              <div className="invalid-tooltip">{errors.bodyErr}</div>
+                            )}
                         </div>
                     </div>
                     <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Post</button>
