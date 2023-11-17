@@ -23,17 +23,57 @@ const Login = props => {
       [e.target.name]: e.target.value
     })
   };
+
+  const errorHandling = () => {
+    console.log('Checking for error...');
+
+    const newErrors = {};
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(emailInput === "") {
+      console.log('Email is empty');
+      newErrors.emailErr = "Email is empty";
+    } else if (!emailPattern.test(emailInput)){
+      console.log('Invalid Email form');
+      newErrors.emailErr = "Invalid Email Address";
+    }
+    if(pwdInput === ""){
+      console.log('Password is empty');
+      newErrors.pwdErr = "Password is empty";
+    }
+
+    console.log('Checking Error Done');
+
+    if(Object.keys(newErrors).length === 0){
+      console.log("No Errors");
+      setFormData({
+        ...formData,
+        errors: {}
+      });
+
+      return false;
+    } else {
+      setFormData({
+        ...formData,
+        errors: {...newErrors}
+      })
+      return true;
+    }
+  }
   
   const authLoginOnSubmit = e => {
     e.preventDefault();
     console.log('Logging in...');
     
-    const credential = {
-      email: emailInput,
-      password: pwdInput
+    if(!errorHandling()){
+      const credential = {
+        email: emailInput,
+        password: pwdInput
+      }
+      
+      dispatch(login(credential)).unwrap();
     }
-    
-    dispatch(login(credential)).unwrap();
   }
 
   if(isAuth){
@@ -42,7 +82,7 @@ const Login = props => {
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
-        <form className="w-75" onSubmit={e => authLoginOnSubmit(e)}>
+        <form className="w-75" onSubmit={e => authLoginOnSubmit(e)} noValidate>
           <div className="text-center fw-semibold fs-2 mt-4">
             <p className="mb-4">Login</p>
           </div>
@@ -53,11 +93,17 @@ const Login = props => {
           )}
           <div className="mb-3">
             <label htmlFor="emailInput" className="form-label">Email</label>
-            <input type="email" name="emailInput" id="emailInput" className="form-control" value={emailInput} onChange={e => authOnChange(e)}/>
+            <input type="email" name="emailInput" id="emailInput" className={`form-control ${errors.emailErr ? 'is-invalid' : ''}`} value={emailInput} onChange={e => authOnChange(e)}/>
+            {errors.emailErr && (
+            <div className="text-danger form-text">{errors.emailErr}</div>
+          )}
           </div>
           <div className="mb-3">
             <label htmlFor="pwdInput" className="form-label">Password</label>
-            <input type="password" name="pwdInput" id="pwdInput" className="form-control" value={pwdInput} onChange={e => authOnChange(e)}/>
+            <input type="password" name="pwdInput" id="pwdInput" className={`form-control ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
+            {errors.pwdErr && !pwdInput && (
+            <div className="text-danger form-text">{errors.pwdErr}</div>
+          )}
           </div>
           <div className="mb-3 form-check">
             <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" />
