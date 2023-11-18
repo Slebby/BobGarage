@@ -11,7 +11,7 @@ const Footer = props => {
               <RiPhoneLine className="icon-size-small text-white img-fluid mb-1"/>: 1234567890
             </span>
             <span className="d-block fs-5">
-              <RiMailLine className="icon-size-small text-white img-fluid mb-1"/>: name@example.com
+              <RiMailLine className="icon-size-small text-white img-fluid mb-1"/>: info@bobsgarage.com
             </span>
           </div>
           <div className="col px-0">
