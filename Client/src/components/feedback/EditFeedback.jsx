@@ -50,35 +50,70 @@ const EditFeedback = () => {
     });
   };
 
+  const errorHandling = () => {
+    console.log('Checking for error...');
+
+    const newErrors = {};
+
+    if(feedbackTitle === ""){
+      console.log('Title is empty');
+      newErrors.titleErr = "Title is empty";
+    }
+    if(feedbackBody === ""){
+      console.log('Body is empty');
+      newErrors.bodyErr = "Body is empty";
+    }
+
+    console.log('Checking Error Done');
+
+    if(Object.keys(newErrors).length === 0){
+      console.log("No Errors");
+      setFormData({
+        ...formData,
+        errors: {}
+      });
+
+      return false;
+    } else {
+      setFormData({
+        ...formData,
+        errors: {...newErrors}
+      })
+      return true;
+    }
+  };
+
   const feedbackOnSubmit = async (e) => {
     e.preventDefault();
 
     console.log('Edit feedback - Submitting Form...');
 
-    const updFeedback = {
-      feedId: id,
-      feedbackTitle,
-      feedbackBody,
-      myUserFeedbackId
-    };
-
-    console.log(updFeedback);
-
-    try {
-      if(canSave){
-        console.log('Can save... Updating');
-        setRequestStatus('pending');
-        dispatch(updateFeedback(updFeedback)).unwrap();
-      } else {
-        console.log('Cannot save changes');
-        return;
+    if(!errorHandling()){
+      const updFeedback = {
+        feedId: id,
+        feedbackTitle,
+        feedbackBody,
+        myUserFeedbackId
+      };
+  
+      console.log(updFeedback);
+  
+      try {
+        if(canSave){
+          console.log('Can save... Updating');
+          setRequestStatus('pending');
+          dispatch(updateFeedback(updFeedback)).unwrap();
+        } else {
+          console.log('Cannot save changes');
+          return;
+        }
+      } catch (err) {
+        console.log('Failed to save feedback', err);
+      } finally {
+        setRequestStatus('idle');
       }
-    } catch (err) {
-      console.log('Failed to save feedback', err);
-    } finally {
-      setRequestStatus('idle');
+      navigate('/feedback');
     }
-    navigate('/feedback');
   };
   
   return (
@@ -94,9 +129,12 @@ const EditFeedback = () => {
               <div className="card-body">
                   <div className="card-title">
                       <div className="form-floating">
-                          <input type="text" name="feedbackTitle" id="floatingTitle" placeholder="Title Text Here" className="form-control" value={feedbackTitle}
+                          <input type="text" name="feedbackTitle" id="floatingTitle" placeholder="Title Text Here" className={`form-control ${errors.titleErr && !feedbackTitle ? 'is-invalid' : ''}`} value={feedbackTitle}
                           onChange={e => feedbackOnChange(e)} />
                           <label htmlFor="floatingTitle" className="opacity-75">Title</label>
+                          {errors.titleErr && !feedbackTitle && (
+                            <div className="badge form-text bg-danger fs-6">{errors.titleErr}</div>
+                          )}
                       </div>
                   </div>
                   <div className="card-text">
@@ -106,10 +144,13 @@ const EditFeedback = () => {
                           name="feedbackBody"
                           id="floatingText"
                           placeholder="Body Text Here"
-                          className="form-control"
+                          className={`form-control ${errors.bodyErr && !feedbackBody ? 'is-invalid' : ''}`}
                           style={{height: "20rem"}} value={feedbackBody}
                           onChange={e => feedbackOnChange(e)} />
                           <label htmlFor="floatingText" className="opacity-75">Body</label>
+                          {errors.bodyErr && !feedbackBody && (
+                            <div className="badge form-text bg-danger fs-6">{errors.bodyErr}</div>
+                          )}
                       </div>
                   </div>
                   <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Edit</button>
