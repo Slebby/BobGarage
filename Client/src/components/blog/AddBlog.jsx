@@ -106,7 +106,7 @@ const AddBlog = (props) => {
                         onChange={e => blogOnChange(e)}
                         value={blogHeader} />
                         <label htmlFor="floatingHeader" className="opacity-75">Header</label>
-                        {errors.headerErr && (
+                        {errors.headerErr && !blogHeader && (
                           <div className="invalid-tooltip">{errors.headerErr}</div>
                         )}
                     </div>
@@ -119,7 +119,7 @@ const AddBlog = (props) => {
                             onChange={e => blogOnChange(e)}
                             value={blogTitle} />
                             <label htmlFor="floatingTitle" className="opacity-75">Title</label>
-                            {errors.titleErr && (
+                            {errors.titleErr && !blogTitle && (
                               <div className="invalid-tooltip">{errors.titleErr}</div>
                             )}
                         </div>
@@ -130,7 +130,7 @@ const AddBlog = (props) => {
                             onChange={e => blogOnChange(e)}
                             value={blogBody} />
                             <label htmlFor="floatingText" className="opacity-75">Body</label>
-                            {errors.bodyErr && (
+                            {errors.bodyErr && !blogBody && (
                               <div className="invalid-tooltip">{errors.bodyErr}</div>
                             )}
                         </div>
