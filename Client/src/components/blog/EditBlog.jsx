@@ -37,6 +37,21 @@ const EditBlog = () => {
       errors: {}
     });
 
+    
+    const [requestStatus, setRequestStatus] = useState('idle');
+    
+    const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
+    
+    const canSave = blogHeader !== undefined && blogTitle !== undefined && blogBody !== undefined && requestStatus === 'idle';
+    
+    const blogOnChange = e => {
+      // console.log(e);
+      
+      setFormData({
+        ...formData, [e.target.name]: e.target.value
+      });
+    };
+    
     const errorHandling = () => {
         console.log('Checking for error...');
     
@@ -73,21 +88,7 @@ const EditBlog = () => {
           return true;
         }
       };
-
-    const [requestStatus, setRequestStatus] = useState('idle');
-
-    const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
-
-    const canSave = blogHeader !== undefined && blogTitle !== undefined && blogBody !== undefined && requestStatus === 'idle';
-  
-    const blogOnChange = e => {
-      // console.log(e);
-  
-      setFormData({
-        ...formData, [e.target.name]: e.target.value
-      });
-    };
-  
+      
     const blogOnSubmit = async (e) => {
       e.preventDefault();
   
