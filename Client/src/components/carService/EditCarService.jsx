@@ -86,7 +86,7 @@ const EditCarService = () => {
     } else if (isNaN(servicePriceDecimal)){
       console.log('Decimal is not a number');
       newErrors.servicePriceDeciErr = "Decimal is not a number";
-    } else if (servicePriceDecimal.length < 10){
+    } else if (servicePriceDecimal.length > 10){
       console.log('Decimal digit is more than 10 digits');
       newErrors.servicePriceDeciErr = "Decimal digit is more than 10 digits";
     }
