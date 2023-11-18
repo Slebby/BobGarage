@@ -41,7 +41,7 @@ const SingleBlog = ({ blog, user }) => {
                 </p>
                 {((staffRole || sameAuthUser) && isAuth) && (
                     <Fragment>
-                        {!staffRole && (
+                        {(!staffRole || sameAuthUser) && (
                             <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
                                 <FaPen className="me-2 mb-1"/>Edit
                             </Link>
