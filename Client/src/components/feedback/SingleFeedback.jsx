@@ -8,12 +8,12 @@ import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle } = feedback;
-  const [{ userId, username }] = user.length !== 0 ? user : [{}];
+  const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
-  const isStaff = useSelector(getIsStaff);
+  const authIsStaff = useSelector(getIsStaff);
   const authUserID = useSelector(getAuthUserID);
-  const staffRole = isAuth && isStaff;
+  const staffRole = isAuth && authIsStaff;
   const sameAuthUser = userId === authUserID;
 
   const feedbackOnDelete = (id) => {
@@ -47,6 +47,10 @@ const SingleFeedback = ({ feedback, user }) => {
         </div>
         <div className="card-footer fs-5 fw-semibold">
           <span className={!username ? 'text-danger fw-bold': ''}>- {username || 'Deleted User'}</span>
+          {isStaff && (
+            <span className="ms-1 text-primary fw-bold">{'(Admin)'}</span>
+          )}
+          
         </div>
     </div>
   )

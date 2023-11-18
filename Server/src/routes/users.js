@@ -32,7 +32,7 @@ router.get('/', [auth, admin] ,async(req, res) => {
 router.get('/names', async(req, res) => {
     console.log('/api/users/names - GET');
     const options = {
-        attributes: { exclude: ['password', 'email', 'isStaff'] }
+        attributes: { exclude: ['password', 'email'] }
     };
     const userList = await User.findAll(options);
     res.send(userList);

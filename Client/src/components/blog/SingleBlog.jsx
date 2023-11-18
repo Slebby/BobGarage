@@ -8,10 +8,10 @@ import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
-  const isStaff = useSelector(getIsStaff);
-  const staffRole = isAuth && isStaff;
+  const authIsStaff = useSelector(getIsStaff);
+  const staffRole = isAuth && authIsStaff;
   const { blogId , blogHeader, blogTitle, blogBody } = blog;
-  const [{ userId, username }] = user.length !== 0 ? user : [{}];
+  const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
 
@@ -55,6 +55,9 @@ const SingleBlog = ({ blog, user }) => {
             <div className="card-footer fs-5 fw-semibold">
                 <span className="fw-normal fs-6 d-block">Posted by</span>
                 <span className={!username ? 'text-danger fw-bold' : ''}>{username || 'Deleted User'}</span>
+                {isStaff && (
+                    <span className="ms-1 text-primary fw-bold">{'(Admin)'}</span>
+                )}
             </div>
         </section>
     )
