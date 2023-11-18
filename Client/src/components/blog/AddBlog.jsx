@@ -85,8 +85,8 @@ const AddBlog = (props) => {
       }
   
       console.log(newBlog);
-      // dispatch(addNewBlog(newBlog));
-      // navigate('/blog');
+      dispatch(addNewBlog(newBlog));
+      navigate('/blog');
     }
   };
   
@@ -102,12 +102,12 @@ const AddBlog = (props) => {
             <form onSubmit={e => blogOnSubmit(e)}>
                 <div className="card-header header-bg-color border-bottom-0">
                     <div className="form-floating">
-                        <input type="text" name="blogHeader" placeholder="Header Text Here" id="floatingHeader" className="form-control"
+                        <input type="text" name="blogHeader" placeholder="Header Text Here" id="floatingHeader" className={`form-control ${errors.headerErr && !blogHeader ? 'is-invalid' : ''}`}
                         onChange={e => blogOnChange(e)}
                         value={blogHeader} />
                         <label htmlFor="floatingHeader" className="opacity-75">Header</label>
                         {errors.headerErr && !blogHeader && (
-                          <div className="invalid-tooltip">{errors.headerErr}</div>
+                          <div className="badge form-text bg-danger fs-6">{errors.headerErr}</div>
                         )}
                     </div>
                 </div>
@@ -115,23 +115,23 @@ const AddBlog = (props) => {
                 <div className="card-body">
                     <div className="card-title">
                         <div className="form-floating">
-                            <input type="text" name="blogTitle" id="floatingTitle" placeholder="Title Text Here" className="form-control"
+                            <input type="text" name="blogTitle" id="floatingTitle" placeholder="Title Text Here" className={`form-control ${errors.titleErr && !blogTitle ? 'is-invalid' : ''}`}
                             onChange={e => blogOnChange(e)}
                             value={blogTitle} />
                             <label htmlFor="floatingTitle" className="opacity-75">Title</label>
                             {errors.titleErr && !blogTitle && (
-                              <div className="invalid-tooltip">{errors.titleErr}</div>
+                              <div className="badge form-text bg-danger fs-6">{errors.titleErr}</div>
                             )}
                         </div>
                     </div>
                     <div className="card-text">
                         <div className="form-floating">
-                            <textarea type="text" name="blogBody" id="floatingText" placeholder="Body Text Here" className="form-control" style={{height: "20rem"}}
+                            <textarea type="text" name="blogBody" id="floatingText" placeholder="Body Text Here" className={`form-control ${errors.bodyErr && !blogBody ? 'is-invalid' : ''}`} style={{height: "20rem"}}
                             onChange={e => blogOnChange(e)}
                             value={blogBody} />
                             <label htmlFor="floatingText" className="opacity-75">Body</label>
                             {errors.bodyErr && !blogBody && (
-                              <div className="invalid-tooltip">{errors.bodyErr}</div>
+                              <div className="badge form-text bg-danger fs-6">{errors.bodyErr}</div>
                             )}
                         </div>
                     </div>
