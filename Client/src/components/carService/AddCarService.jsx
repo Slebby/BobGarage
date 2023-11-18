@@ -34,6 +34,59 @@ const AddCarService = () => {
     });
   };
 
+  const errorHandling = () => {
+    console.log('Checking for error...');
+
+    const newErrors = {};
+
+    if(serviceName === ""){
+      console.log('Service name is empty');
+      newErrors.serviceNameErr = "Service name is empty";
+    }
+    if(serviceDesc === ""){
+      console.log('Service Desc is empty');
+      newErrors.serviceDescErr = "Service Desc is empty";
+    }
+    if(servicePrice === "" || servicePrice === 0){
+      console.log('Price is empty');
+      newErrors.servicePriceErr = "Price is empty";
+    } else if (isNaN(servicePrice)){
+      console.log('Price is not a number');
+      newErrors.servicePriceErr = "Price is not a number";
+    } else if (servicePrice.length < 10){
+      console.log('Price digit is more than 10 digits');
+      newErrors.servicePriceErr = "Price digit is more than 10 digits";
+    }
+    if(servicePriceDecimal === "" || servicePriceDecimal === 0){
+      console.log('Decimal is empty');
+      newErrors.servicePriceDeciErr = "Decimal is empty";
+    } else if (isNaN(servicePriceDecimal)){
+      console.log('Decimal is not a number');
+      newErrors.servicePriceDeciErr = "Decimal is not a number";
+    } else if (servicePriceDecimal.length < 10){
+      console.log('Decimal digit is more than 10 digits');
+      newErrors.servicePriceDeciErr = "Decimal digit is more than 10 digits";
+    }
+
+    console.log('Checking Error Done');
+
+    if(Object.keys(newErrors).length === 0){
+      console.log("No Errors");
+      setFormData({
+        ...formData,
+        errors: {}
+      });
+
+      return false;
+    } else {
+      setFormData({
+        ...formData,
+        errors: {...newErrors}
+      })
+      return true;
+    }
+  };
+
   // Handle Number Input
   const handleKeyPress = (e) => {
     // Allow number only
@@ -72,18 +125,20 @@ const AddCarService = () => {
 
     console.log('Add Service - Submitting form...');
 
-    const newService = {
-        serviceName,
-        serviceDesc,
-        serviceImage,
-        servicePrice: parseFloat(`${servicePrice}.${servicePriceDecimal}`)
+    if(!errorHandling()){
+      const newService = {
+          serviceName,
+          serviceDesc,
+          serviceImage,
+          servicePrice: parseFloat(`${servicePrice}.${servicePriceDecimal}`)
+      }
+  
+      // console.log(newService);
+  
+      dispatch(addNewCarService(newService));
+  
+      navigate('/service');
     }
-
-    // console.log(newService);
-
-    dispatch(addNewCarService(newService));
-
-    navigate('/service');
   };
 
     return (
@@ -99,9 +154,12 @@ const AddCarService = () => {
                 <div className="card-body">
                     <div className="card-title">
                         <div className="form-floating">
-                            <input type="text" name="serviceName" id="floatingName" placeholder="Name Text Here" className="form-control" value={serviceName}
+                            <input type="text" name="serviceName" id="floatingName" placeholder="Name Text Here" className={`form-control ${errors.serviceNameErr && !serviceName ? 'is-invalid' : ''}`} value={serviceName}
                             onChange={e => serviceOnChange(e)} />
                             <label htmlFor="floatingName" className="opacity-75">Name</label>
+                            {errors.serviceNameErr && !serviceName && (
+                              <div className="badge form-text bg-danger fs-6">{errors.serviceNameErr}</div>
+                            )}
                         </div>
                     </div>
                     <div className="card-text">
@@ -111,16 +169,17 @@ const AddCarService = () => {
                             name="serviceDesc"
                             id="floatingText"
                             placeholder="Desc Text Here"
-                            className="form-control"
+                            className={`form-control ${errors.serviceDescErr && !serviceDesc ? 'is-invalid' : ''}`}
                             style={{height: "20rem"}}
                             value={serviceDesc}
-                            onChange={e => serviceOnChange(e)}
-                            inputMode="numeric"
-                            pattern="[0-9]*"/>
+                            onChange={e => serviceOnChange(e)} />
                             <label htmlFor="floatingText" className="opacity-75">Description</label>
+                            {errors.serviceDescErr && !serviceDesc && (
+                              <div className="badge form-text bg-danger fs-6">{errors.serviceDescErr}</div>
+                            )}
                         </div>
                     </div>
-                    <div className="input-group card-subtitle my-1 w-50 container">
+                    <div className={`input-group card-subtitle my-1 w-75 container position-relative ${(errors.servicePriceErr || errors.servicePriceDeciErr) && (!servicePrice || !servicePriceDecimal) ? 'mb-4' : '' }`}>
                         <span className="input-group-text fs-4">&#x0024;</span>
                         <div className="form-floating w-10">
                             <input
@@ -128,20 +187,26 @@ const AddCarService = () => {
                             name="servicePrice"
                             id="servicePrice"
                             placeholder="Number"
-                            className="form-control"
-                            value={servicePrice ? servicePrice : ''}
+                            className={`form-control ${errors.servicePriceErr && !servicePrice ? 'is-invalid' : ''}`}
+                            value={servicePrice || ''}
                             onChange={e => numberOnChange(e, 10)}
                             onKeyDown={e => handleKeyPress(e)}
                             inputMode="numeric"
                             pattern="[0-9]*"/>
                             <label htmlFor="servicePrice" className="opacity-75">Price</label>
+                            {errors.servicePriceErr && !servicePrice && (
+                              <div className="invalid-tooltip fw-bold fs-6">{errors.servicePriceErr}</div>
+                            )}
                         </div>
                         <span className="input-group-text fs-4">&#x002E;</span>
-                        <div className="form-floating">
-                            <input type="number" name="servicePriceDecimal" id="servicePriceDecimal" placeholder="00" className="form-control" value={servicePriceDecimal ? servicePriceDecimal : ''}
+                        <div className="form-floating w-10">
+                            <input type="number" name="servicePriceDecimal" id="servicePriceDecimal" placeholder="00" className={`form-control ${errors.servicePriceDeciErr && !servicePriceDecimal ? 'is-invalid' : ''}`} value={servicePriceDecimal || ''}
                             onKeyDown={e => handleKeyPress(e)}
                             onChange={e => numberOnChange(e, 2)}/>
                             <label htmlFor="servicePriceDecimal" className="opacity-75">Decimal &#x0028;00&#x0029;</label>
+                            {errors.servicePriceDeciErr && !servicePriceDecimal && (
+                              <div className="invalid-tooltip fw-bold fs-6">{errors.servicePriceDeciErr}</div>
+                            )}
                         </div>
                     </div>
                     <button type="submit" value="Post Feedback" className="btn btn-lg main-bg-color w-100 btn-color text-light mt-3">Add</button>
