@@ -127,8 +127,9 @@ const AddBlog = (props) => {
   
   return (
     <div className="container mb-5">
-      {pageIsLoading && (
-        <div className="d-flex justify-content-center">
+      {pageIsLoading || (
+        <div className="d-flex justify-content-center align-items-center text-light" id="overlay">
+          <span className="text-center fs-3 fw-semibold me-3 mb-2" id="loadingOpacity">Posting</span>
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
