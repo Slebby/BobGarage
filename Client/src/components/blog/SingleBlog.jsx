@@ -10,7 +10,7 @@ const SingleBlog = ({ blog, user }) => {
   const isAuth = useSelector(getIsAuth);
   const authIsStaff = useSelector(getIsStaff);
   const staffRole = isAuth && authIsStaff;
-  const { blogId , blogHeader, blogTitle, blogBody } = blog;
+  const { blogId , blogHeader, blogTitle, blogBody, blogImage } = blog;
   const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
@@ -28,7 +28,9 @@ const SingleBlog = ({ blog, user }) => {
 
     return(
         <section className="card shadow px-0 col-md-5">
-            <img src="#" alt="Picture" className="card-img-top"/>
+            {blogImage && (
+                <img src={blogImage} alt="Picture" className="card-img-top"/>
+            )}
             <h2 className="card-header secondary-bg-color">
                 {blogHeader}
             </h2>

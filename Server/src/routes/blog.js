@@ -55,8 +55,8 @@ router.get('/edit/:id', async (req, res) => {
 router.post('/add', async (req, res) => {
     console.log('/api/blog/add - POST');
     
-    const { blogHeader, blogTitle, blogBody, myUserBlogId } = req.body;
-    const newBlog = await Blog.create({ blogHeader, blogTitle, blogBody, myUserBlogId});
+    const { blogHeader, blogTitle, blogBody, myUserBlogId, blogImage } = req.body;
+    const newBlog = await Blog.create({ blogHeader, blogTitle, blogBody, myUserBlogId, blogImage});
 
     console.log(newBlog.toJSON());
     res.send(newBlog);

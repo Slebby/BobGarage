@@ -23,15 +23,15 @@ const AddBlog = (props) => {
     blogHeader: '',
     blogTitle: '',
     blogBody: '',
-    imageURL: '',
     myUserBlogId: userId,
     errors: {}
   });
 
   // Image handling
   const [imageUpload, setImageUpload] = useState(null);
+  const [pageIsLoading, setPageIsLoading] = useState(false);
   
-  const { blogHeader, blogTitle, blogBody, imageURL, myUserBlogId, errors } = formData;
+  const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
 
   const handleImageChange = e => {
     setImageUpload(e.target.files[0]);
@@ -41,7 +41,7 @@ const AddBlog = (props) => {
     console.log(imageUpload);
     try {
       if(imageUpload != null){
-        const imageRef = ref(storage, `blogImages/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `blogImages/${userId}/${imageUpload.name + v4()}`);
     
         await uploadBytes(imageRef, imageUpload);
         const getImageURL = await getDownloadURL(imageRef);
@@ -104,16 +104,18 @@ const AddBlog = (props) => {
   const blogOnSubmit = async (e) => {
     e.preventDefault();
 
+    setPageIsLoading(true);
+
     console.log('Add Blog - Submitting Form...');
 
-    const imageURL = await uploadImageThenReturnURL();
+    const blogImage = await uploadImageThenReturnURL();
 
     if(!errorHandling()){      
       const newBlog = {
         blogHeader,
         blogTitle,
         blogBody,
-        imageURL,
+        blogImage,
         myUserBlogId
       };
       
@@ -125,6 +127,13 @@ const AddBlog = (props) => {
   
   return (
     <div className="container mb-5">
+      {pageIsLoading && (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
         <h3 className="text-center m-4 fw-semibold">Post Blog</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/blog">
