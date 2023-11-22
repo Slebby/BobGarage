@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { removeBlog } from '../../reducer/blogSlice';
 import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, deleteObject } from 'firebase/storage';
+import Spinner from '../layout/Spinner';
 
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
@@ -16,12 +17,14 @@ const SingleBlog = ({ blog, user }) => {
   const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
+  const [pageIsLoading, setPageIsLoading] = useState(false);
 
   const blogOnDelete = async (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
 
     try {
+        setPageIsLoading(true);
         // Delete the image otherwise continue
         if(blogImage != null){
             const imageRef = ref(storage, blogImage);
@@ -31,11 +34,16 @@ const SingleBlog = ({ blog, user }) => {
         dispatch(removeBlog(id)).unwrap();
     } catch (err) {
         console.log('Failed to delete blog', err);
+    } finally {
+        setPageIsLoading(false);
     }
   };
 
     return(
         <section className="card shadow px-0 col-md-5">
+            {pageIsLoading && (
+                <Spinner loadingLabel="Deleting" />
+            )}
             {blogImage && (
                 <img src={blogImage} alt="Picture" className="card-img-top"/>
             )}
