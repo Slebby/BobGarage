@@ -76,7 +76,7 @@ const EditCarService = () => {
     } else if (isNaN(servicePrice)){
       console.log('Price is not a number');
       newErrors.servicePriceErr = "Price is not a number";
-    } else if (servicePrice.length < 10){
+    } else if (servicePrice.length > 10){
       console.log('Price digit is more than 10 digits');
       newErrors.servicePriceErr = "Price digit is more than 10 digits";
     }
