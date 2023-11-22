@@ -8,6 +8,7 @@ import { getIsAuth } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const AddBlog = (props) => {
   const navigate = useNavigate();
@@ -128,12 +129,7 @@ const AddBlog = (props) => {
   return (
     <div className="container mb-5">
       {pageIsLoading && (
-        <div className="d-flex justify-content-center align-items-center text-light" id="overlay">
-          <span className="text-center fs-3 fw-semibold me-3 mb-2" id="loadingOpacity">Posting</span>
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <Spinner loadingLabel="Posting" />
       )}
         <h3 className="text-center m-4 fw-semibold">Post Blog</h3>
         <p>
@@ -143,8 +139,8 @@ const AddBlog = (props) => {
         </p>
         <section className="card shadow secondary-bg-color border-0">
             <form onSubmit={e => blogOnSubmit(e)}>
-              <div className="p-3">
-                <label htmlFor="imageUpload" className="form-label">Upload Image Here</label>
+              <div className="p-3 header-bg-color rounded-top">
+                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
                 <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
               </div>
                 <div className="card-header header-bg-color border-bottom-0">
