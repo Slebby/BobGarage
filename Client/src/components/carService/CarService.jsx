@@ -5,6 +5,7 @@ import { FaPlus, FaVolumeHigh } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { selectAllCarServices, getCarServiceStatus, getCarServiceError } from '../../reducer/carServiceSlice';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import Spinner from '../layout/Spinner';
 
 const CarService = props => {
     const pathLocation = useLocation().pathname;
@@ -21,7 +22,7 @@ const CarService = props => {
     let content;
     if(carServiceStatus === 'loading'){
         console.log('Loading...');
-        content = <p>Loading...</p>
+        content = <Spinner loadingLabel="Loading"/>
     } else if (carServiceStatus === 'succeeded'){
         console.log('Success!');
         content = 
