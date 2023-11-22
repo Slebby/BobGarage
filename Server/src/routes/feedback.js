@@ -55,12 +55,13 @@ router.get('/edit/:id', async (req, res) => {
 router.post('/add', async (req, res) => {
     console.log('/api/feedback/add - POST');
 
-    const { feedbackBody, feedbackTitle, myUserFeedbackId } = req.body;
+    const { feedbackBody, feedbackTitle, feedbackImage, myUserFeedbackId } = req.body;
 
     const newFeedback = await Feedback.create({
         feedbackTitle,
         feedbackBody,
-        myUserFeedbackId
+        myUserFeedbackId,
+        feedbackImage
     });
     console.log(newFeedback.toJSON());
     res.send(newFeedback);
@@ -109,7 +110,7 @@ router.delete('/delete/:id', async (req, res) => {
             feedId: id
         }
     });
-    if (deleteFeedback == 1){
+    if (deleteFeedback != 1){
         console.log('Feedback delete failed');
         res.send('Feedback has been deleted!');
     } else {
