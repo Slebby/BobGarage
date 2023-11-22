@@ -42,7 +42,7 @@ const AddBlog = (props) => {
     console.log(imageUpload);
     try {
       if(imageUpload != null){
-        const imageRef = ref(storage, `blogImages/${userId}/${imageUpload.name + v4()}`);
+        const imageRef = ref(storage, `blogImages/${userId}/${v4() + '_' + imageUpload.name}`);
     
         await uploadBytes(imageRef, imageUpload);
         const getImageURL = await getDownloadURL(imageRef);
