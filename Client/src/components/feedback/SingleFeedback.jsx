@@ -7,7 +7,7 @@ import { removeFeedback } from '../../reducer/feedbackSlice';
 import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
 
 const SingleFeedback = ({ feedback, user }) => {
-  const { feedId, feedbackBody, feedbackTitle } = feedback;
+  const { feedId, feedbackBody, feedbackTitle, feedbackImage } = feedback;
   const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
@@ -28,7 +28,10 @@ const SingleFeedback = ({ feedback, user }) => {
   };
   
   return (
-    <div className="card shadow col-md-5">
+    <div className="card shadow px-0 col-md-5">
+        {feedbackImage && (
+          <img src={feedbackImage} alt="Picture" className="card-img-top"/>
+        )}
         <div className="card-body">
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
