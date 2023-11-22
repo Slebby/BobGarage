@@ -4,6 +4,8 @@ import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
 import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, deleteObject } from 'firebase/storage';
 
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
@@ -15,11 +17,17 @@ const SingleBlog = ({ blog, user }) => {
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
 
-  const blogOnDelete = (id) => {
+  const blogOnDelete = async (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
 
     try {
+        // Delete the image otherwise continue
+        if(blogImage != null){
+            const imageRef = ref(storage, blogImage);
+            await deleteObject(imageRef);
+        }
+
         dispatch(removeBlog(id)).unwrap();
     } catch (err) {
         console.log('Failed to delete blog', err);
