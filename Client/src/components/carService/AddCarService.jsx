@@ -152,11 +152,11 @@ const AddCarService = () => {
   const serviceOnSubmit = async (e) => {
     e.preventDefault();
 
-    setPageIsLoading(true);
-
     console.log('Add Service - Submitting form...');
-
+    
     if(!errorHandling()){
+      setPageIsLoading(true);
+
       const serviceImage = await uploadImageThenReturnURL() || null;
 
       const newService = {

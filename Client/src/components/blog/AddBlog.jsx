@@ -105,11 +105,11 @@ const AddBlog = (props) => {
   const blogOnSubmit = async (e) => {
     e.preventDefault();
 
-    setPageIsLoading(true);
-
     console.log('Add Blog - Submitting Form...');
 
-    if(!errorHandling()){      
+    if(!errorHandling()){
+      setPageIsLoading(true);
+ 
       const blogImage = await uploadImageThenReturnURL() || null;
       
       const newBlog = {

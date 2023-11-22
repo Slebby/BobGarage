@@ -98,10 +98,10 @@ const AddFeedback = (props) => {
 
   const feedbackOnSubmit = async (e) => {
     e.preventDefault();
-    setPageIsLoading(true);
     console.log('Add feedback - Submitting Form...');
-
+    
     if(!errorHandling()){
+      setPageIsLoading(true);
       const feedbackImage = await uploadImageThenReturnURL() || null;
 
       const newFeedback = {
