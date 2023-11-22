@@ -109,9 +109,9 @@ const AddBlog = (props) => {
 
     console.log('Add Blog - Submitting Form...');
 
-    const blogImage = await uploadImageThenReturnURL();
-
     if(!errorHandling()){      
+      const blogImage = await uploadImageThenReturnURL() || null;
+      
       const newBlog = {
         blogHeader,
         blogTitle,
