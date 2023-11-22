@@ -1,10 +1,13 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
 import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { deleteObject, ref } from 'firebase/storage';
+import Spinner from '../layout/Spinner';
 
 const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle, feedbackImage } = feedback;
@@ -15,20 +18,33 @@ const SingleFeedback = ({ feedback, user }) => {
   const authUserID = useSelector(getAuthUserID);
   const staffRole = isAuth && authIsStaff;
   const sameAuthUser = userId === authUserID;
+  const [pageIsLoading, setPageIsLoading] = useState(false);
 
-  const feedbackOnDelete = (id) => {
+  const feedbackOnDelete = async (id) => {
     console.log('Deleted Clicked!');
     console.log(`Id: ${id}`);
 
     try {
+      setPageIsLoading(true);
+      
+      if(feedbackImage != null){
+        const imageRef = ref(storage, feedbackImage);
+        await deleteObject(imageRef);
+      }
+
       dispatch(removeFeedback(id)).unwrap();
     } catch (err) {
       console.log('Failed to delete feedback', err);
+    } finally {
+      setPageIsLoading(false);
     }
   };
   
   return (
     <div className="card shadow px-0 col-md-5">
+        {pageIsLoading && (
+          <Spinner loadingLabel="Deleting" />
+        )}
         {feedbackImage && (
           <img src={feedbackImage} alt="Picture" className="card-img-top"/>
         )}
