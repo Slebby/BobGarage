@@ -4,6 +4,7 @@ import { selectUsers, getUsersStatus, getUsersErrors, fetchUsers } from '../../r
 import SingleUser from './SingleUser';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
 import { Navigate } from 'react-router-dom';
+import Spinner from '../layout/Spinner';
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Users = () => {
   let content;
   if(userStatus === 'loading'){
     console.log('Loading');
-    content = <p>Loading...</p>
+    content = <Spinner loadingLabel="Loading"/>
   } else if (userStatus === 'succeeded'){
     content = 
     <section className="my-5 container">
