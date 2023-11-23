@@ -91,7 +91,7 @@ const Header = props => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center fs-5">
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation.includes('/service') ? 'active' : ''}`} to="/service">
                                 <FaScrewdriverWrench className="me-2 mb-1"/>Services
