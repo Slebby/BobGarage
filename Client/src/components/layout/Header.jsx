@@ -71,7 +71,7 @@ const Header = props => {
                 {authUserImage ? (
                     <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" width="47"/>
                 ) : (
-                    <BsPersonCircle className="d-block mb-1 mx-auto"/>
+                    <img src="defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" width="47"/>
                 )}
                 {authUsername}
             </Link>

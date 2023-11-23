@@ -44,7 +44,10 @@ const SingleUser = ({ user }) => {
         <td>{user.isStaff ? 'Yes' : 'No'}</td>
         <td>{user.userImage ? (
           <img src={user.userImage} alt={`name: ${user.username}`} className="h-auto" style={{width: "5rem"}}/>
-        ) : 'No Image'}</td>
+        ) : (
+          <img src="defaultPfp/profile-default-dark.svg" alt="defaultPfp" className="h-auto rounded-circle" style={{width: "5rem"}}/>
+          )}
+        </td>
         <td>
             <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {userOnDelete(user.userId)}}>
               <FaTrashCan className="me-2 mb-1"/>Delete
