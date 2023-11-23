@@ -2,8 +2,9 @@ import { Fragment } from 'react'
 import PropTypes from 'prop-types';
 import { Link, useLocation, NavLink } from 'react-router-dom';
 import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRightToBracket, FaPersonChalkboard, FaPersonWalkingDashedLineArrowRight, FaPerson } from 'react-icons/fa6';
+import { BsPersonCircle } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuthUserUsername, getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
+import { getAuthUserImage, getAuthUserUsername, getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
 
 const Header = props => {
   const pathLocation = useLocation().pathname;
@@ -12,6 +13,7 @@ const Header = props => {
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const authUsername = useSelector(getAuthUserUsername);
+  const authUserImage = useSelector(getAuthUserImage);
 
   const leave = e => {
     console.log('Leave click');
@@ -64,9 +66,15 @@ const Header = props => {
 
   const userName = (
     <Fragment key={'5'}>
-        <li className="navbar-text">
-            <span className="fw-semibold me-2">Username:</span>
-            <span>{authUsername}</span>   
+        <li className="nav-item">
+            <Link className="nav-link text-center">
+                {authUserImage ? (
+                    <img src={authUserImage} alt={authUsername} className="w-100 h-auto mb-1"/>
+                ) : (
+                    <BsPersonCircle className="w-100 h-auto mb-1"/>
+                )}
+                {authUsername}
+            </Link>
         </li>
     </Fragment>
   );
@@ -83,7 +91,7 @@ const Header = props => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarText">
-                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                         <li className="nav-item">
                             <Link className={`nav-link ${pathLocation.includes('/service') ? 'active' : ''}`} to="/service">
                                 <FaScrewdriverWrench className="me-2 mb-1"/>Services
