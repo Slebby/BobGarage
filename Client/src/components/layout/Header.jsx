@@ -67,11 +67,11 @@ const Header = props => {
   const userName = (
     <Fragment key={'5'}>
         <li className="nav-item">
-            <Link className="nav-link text-center">
+            <Link className="nav-link">
                 {authUserImage ? (
-                    <img src={authUserImage} alt={authUsername} className="w-100 h-auto mb-1"/>
+                    <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" width="47"/>
                 ) : (
-                    <BsPersonCircle className="w-100 h-auto mb-1"/>
+                    <BsPersonCircle className="d-block w-75 h-auto mb-1 mx-auto"/>
                 )}
                 {authUsername}
             </Link>
