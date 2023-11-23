@@ -44,7 +44,7 @@ const Register = props => {
     console.log(imageUpload);
     try {
       if(imageUpload != null){
-        const imageRef = ref(storage, `userImages${usernameInput}/${v4() + '_' + imageUpload.name}`);
+        const imageRef = ref(storage, `userImages/${usernameInput}/${v4() + '_' + imageUpload.name}`);
     
         await uploadBytes(imageRef, imageUpload);
         const getImageURL = await getDownloadURL(imageRef);
