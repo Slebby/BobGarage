@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
@@ -13,6 +13,8 @@ const SingleFeedback = ({ feedback, user }) => {
   const { feedId, feedbackBody, feedbackTitle, feedbackImage } = feedback;
   const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const dispatch = useDispatch();
+  const pathLocation = useLocation().pathname;
+  const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
   const authIsStaff = useSelector(getIsStaff);
   const authUserID = useSelector(getAuthUserID);
@@ -54,7 +56,7 @@ const SingleFeedback = ({ feedback, user }) => {
             {((staffRole || sameAuthUser) && isAuth) && (
               <Fragment>
                 {(!staffRole || sameAuthUser) && (
-                  <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${feedId}`}>
+                  <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `feedback/edit/${feedId}` : `./edit/${feedId}`}`}>
                     <FaPen className="me-2 mb-1"/>Edit
                   </Link>
                 )}

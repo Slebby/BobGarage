@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
@@ -10,6 +10,8 @@ import Spinner from '../layout/Spinner';
 
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
+  const pathLocation = useLocation().pathname;
+  const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
   const authIsStaff = useSelector(getIsStaff);
   const staffRole = isAuth && authIsStaff;
@@ -60,7 +62,7 @@ const SingleBlog = ({ blog, user }) => {
                 {((staffRole || sameAuthUser) && isAuth) && (
                     <Fragment>
                         {(!staffRole || sameAuthUser) && (
-                            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
+                            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `blog/edit/${blogId}` : `./edit/${blogId}`}`}>
                                 <FaPen className="me-2 mb-1"/>Edit
                             </Link>
                         )}

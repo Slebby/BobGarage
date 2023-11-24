@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCarService } from '../../reducer/carServiceSlice';
@@ -11,6 +11,8 @@ import Spinner from '../layout/Spinner';
 
 const SingleCarService = ({carService}) => {
   const dispatch = useDispatch();
+  const pathLocation = useLocation().pathname;
+  const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
   const { serviceId, serviceName, serviceDesc, serviceImage, servicePrice } = carService;
@@ -55,7 +57,7 @@ const SingleCarService = ({carService}) => {
                 </p>
                 {(isAuth && isStaff) && (
                     <Fragment>
-                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${serviceId}`}>
+                        <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `service/edit/${serviceId}` : `./edit/${serviceId}`}`}>
                             <FaPen className="me-2 mb-1"/>Edit
                         </Link>
                         <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => serviceOnDelete(serviceId)}>
