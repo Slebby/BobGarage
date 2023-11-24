@@ -9,6 +9,7 @@
 
 const express = require('express');
 const db = require('../models');
+const auth = require('../middleware/auth');
 
 const { Blog } = db.sequelize.models;
 
@@ -31,7 +32,7 @@ router.get('/', async (req, res) => {
 // Get one blog by the id
 // GET request
 // Private route - only auth and the owner could get the blog
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', auth, async (req, res) => {
     console.log('/api/blog/edit/:id - GET');
     let id = req.params.id;
     id = parseInt(id);
@@ -52,7 +53,7 @@ router.get('/edit/:id', async (req, res) => {
 // Add the new blog
 // POST request
 // Private route - auth and could add the blog
-router.post('/add', async (req, res) => {
+router.post('/add', auth, async (req, res) => {
     console.log('/api/blog/add - POST');
     
     const { blogHeader, blogTitle, blogBody, myUserBlogId, blogImage } = req.body;
@@ -67,7 +68,7 @@ router.post('/add', async (req, res) => {
 // This will edit the endpoint
 // PUT request
 // Private route - only auth and the owner could edit the blog
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id', auth, async (req, res) => {
     console.log('/api/blog/edit/:id - PUT');
     let id = req.params.id;
     id = parseInt(id);
@@ -94,7 +95,7 @@ router.put('/edit/:id', async (req, res) => {
 // delete the blog from the database
 // DELETE request
 // Private route - only auth, admin and the owner could delete the blog
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', auth, async (req, res) => {
     console.log('/api/blog/delete/:id - DELETE');
     let id = req.params.id;
     id = parseInt(id);

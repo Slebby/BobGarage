@@ -43,7 +43,7 @@ router.get('/names', async(req, res) => {
 // /api/users/delete/:id
 // DELETE Request
 // Private route - Only the admin delete
-router.delete('/delete/:id', async(req, res) => {
+router.delete('/delete/:id', [auth, admin], async(req, res) => {
     console.log('/api/users/delete/:id - DELETE');
     const id = parseInt(req.params.id);
 

@@ -9,6 +9,8 @@
 
 const express = require('express');
 const db = require('../models');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
 const { CarServices } = db.sequelize.models;
 
@@ -31,7 +33,7 @@ router.get('/', async (req, res) => {
 // Get one service by the id
 // GET request
 // Private route - only admin could get the service
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', [auth, admin], async (req, res) => {
     console.log('/api/service/edit/:id - GET');
     const id = parseInt(req.params.id);
 
@@ -51,7 +53,7 @@ router.get('/edit/:id', async (req, res) => {
 // Add the new service
 // POST request
 // Private route - only admin could add the service
-router.post('/add', async (req, res) => {
+router.post('/add', [auth, admin], async (req, res) => {
     console.log('/api/service/add - POST');
     const { serviceName, serviceDesc, serviceImage, servicePrice } = req.body;
 
@@ -65,7 +67,7 @@ router.post('/add', async (req, res) => {
 // This will edit the endpoint
 // PUT request
 // Private route - only admin  could edit the service
-router.put('/edit/:id', async (req, res) => {
+router.put('/edit/:id', [auth, admin], async (req, res) => {
     console.log('/api/service/edit/:id - PUT');
     const id = parseInt(req.params.id);
     const { serviceName, serviceDesc, serviceImage, servicePrice } = req.body;
@@ -90,7 +92,7 @@ router.put('/edit/:id', async (req, res) => {
 // delete the service from the database
 // DELETE request
 // Private route - only admin  could delete the service
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', [auth, admin], async (req, res) => {
     console.log('/api/service/delete/:id - DELETE');
     const id = parseInt(req.params.id);
     const deleteService = await CarServices.destroy({where: { serviceId: id }});
