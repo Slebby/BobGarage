@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, getIsAuth } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const Register = props => {
   const dispatch = useDispatch();
@@ -13,21 +17,46 @@ const Register = props => {
   const [formData, setFormData] = useState({
     usernameInput: '',
     emailInput: '',
-    imageInput: '',
     pwdInput: '',
     rePwdInput: '',
     checkBoxInput: false,
     errors: {}
   });
   
-  const { usernameInput, emailInput, imageInput, pwdInput, rePwdInput, checkBoxInput, errors } = formData;
+  const { usernameInput, emailInput, pwdInput, rePwdInput, checkBoxInput, errors } = formData;
   
   const authOnChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
-  }
+  };
+
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+  // Image handling
+  const [imageUpload, setImageUpload] = useState(null);
+
+  const handleImageChange = e => {
+    setImageUpload(e.target.files[0]);
+  };
+
+  const uploadImageThenReturnURL = async() => {
+    console.log(imageUpload);
+    try {
+      if(imageUpload != null){
+        const imageRef = ref(storage, `userImages/${usernameInput}/${v4() + '_' + imageUpload.name}`);
+    
+        await uploadBytes(imageRef, imageUpload);
+        const getImageURL = await getDownloadURL(imageRef);
+  
+        console.log(getImageURL);
+  
+        return getImageURL;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  };
   
   const canSave = (usernameInput !== '' || emailInput !== '' || pwdInput !== '' || rePwdInput !== '' ) && registerStatus === 'idle';
   
@@ -100,7 +129,7 @@ const Register = props => {
     }
   }
   
-  const authRegisterOnSubmit = e => {
+  const authRegisterOnSubmit = async (e) => {
     console.log('Registering...');
     e.preventDefault();
 
@@ -109,12 +138,15 @@ const Register = props => {
         if(canSave){
           console.log('Saving new User...');
           setRegisterStatus('pending');
+          setPageIsLoading(true);
           
+          const userImage = await uploadImageThenReturnURL() || null;
+
           const newUser = {
             username: usernameInput,
             email: emailInput,
             password: pwdInput,
-            userImage: imageInput
+            userImage
           }
           
           dispatch(register(newUser)).unwrap();
@@ -123,6 +155,7 @@ const Register = props => {
         console.log('Error: ', err);
         return;
       } finally {
+        setPageIsLoading(false);
         setRegisterStatus('idle');
       }
     };
@@ -134,6 +167,9 @@ const Register = props => {
   
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
+      {pageIsLoading && (
+        <Spinner loadingLabel="Registering" />
+      )}
       <form className="w-75" onSubmit={e => authRegisterOnSubmit(e)} noValidate>
         <div className="text-center fw-semibold fs-2 mt-4">
           <p className="mb-4">Sign Up</p>
@@ -153,8 +189,9 @@ const Register = props => {
           )}
         </div>
         <div className="mb-3">
-          <label htmlFor="imageInput" className="form-label">Image</label>
-          <input type="text" name="imageInput" id="imageInput" className="form-control" value={imageInput} onChange={e => authOnChange(e)}/>
+          <label htmlFor="imageInput" className="form-label">Profile Picture</label>
+          <input type="file" name="imageInput" id="imageInput" className="form-control" onChange={e => handleImageChange(e)}/>
+          <span className="form-text">This is optional</span>
         </div>
         <div className="mb-3">
           <label htmlFor="pwdInput" className="form-label">Password</label>

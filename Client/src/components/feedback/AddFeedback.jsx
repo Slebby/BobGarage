@@ -4,6 +4,10 @@ import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewFeedback } from '../../reducer/feedbackSlice';
 import { getAuthUserID, getIsAuth } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const AddFeedback = (props) => {
   const navigate = useNavigate();
@@ -22,15 +26,41 @@ const AddFeedback = (props) => {
     myUserFeedbackId: userId,
     errors: {}
   });
-
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+  
   const { feedbackTitle, feedbackBody, myUserFeedbackId, errors } = formData;
-
+  
   const feedbackOnChange = (e) => {
     // console.log(e);
-
+    
     setFormData({
-        ...formData, [e.target.name]: e.target.value
+      ...formData, [e.target.name]: e.target.value
     });
+  };
+
+  // Image handling
+  const [imageUpload, setImageUpload] = useState(null);
+
+  const handleImageChange = e => {
+    setImageUpload(e.target.files[0]);
+  };
+  
+  const uploadImageThenReturnURL = async() => {
+    console.log(imageUpload);
+    try {
+      if(imageUpload != null){
+        const imageRef = ref(storage, `feedbackImages/${userId}/${v4() + '_' + imageUpload.name}`);
+    
+        await uploadBytes(imageRef, imageUpload);
+        const getImageURL = await getDownloadURL(imageRef);
+  
+        console.log(getImageURL);
+  
+        return getImageURL;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
   };
 
   const errorHandling = () => {
@@ -68,13 +98,16 @@ const AddFeedback = (props) => {
 
   const feedbackOnSubmit = async (e) => {
     e.preventDefault();
-
     console.log('Add feedback - Submitting Form...');
-
+    
     if(!errorHandling()){
+      setPageIsLoading(true);
+      const feedbackImage = await uploadImageThenReturnURL() || null;
+
       const newFeedback = {
         feedbackTitle,
         feedbackBody,
+        feedbackImage,
         myUserFeedbackId
       };
   
@@ -88,6 +121,9 @@ const AddFeedback = (props) => {
 
     return (
     <div className="container mb-5">
+      {pageIsLoading && (
+        <Spinner loadingLabel="Submitting" />
+      )}
         <h3 className="text-center m-4 fw-semibold">Add Feedback</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/feedback">
@@ -96,6 +132,10 @@ const AddFeedback = (props) => {
         </p>
         <section className="card shadow secondary-bg-color border-0">
             <form onSubmit={e => feedbackOnSubmit(e)}>
+              <div className="p-3 header-bg-color rounded-top">
+                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
+              </div>
                 <div className="card-body">
                     <div className="card-title">
                         <div className="form-floating">

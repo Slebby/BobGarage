@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectAllBlogs, getBlogError, getBlogStatus } from '../../reducer/blogSlice';
 import { getIsAuth } from '../../reducer/authSlice';
 import { selectAll_User } from '../../reducer/userSlice';
+import Spinner from '../layout/Spinner';
 
 const Blog = props => {
     const pathLocation = useLocation().pathname;
@@ -21,7 +22,7 @@ const Blog = props => {
     let content;
     if(blogStatus === 'loading'){
         console.log('loading...');
-        content = <p>Loading...</p>
+        content = <Spinner loadingLabel="Loading"/>
     } else if (blogStatus === 'succeeded'){
         console.log('Success!');
         content =

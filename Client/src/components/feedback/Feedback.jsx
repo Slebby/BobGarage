@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectAllFeedback, getFeedbackStatus, getFeedbackError } from '../../reducer/feedbackSlice';
 import { getIsAuth } from '../../reducer/authSlice';
 import { selectAll_User } from '../../reducer/userSlice';
+import Spinner from '../layout/Spinner';
 
 const Feedback = (props) => {
     const pathLocation = useLocation().pathname;
@@ -20,7 +21,7 @@ const Feedback = (props) => {
     let content;
     if (feedbackStatus === 'loading'){
         console.log('Loading...');
-        content = <p>Loading...</p>
+        content = <Spinner loadingLabel="Loading" />
     } else if (feedbackStatus === 'succeeded'){
         console.log('Success!');
         content =

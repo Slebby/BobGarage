@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewBlog } from '../../reducer/blogSlice';
 import { getAuthUserID } from '../../reducer/authSlice';
 import { getIsAuth } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const AddBlog = (props) => {
   const navigate = useNavigate();
@@ -24,7 +28,34 @@ const AddBlog = (props) => {
     errors: {}
   });
 
+  // Image handling
+  const [imageUpload, setImageUpload] = useState(null);
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+  
   const { blogHeader, blogTitle, blogBody, myUserBlogId, errors } = formData;
+
+  const handleImageChange = e => {
+    setImageUpload(e.target.files[0]);
+  };
+
+  const uploadImageThenReturnURL = async() => {
+    console.log(imageUpload);
+    try {
+      if(imageUpload != null){
+        const imageRef = ref(storage, `blogImages/${userId}/${v4() + '_' + imageUpload.name}`);
+    
+        await uploadBytes(imageRef, imageUpload);
+        const getImageURL = await getDownloadURL(imageRef);
+  
+        console.log(getImageURL);
+  
+        return getImageURL;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  };
+
 
   const blogOnChange = e => {
     // console.log(e);
@@ -77,13 +108,18 @@ const AddBlog = (props) => {
     console.log('Add Blog - Submitting Form...');
 
     if(!errorHandling()){
+      setPageIsLoading(true);
+ 
+      const blogImage = await uploadImageThenReturnURL() || null;
+      
       const newBlog = {
         blogHeader,
         blogTitle,
         blogBody,
+        blogImage,
         myUserBlogId
-      }
-  
+      };
+      
       console.log(newBlog);
       dispatch(addNewBlog(newBlog));
       navigate('/blog');
@@ -92,6 +128,9 @@ const AddBlog = (props) => {
   
   return (
     <div className="container mb-5">
+      {pageIsLoading && (
+        <Spinner loadingLabel="Posting" />
+      )}
         <h3 className="text-center m-4 fw-semibold">Post Blog</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/blog">
@@ -100,6 +139,10 @@ const AddBlog = (props) => {
         </p>
         <section className="card shadow secondary-bg-color border-0">
             <form onSubmit={e => blogOnSubmit(e)}>
+              <div className="p-3 header-bg-color rounded-top">
+                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
+              </div>
                 <div className="card-header header-bg-color border-bottom-0">
                     <div className="form-floating">
                         <input type="text" name="blogHeader" placeholder="Header Text Here" id="floatingHeader" className={`form-control ${errors.headerErr && !blogHeader ? 'is-invalid' : ''}`}

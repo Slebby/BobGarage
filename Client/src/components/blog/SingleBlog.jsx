@@ -1,34 +1,54 @@
-import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
 import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, deleteObject } from 'firebase/storage';
+import Spinner from '../layout/Spinner';
 
 const SingleBlog = ({ blog, user }) => {
   const dispatch = useDispatch();
+  const pathLocation = useLocation().pathname;
+  const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
   const authIsStaff = useSelector(getIsStaff);
   const staffRole = isAuth && authIsStaff;
-  const { blogId , blogHeader, blogTitle, blogBody } = blog;
+  const { blogId , blogHeader, blogTitle, blogBody, blogImage } = blog;
   const [{ userId, username, isStaff }] = user.length !== 0 ? user : [{}];
   const authUserID = useSelector(getAuthUserID);
   const sameAuthUser = userId === authUserID;
+  const [pageIsLoading, setPageIsLoading] = useState(false);
 
-  const blogOnDelete = (id) => {
+  const blogOnDelete = async (id) => {
     console.log('Delete Clicked!');
     console.log(`ID: ${id}`);
 
     try {
+        setPageIsLoading(true);
+        // Delete the image otherwise continue
+        if(blogImage != null){
+            const imageRef = ref(storage, blogImage);
+            await deleteObject(imageRef);
+        }
+
         dispatch(removeBlog(id)).unwrap();
     } catch (err) {
         console.log('Failed to delete blog', err);
+    } finally {
+        setPageIsLoading(false);
     }
   };
 
     return(
         <section className="card shadow px-0 col-md-5">
-            <img src="#" alt="Picture" className="card-img-top"/>
+            {pageIsLoading && (
+                <Spinner loadingLabel="Deleting" />
+            )}
+            {blogImage && (
+                <img src={blogImage} alt="Picture" className="card-img-top"/>
+            )}
             <h2 className="card-header secondary-bg-color">
                 {blogHeader}
             </h2>
@@ -42,7 +62,7 @@ const SingleBlog = ({ blog, user }) => {
                 {((staffRole || sameAuthUser) && isAuth) && (
                     <Fragment>
                         {(!staffRole || sameAuthUser) && (
-                            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`./edit/${blogId}`}>
+                            <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `blog/edit/${blogId}` : `./edit/${blogId}`}`}>
                                 <FaPen className="me-2 mb-1"/>Edit
                             </Link>
                         )}

@@ -4,6 +4,10 @@ import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewCarService } from '../../reducer/carServiceSlice';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const AddCarService = () => {
   const dispatch = useDispatch();
@@ -17,13 +21,12 @@ const AddCarService = () => {
   const [formData, setFormData] = useState({
     serviceName: '',
     serviceDesc: '',
-    serviceImage: null,
     servicePrice: 0,
     servicePriceDecimal: 0,
     errors: {}
   });
 
-  const { serviceName, serviceDesc, serviceImage, servicePrice, servicePriceDecimal, errors } = formData;
+  const { serviceName, serviceDesc, servicePrice, servicePriceDecimal, errors } = formData;
   const navigate = useNavigate();
 
   const serviceOnChange = e => {
@@ -32,6 +35,32 @@ const AddCarService = () => {
     setFormData({
         ...formData, [e.target.name]: e.target.value
     });
+  };
+
+  const [pageIsLoading, setPageIsLoading] = useState(false);
+  // Image handling
+  const [imageUpload, setImageUpload] = useState(null);
+
+  const handleImageChange = e => {
+    setImageUpload(e.target.files[0]);
+  };
+  
+  const uploadImageThenReturnURL = async() => {
+    console.log(imageUpload);
+    try {
+      if(imageUpload != null){
+        const imageRef = ref(storage, `carServiceImages/${v4() + '_' + imageUpload.name}`);
+    
+        await uploadBytes(imageRef, imageUpload);
+        const getImageURL = await getDownloadURL(imageRef);
+  
+        console.log(getImageURL);
+  
+        return getImageURL;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
   };
 
   const errorHandling = () => {
@@ -53,7 +82,7 @@ const AddCarService = () => {
     } else if (isNaN(servicePrice)){
       console.log('Price is not a number');
       newErrors.servicePriceErr = "Price is not a number";
-    } else if (servicePrice.length < 10){
+    } else if (servicePrice.length > 10){
       console.log('Price digit is more than 10 digits');
       newErrors.servicePriceErr = "Price digit is more than 10 digits";
     }
@@ -124,8 +153,12 @@ const AddCarService = () => {
     e.preventDefault();
 
     console.log('Add Service - Submitting form...');
-
+    
     if(!errorHandling()){
+      setPageIsLoading(true);
+
+      const serviceImage = await uploadImageThenReturnURL() || null;
+
       const newService = {
           serviceName,
           serviceDesc,
@@ -143,6 +176,9 @@ const AddCarService = () => {
 
     return (
     <div className="container mb-5">
+      {pageIsLoading && (
+        <Spinner loadingLabel="Adding" />
+      )}
         <h3 className="text-center m-4 fw-semibold">Add Car Service</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/service">
@@ -151,6 +187,10 @@ const AddCarService = () => {
         </p>
         <section className="card secondary-bg-color border-0">
             <form onSubmit={e => serviceOnSubmit(e)}>
+              <div className="p-3 header-bg-color rounded-top">
+                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
+              </div>
                 <div className="card-body">
                     <div className="card-title">
                         <div className="form-floating">

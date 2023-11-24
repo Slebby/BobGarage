@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, getIsAuth, getAuthStatus } from '../../reducer/authSlice';
+import Spinner from '../layout/Spinner';
 
 const Login = props => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const Login = props => {
     pwdInput: '',
     errors: {}
   });
+
+  const [pageIsLoading, setPageIsLoading] = useState(false);
   
   const { emailInput, pwdInput, errors } = formData;
   
@@ -67,6 +70,8 @@ const Login = props => {
     console.log('Logging in...');
     
     if(!errorHandling()){
+      setPageIsLoading(true);
+
       const credential = {
         email: emailInput,
         password: pwdInput
@@ -82,6 +87,9 @@ const Login = props => {
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
+      {pageIsLoading && (
+        <Spinner loadingLabel="Logging in" />
+      )}
         <form className="w-75" onSubmit={e => authLoginOnSubmit(e)} noValidate>
           <div className="text-center fw-semibold fs-2 mt-4">
             <p className="mb-4">Login</p>
