@@ -38,9 +38,9 @@ const SingleUser = ({ user }) => {
         <td className="text-lowercase">{user.email}</td>
         <td>{user.isStaff ? 'Yes' : 'No'}</td>
         <td>{user.userImage ? (
-          <img src={user.userImage} alt={`name: ${user.username}`} className="h-auto" style={{width: "5rem"}}/>
+          <img src={user.userImage} alt={`name: ${user.username}`} className="h-auto rounded-circle" style={{objectFit: "cover", width: "5rem", height: "5rem"}}/>
           ) : (
-            <img src="defaultPfp/profile-default-dark.svg" alt="defaultPfp" className="h-auto rounded-circle" style={{width: "5rem"}}/>
+            <img src="defaultPfp/profile-default-dark.svg" alt="defaultPfp" className="h-auto rounded-circle" style={{objectFit: "cover", width: "5rem", height: "5rem"}}/>
             )}
         </td>
         <td>

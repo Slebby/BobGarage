@@ -69,9 +69,9 @@ const Header = props => {
         <li className="nav-item">
             <Link className="nav-link text-center">
                 {authUserImage ? (
-                    <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" width="47"/>
+                    <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 ) : (
-                    <img src="defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" width="47"/>
+                    <img src="defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 )}
                 {authUsername}
             </Link>
