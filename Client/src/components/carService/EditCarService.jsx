@@ -4,6 +4,10 @@ import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCarServiceByID, updateCarService } from '../../reducer/carServiceSlice';
 import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { storage } from '../../utils/firebase';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { v4 } from 'uuid';
+import Spinner from '../layout/Spinner';
 
 const EditCarService = () => {
   const navigate = useNavigate();
@@ -44,6 +48,41 @@ const EditCarService = () => {
   });
 
   const [requestStatus, setRequestStatus] = useState('idle');
+  // Image handling
+  const [imageUpload, setImageUpload] = useState(null);
+
+  const handleImageChange = e => {
+    setImageUpload(e.target.files[0]);
+  };
+  
+  const uploadImageThenReturnURL = async() => {
+    console.log(imageUpload);
+    try {
+      if(imageUpload != null){
+        const imageRef = ref(storage, `carServiceImages/${v4() + '_' + imageUpload.name}`);
+    
+        await uploadBytes(imageRef, imageUpload);
+        const getImageURL = await getDownloadURL(imageRef);
+  
+        console.log(getImageURL);
+  
+        return getImageURL;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  };
+
+  const deleteImage = async() => {
+    try {
+      if(serviceImage != null){
+        const imageRef = ref(storage, serviceImage);
+        await deleteObject(imageRef);
+      }
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
+  }
 
   const { serviceName, serviceDesc, serviceImage, servicePrice, servicePriceDecimal, errors } = formData;
 
@@ -148,34 +187,41 @@ const EditCarService = () => {
     console.log('Edit Service - Submitting form...');
 
     if(!errorHandling()){
-        const updService = {
+      try {
+        if(canSave){
+          console.log('Can save... updating');
+          setRequestStatus('pending');
+
+          await deleteImage();
+          const newServiceImage = await uploadImageThenReturnURL() || null;
+
+          const updService = {
             serviceId: id,
             serviceName,
             serviceDesc,
-            serviceImage,
+            serviceImage: newServiceImage,
             servicePrice: parseFloat(`${servicePrice}.${servicePriceDecimal}`)
+          };
+          
+          dispatch(updateCarService(updService));
+        } else {
+          console.log('Cannot Save');
+          return;
         }
-    
-        try {
-            if(canSave){
-                console.log('Can save... updating');
-                setRequestStatus('pending');
-                dispatch(updateCarService(updService));
-            } else {
-                console.log('Cannot Save');
-                return;
-            }
-        } catch (err) {
-            console.log('Failed to save the car service', err)
-        } finally {
-            setRequestStatus('idle');
-        }
+      } catch (err) {
+        console.log('Failed to save the car service', err)
+      } finally {
+        setRequestStatus('idle');
+      }
         navigate('/service');
     }
   };
 
     return (
     <div className="container mb-5">
+      {requestStatus === 'pending' && (
+        <Spinner loadingLabel="Updating" />
+      )}
         <h3 className="text-center m-4 fw-semibold">Edit Car Service</h3>
         <p>
             <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="/service">
@@ -184,6 +230,10 @@ const EditCarService = () => {
         </p>
         <section className="card secondary-bg-color border-0">
             <form onSubmit={e => serviceOnSubmit(e)}>
+              <div className="p-3 header-bg-color rounded-top">
+                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
+              </div>
                 <div className="card-body">
                     <div className="card-title">
                         <div className="form-floating">
