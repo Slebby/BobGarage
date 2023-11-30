@@ -7,7 +7,7 @@ import Feedback from '../components/feedback/Feedback';
 const Home = props => {
     return (
         <Fragment>
-            <section className="secondary-bg-color">
+            <section id="welcomeSection">
                 <p className="text-center py-5 fs-2 mb-0 fw-semibold">Welcome</p>
             </section>
             <CarService />
