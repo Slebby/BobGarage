@@ -5,6 +5,7 @@ import { FaScrewdriverWrench, FaComments, FaMicroblog, FaCircleInfo, FaArrowRigh
 import { BsPersonCircle } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthUserImage, getAuthUserUsername, getIsAuth, getIsStaff, logout } from '../../reducer/authSlice';
+import Switch from './Switch';
 
 const Header = props => {
   const pathLocation = useLocation().pathname;
@@ -114,6 +115,11 @@ const Header = props => {
                         </li>
                         { isAuth && isStaff ? staffLinks : null }
                         { isAuth ? [logoutLink, userName] : loginRegisterLinks }
+                        <li className="nav-item">
+                            <div className="nav-text mt-1">
+                                <Switch />
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

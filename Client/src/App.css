@@ -87,6 +87,21 @@ input[type=number] {
     box-shadow: 0 0 0 0.25rem #3030302d !important;
 }
 
+/* For Switches */
+.form-check-input[role=switch]{
+    border-color: #8f8f8f;
+}
+
+.form-check-input:checked[role=switch] {
+    background-color: #303030 !important;
+    border-color: #8f8f8f !important;
+}
+
+.form-check-input:focus[role=switch] {
+    border-color: #8f8f8f !important;
+    box-shadow: 0 0 0 0.25rem #3030302d !important;
+}
+
 /* Overlay for loading */
 #overlay {
     position: fixed;
