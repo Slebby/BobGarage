@@ -64,8 +64,8 @@ const Feedback = (props) => {
                                 </Link>
                             </span>
                             <div className="dropdown float-end">
-                                <button className="btn main-bg-color btn-color text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Sort By
+                                <button className="btn main-bg-color btn-color text-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort By {sortOption}
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
