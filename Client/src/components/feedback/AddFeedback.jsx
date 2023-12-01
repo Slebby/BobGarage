@@ -133,7 +133,7 @@ const AddFeedback = (props) => {
         <section className="card shadow secondary-bg-color border-0">
             <form onSubmit={e => feedbackOnSubmit(e)}>
               <div className="p-3 header-bg-color rounded-top">
-                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <label htmlFor="imageUpload" className="form-label fw-semibold">Upload Image Here</label>
                 <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
               </div>
                 <div className="card-body">

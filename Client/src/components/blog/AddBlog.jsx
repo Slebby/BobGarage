@@ -137,10 +137,10 @@ const AddBlog = (props) => {
                 <FaAnglesLeft className="mb-1 me-1"/>Back
             </Link>
         </p>
-        <section className="card shadow secondary-bg-color border-0">
+        <section className="card shadow border-0">
             <form onSubmit={e => blogOnSubmit(e)}>
               <div className="p-3 header-bg-color rounded-top">
-                <label htmlFor="imageUpload" className="form-label text-light fw-semibold">Upload Image Here</label>
+                <label htmlFor="imageUpload" className="form-label fw-semibold">Upload Image Here</label>
                 <input type="file" name="imageUpload" id="imageUpload" onChange={e => handleImageChange(e)} className="form-control"/>
               </div>
                 <div className="card-header header-bg-color border-bottom-0">
@@ -155,7 +155,7 @@ const AddBlog = (props) => {
                     </div>
                 </div>
                 
-                <div className="card-body">
+                <div className="card-body" id="noFooter">
                     <div className="card-title">
                         <div className="form-floating">
                             <input type="text" name="blogTitle" id="floatingTitle" placeholder="Title Text Here" className={`form-control ${errors.titleErr && !blogTitle ? 'is-invalid' : ''}`}

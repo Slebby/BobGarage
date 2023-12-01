@@ -166,7 +166,7 @@ const Register = props => {
   }
   
   return (
-    <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50">
+    <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50" id="authForm">
       {pageIsLoading && (
         <Spinner loadingLabel="Registering" />
       )}

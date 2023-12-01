@@ -27,6 +27,7 @@
     --card-border-color: rgba(212, 212, 212, .5);
     --btn_color_hover: #000000;
     --card-border-radius: 0.3rem;
+    --div_color: var(--card-bg);
 }
 
 /* Transitions */
@@ -47,6 +48,14 @@ a.link-dark {
 
 a.link-dark:hover, a.link-dark:focus {
     color: RGBA(var(--link-color),var(--bs-link-opacity, 1)) !important;
+}
+
+body[data-theme="dark"] a.link-underline-dark {
+    text-decoration-color: rgba(var(--bs-light-rgb),var(--bs-link-underline-opacity))!important;
+}
+
+body[data-theme="dark"] a.link-underline-dark:hover, body[data-theme="dark"] a.link-underline-dark:focus {
+    text-decoration-color: rgba(var(--bs-light-rgb),var(--bs-link-underline-opacity))!important;
 }
 
 /* Welcome section */
@@ -87,6 +96,15 @@ a.link-dark:hover, a.link-dark:focus {
     border-bottom: var(--bs-card-border-width) solid var(--card-border-color) !important;
 }
 
+/* Form inputs */
+body[data-theme="dark"] .form-control {
+    background-color: var(--second-color) !important;
+    color: var(--font-color) !important;
+}
+
+body[data-theme="dark"] #authForm {
+    background-color: var(--div_color) !important;
+}
 
 /* Selection color bg color */
 ::selection{
@@ -129,8 +147,12 @@ footer {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
 }
 
-.header-bg-color {
-    background-color: --card-header-bg !important;
+body[data-theme="dark"] .header-bg-color {
+    background-color: var(--card-header-bg) !important;
+}
+
+body[data-theme="light"] .header-bg-color {
+    background-color: var(--card-header-bg) !important;
 }
 
 /* Icon size */
