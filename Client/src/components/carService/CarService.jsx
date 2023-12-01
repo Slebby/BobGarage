@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import SingleCarService from './SingleCarService';
 import { FaPlus, FaVolumeHigh } from 'react-icons/fa6';
@@ -18,6 +18,33 @@ const CarService = props => {
     console.log(serviceList);
 
     const homePath = pathLocation === '/';
+
+    let services = [...serviceList];
+    const [sortOption, setSortOption] = useState("relevance");
+    
+    if(sortOption === "oldest") {
+        services.sort((a, b) => {
+            let dateA = new Date(a.createdAt),
+            dateB = new Date(b.createdAt);
+            return dateB - dateA;
+        });
+    } else if(sortOption === "newest") {
+        services.sort((a, b) => {
+            let dateA = new Date(a.createdAt),
+            dateB = new Date(b.createdAt);
+            return dateA - dateB;
+        });
+    } else if(sortOption === "highest Price") {
+        services.sort((a, b) => {
+            return b.servicePrice - a.servicePrice;
+        });
+    } else if(sortOption === "lowest Price") {
+        services.sort((a, b) => {
+            return a.servicePrice - b.servicePrice;
+        });
+    } else if(sortOption === "relevance") {
+        services = serviceList;
+    }
 
     let content;
     if(carServiceStatus === 'loading'){
@@ -43,24 +70,57 @@ const CarService = props => {
                                         <FaPlus className="mb-1 me-1"/>Add
                                     </Link>
                                 </span>
-                                <div className="dropdown float-end">
-                                    <button className="btn main-bg-color btn-color text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Sort By
+                                <div className="dropdown text-end mb-4">
+                                    <button className="btn main-bg-color btn-color text-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Sort By {sortOption}
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li>
-                                            <Link className="dropdown-item">Newest</Link>
+                                            <Link className="dropdown-item" onClick={e => setSortOption("relevance")}>Relevance</Link>
                                         </li>
                                         <li>
-                                            <Link className="dropdown-item">Oldest</Link>
+                                            <Link className="dropdown-item" onClick={e => setSortOption("newest")}>Newest</Link>
+                                        </li>
+                                        <li>
+                                            <Link className="dropdown-item" onClick={e => setSortOption("oldest")}>Oldest</Link>
+                                        </li>
+                                        <li>
+                                            <Link className="dropdown-item" onClick={e => setSortOption("highest Price")}>Highest Price</Link>
+                                        </li>
+                                        <li>
+                                            <Link className="dropdown-item" onClick={e => setSortOption("lowest Price")}>Lowest Price</Link>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                        ) : null}
+                        ) : (
+                            <div className="dropdown text-end mb-4">
+                                <button className="btn main-bg-color btn-color text-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort By {sortOption}
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("relevance")}>Relevance</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("newest")}>Newest</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("oldest")}>Oldest</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("highest Price")}>Highest Price</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("lowest Price")}>Lowest Price</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                            
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
-                            serviceList.map( item => (
+                            services.map( item => (
                                 <SingleCarService key={item.serviceId} carService={item}/>
                             ))
                         }

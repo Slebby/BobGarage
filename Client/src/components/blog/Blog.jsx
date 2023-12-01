@@ -79,7 +79,24 @@ const Blog = props => {
                                 </ul>
                             </div>
                         </div>
-                    ) : null}
+                    ) : (
+                        <div className="dropdown text-end mb-4">
+                            <button className="btn main-bg-color btn-color text-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Sort By {sortOption}
+                            </button>
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <Link className="dropdown-item" onClick={e => setSortOption("relevance")}>Relevance</Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item" onClick={e => setSortOption("newest")}>Newest</Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item" onClick={e => setSortOption("oldest")}>Oldest</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
                             blogs.map(
