@@ -31,8 +31,8 @@ const Switch = () => {
   }
   return (
     <div className="form-check form-switch">
-        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={e => toggleTheme(e)} defaultChecked={selectedTheme === "dark"}/>
-        <label className="form-check-label text-light" htmlFor="flexSwitchCheckDefault">{darkThemeIcon ? (<IoMoon className="mb-1"/>) : (<IoSunny className="mb-1"/>)}</label>
+        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={e => toggleTheme(e)} defaultChecked={selectedTheme === "dark"} style={{cursor: "pointer"}}/>
+        <label className="form-check-label text-light" htmlFor="flexSwitchCheckDefault" style={{cursor: "pointer"}}>{darkThemeIcon ? (<IoMoon className="mb-1"/>) : (<IoSunny className="mb-1"/>)}</label>
     </div>
   )
 }
