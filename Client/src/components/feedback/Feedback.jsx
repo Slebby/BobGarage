@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import SingleFeedback from './SingleFeedback';
 import { Link, useLocation } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
@@ -17,6 +17,27 @@ const Feedback = (props) => {
     console.log(feedbackList);
     const homePath = pathLocation === '/';
     const userNameLists = useSelector(selectAll_User);
+
+    let feedbacks = [...feedbackList];
+    const [sortOption, setSortOption] = useState("relevance");
+    
+    if(sortOption === "oldest") {
+        feedbacks.sort((a, b) => {
+            let dateA = new Date(a.createdAt),
+            dateB = new Date(b.createdAt);
+            return dateB - dateA;
+        });
+    } else if(sortOption === "newest") {
+        feedbacks.sort((a, b) => {
+            let dateA = new Date(a.createdAt),
+            dateB = new Date(b.createdAt);
+            return dateA - dateB;
+        });
+    } else if(sortOption === "relevance") {
+        feedbacks = feedbackList;
+    }
+
+    console.log(feedbacks);
     
     let content;
     if (feedbackStatus === 'loading'){
@@ -48,10 +69,13 @@ const Feedback = (props) => {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li>
-                                        <Link className="dropdown-item">Newest</Link>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("relevance")}>Relevance</Link>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item">Oldest</Link>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("newest")}>Newest</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={e => setSortOption("oldest")}>Oldest</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -60,7 +84,7 @@ const Feedback = (props) => {
 
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
-                            feedbackList.map( item => {
+                            feedbacks.map( item => {
                                 console.log(item.myUserFeedbackId);
                                 let user = userNameLists.filter( u => u.userId === item.myUserFeedbackId);
                                 return <SingleFeedback key={item.feedId} feedback={item} user={user}/>
