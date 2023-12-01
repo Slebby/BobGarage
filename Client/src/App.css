@@ -26,6 +26,7 @@
     --card-footer-bg: rgb(51, 51, 51);
     --card-border-color: rgba(212, 212, 212, .5);
     --btn_color_hover: #000000;
+    --card-border-radius: 0.3rem;
 }
 
 /* Transitions */
@@ -63,17 +64,17 @@ a.link-dark:hover, a.link-dark:focus {
 }
 
 .card-body#noHeader {
-    border-top-left-radius: var(--bs-card-border-radius);
-    border-top-right-radius: var(--bs-card-border-radius);
+    border-top-left-radius: var(--card-border-radius);
+    border-top-right-radius: var(--card-border-radius);
 }
 
 .card-body#noFooter {
-    border-bottom-left-radius: var(--bs-card-border-radius);
-    border-bottom-right-radius: var(--bs-card-border-radius);
+    border-bottom-left-radius: var(--card-border-radius);
+    border-bottom-right-radius: var(--card-border-radius);
 }
 
 .card-body#noHeaderFooter{
-    border-radius: var(--bs-card-border-radius);
+    border-radius: var(--card-border-radius);
 }
 
 .card-footer {
