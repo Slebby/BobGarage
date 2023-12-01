@@ -37,11 +37,26 @@ const Blog = props => {
                     </h3>
                     {homePath ? ''
                     : (isAuth) ? (
-                        <p className="text-start mx-4">
-                            <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
-                                <FaMicroblog className="mb-1 me-1"/>Post
-                            </Link>
-                        </p>
+                        <div className="text-start m-4">
+                            <span>
+                                <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
+                                    <FaMicroblog className="mb-1 me-1"/>Post
+                                </Link>
+                            </span>
+                            <div className="dropdown float-end">
+                                <button className="btn main-bg-color btn-color text-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Sort By
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <Link className="dropdown-item">Newest</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item">Oldest</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     ) : null}
                     <div className="row row-cols-2 gap-5 justify-content-center">
                         {
