@@ -111,6 +111,35 @@ body[data-theme="dark"] .form-text {
     color: #D9D9D9;
 }
 
+/* Dropdown */
+
+body[data-theme="dark"] .dropdown-menu {
+    background-color: #444444 !important;
+}
+
+body[data-theme="dark"] .dropdown-item {
+    color: var(--font-color) !important;
+}
+
+body[data-theme="dark"] .dropdown-item:hover {
+    background-color: #3d3d3d !important;
+}
+
+body[data-theme="dark"] .dropdown-item:active {
+    background-color: #303030 !important;
+}
+
+.dropdown-item:hover {
+    background-color: #dbdbdb !important;
+}
+
+.dropdown-item:active {
+    color: var(--font-color) !important;
+    background-color: #bebebe !important;
+}
+
+
+
 /* Selection color bg color */
 ::selection{
     background-color: var(--main-color);
