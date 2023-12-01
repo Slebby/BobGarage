@@ -56,7 +56,7 @@ const Blog = props => {
                     </h3>
                     {homePath ? ''
                     : (isAuth) ? (
-                        <div className="text-start m-4">
+                        <div className="text-start m-4 pb-3">
                             <span>
                                 <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                                     <FaMicroblog className="mb-1 me-1"/>Post

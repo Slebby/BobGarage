@@ -64,13 +64,13 @@ const CarService = props => {
                     </h3>
                         {homePath ? ''
                         : (isAuth && isStaff) ? (
-                            <div className="text-start m-4">
+                            <div className="text-start m-4 pb-3">
                                 <span>
                                     <Link className="link-dark link-underline link-underline-opacity-0 link-opacity-75-hover" to="./add">
                                         <FaPlus className="mb-1 me-1"/>Add
                                     </Link>
                                 </span>
-                                <div className="dropdown text-end mb-4">
+                                <div className="dropdown float-end">
                                     <button className="btn main-bg-color btn-color text-light dropdown-toggle text-capitalize" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Sort By {sortOption}
                                     </button>
