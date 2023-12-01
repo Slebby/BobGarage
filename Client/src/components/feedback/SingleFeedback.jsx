@@ -50,7 +50,7 @@ const SingleFeedback = ({ feedback, user }) => {
         {feedbackImage && (
           <img src={feedbackImage} alt="Picture" className="card-img-top"/>
         )}
-        <div className="card-body">
+        <div className="card-body" id={`${!feedbackImage ? 'noHeader' : ''}`}>
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
             {((staffRole || sameAuthUser) && isAuth) && (

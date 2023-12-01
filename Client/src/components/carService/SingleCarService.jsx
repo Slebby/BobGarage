@@ -45,7 +45,7 @@ const SingleCarService = ({carService}) => {
             {serviceImage && (
                 <img src={serviceImage} alt="Picture" className="card-img-top"/>
             )}
-            <div className="card-body">
+            <div className="card-body" id={`${serviceImage ? 'noFooter' : 'noHeaderFooter'}`}>
                 <h3 className="card-title border-bottom pb-2">
                     {serviceName}
                 </h3>

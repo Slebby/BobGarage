@@ -49,7 +49,7 @@ const SingleBlog = ({ blog, user }) => {
             {blogImage && (
                 <img src={blogImage} alt="Picture" className="card-img-top"/>
             )}
-            <h2 className="card-header secondary-bg-color">
+            <h2 className="card-header">
                 {blogHeader}
             </h2>
             <div className="card-body">
