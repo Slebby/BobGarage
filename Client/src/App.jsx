@@ -1,5 +1,4 @@
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import { Provider } from './context/context';
 import './App.css';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -16,12 +15,14 @@ import EditFeedback from './components/feedback/EditFeedback';
 import EditBlog from './components/blog/EditBlog';
 import AddCarService from './components/carService/AddCarService';
 import EditCarService from './components/carService/EditCarService';
+import Users from './components/users/Users';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <Provider>
-      <Router>
-        <Header branding='Bob Garage'/>
+    <Router>
+      <Header branding='Bob Garage'/>
+        <main>
           <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='about' element={<About />}></Route>
@@ -33,14 +34,16 @@ function App() {
             <Route path='feedback/edit/:id' element={<EditFeedback />}></Route>
             <Route path='blog' element={<Blog />}></Route>
             <Route path='blog/add' element={<AddBlog />}></Route>
-            <Route path='blog/edit/:id' element={<EditBlog />}></Route> 
+            <Route path='blog/edit/:id' element={<EditBlog />}></Route>
+            <Route path='users' element={<Users />}></Route>
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
+            <Route path='*' element={<NotFound />}></Route>
           </Routes>
-        <Footer/>
-      </Router>
-    </Provider>
+        </main>
+      <Footer/>
+    </Router>
   )
 }
 
-export default App
+export default App;

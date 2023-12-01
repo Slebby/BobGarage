@@ -20,7 +20,8 @@ const Feedback = sequelize.define('Feedback', {
         primaryKey: true
     },
     feedbackTitle: { type: DataTypes.STRING },
-    feedbackBody: { type: DataTypes.STRING }
+    feedbackBody: { type: DataTypes.STRING },
+    feedbackImage: { type: DataTypes.STRING }
 });
 
 const Blog = sequelize.define('Blog', {
@@ -31,7 +32,8 @@ const Blog = sequelize.define('Blog', {
     },
     blogHeader: { type: DataTypes.STRING },
     blogTitle: { type: DataTypes.STRING },
-    blogBody: { type: DataTypes.STRING }
+    blogBody: { type: DataTypes.STRING },
+    blogImage: { type: DataTypes.STRING }
 });
 
 const CarService = sequelize.define('CarServices', {
@@ -42,7 +44,8 @@ const CarService = sequelize.define('CarServices', {
     },
     serviceName: { type: DataTypes.STRING },
     serviceDesc: { type: DataTypes.STRING },
-    serviceImage: { type: DataTypes.STRING }
+    serviceImage: { type: DataTypes.STRING },
+    servicePrice: { type: DataTypes.DECIMAL(10, 2)}
 });
 
 const User = sequelize.define('User', {

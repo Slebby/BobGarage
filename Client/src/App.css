@@ -1,14 +1,159 @@
 /* global Variable */
 :root {
-    --icon-size: 10%;
+    --icon-size: 4rem;
     --main-color: #4B4B4B;
     --second-color: #D9D9D9;
+    --font-color: black;
+    --background_color: whitesmoke;
+    --bg_welcome: var(--second-color);
+    --link-color: var(--bs-dark-rgb);
+    --card-bg: var(--bs-card-bg);
+    --card-header-bg: var(--second-color);
+    --card-footer-bg: var(--bs-card-cap-bg);
+    --card-border-color: rgba(0, 0, 0, 0.175);
+    --btn_color_hover: #303030;
 }
+
+[data-theme="dark"] {
+    --main-color: #161616;
+    --second-color: #4B4B4B;
+    --font-color: whitesmoke;
+    --background_color: var(--second-color);
+    --bg_welcome: #2b2b2b;
+    --link-color: var(--bs-light-rgb);
+    --card-bg: #2b2b2b;
+    --card-header-bg: rgb(32, 32, 32);
+    --card-footer-bg: rgb(51, 51, 51);
+    --card-border-color: rgba(212, 212, 212, .5);
+    --btn_color_hover: #000000;
+    --card-border-radius: 0.3rem;
+    --div_color: var(--card-bg);
+}
+
+/* Transitions */
+/* body[data-theme] * {
+    transition: all 0.5s ease-in-out;
+} */
+
+/* classes for dark theme */
+main {
+    background-color: var(--background_color);
+    color: var(--font-color);
+}
+
+/* Links */
+a.link-dark {
+    color: RGBA(var(--link-color),var(--bs-link-opacity, 1)) !important;
+}
+
+a.link-dark:hover, a.link-dark:focus {
+    color: RGBA(var(--link-color),var(--bs-link-opacity, 1)) !important;
+}
+
+body[data-theme="dark"] a.link-underline-dark {
+    text-decoration-color: rgba(var(--bs-light-rgb),var(--bs-link-underline-opacity))!important;
+}
+
+body[data-theme="dark"] a.link-underline-dark:hover, body[data-theme="dark"] a.link-underline-dark:focus {
+    text-decoration-color: rgba(var(--bs-light-rgb),var(--bs-link-underline-opacity))!important;
+}
+
+/* Welcome section */
+#welcomeSection{
+    background-color: var(--bg_welcome) !important;
+}
+
+/* Cards */
+.card {
+    color: var(--font-color) !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.5) !important;
+}
+
+.card-body {
+    background-color: var(--card-bg);
+}
+
+.card-body#noHeader {
+    border-top-left-radius: var(--card-border-radius);
+    border-top-right-radius: var(--card-border-radius);
+}
+
+.card-body#noFooter {
+    border-bottom-left-radius: var(--card-border-radius);
+    border-bottom-right-radius: var(--card-border-radius);
+}
+
+.card-body#noHeaderFooter{
+    border-radius: var(--card-border-radius);
+}
+
+.card-footer {
+    background-color: var(--card-footer-bg) !important;
+    border-top: var(--bs-card-border-width) solid var(--card-border-color) !important;
+}
+
+.card-header {
+    background-color: var(--card-header-bg) !important;
+    border-bottom: var(--bs-card-border-width) solid var(--card-border-color) !important;
+}
+
+/* Form inputs */
+body[data-theme="dark"] .form-control {
+    background-color: var(--second-color) !important;
+    color: var(--font-color) !important;
+}
+
+body[data-theme="dark"] #authForm {
+    background-color: var(--div_color) !important;
+}
+
+body[data-theme="dark"] .form-text {
+    color: #D9D9D9;
+}
+
+/* Dropdown */
+
+body[data-theme="dark"] .dropdown-menu {
+    background-color: #444444 !important;
+}
+
+body[data-theme="dark"] .dropdown-item {
+    color: var(--font-color) !important;
+}
+
+body[data-theme="dark"] .dropdown-item:hover {
+    background-color: #3d3d3d !important;
+}
+
+body[data-theme="dark"] .dropdown-item:active {
+    background-color: #303030 !important;
+}
+
+.dropdown-item:hover {
+    background-color: #dbdbdb !important;
+}
+
+.dropdown-item:active {
+    color: var(--font-color) !important;
+    background-color: #bebebe !important;
+}
+
+
 
 /* Selection color bg color */
 ::selection{
     background-color: var(--main-color);
     color: whitesmoke;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
 }
 
 footer span::selection, footer p::selection, header a::selection {
@@ -32,17 +177,95 @@ footer {
 
 /* Button background color when hover */
 .btn-color:hover {
-    background-color: #303030 !important;
+    background-color: var(--btn_color_hover) !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
 }
 
-.header-bg-color {
-    background-color: #8f8f8f !important;
+body[data-theme="dark"] .header-bg-color {
+    background-color: var(--card-header-bg) !important;
 }
 
+body[data-theme="light"] .header-bg-color {
+    background-color: var(--card-header-bg) !important;
+}
+
+/* Icon size */
 .icon-size {
     width: var(--icon-size);
 }
 
 .icon-size-small {
-    width: calc(var(--icon-size) - 3%);
+    width: calc(var(--icon-size) - 1rem);
+}
+
+/* Hide the default spinner arrows for input number */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  display: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Other modern browsers */
+}
+
+/* Form control colors */
+
+.form-control:focus {
+    border-color: #8f8f8f !important;
+    box-shadow: 0 0 0 0.25rem #bebebe !important;
+}
+
+/* Checkbox Colors */
+.form-check-input:checked {
+    background-color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}
+
+.form-check-input:focus {
+    border-color: #8f8f8f !important;
+    box-shadow: 0 0 0 0.25rem #3030302d !important;
+}
+
+/* For Switches */
+.form-check-input[role=switch]{
+    border-color: #8f8f8f;
+}
+
+.form-check-input:checked[role=switch] {
+    background-color: #303030 !important;
+    border-color: #8f8f8f !important;
+}
+
+.form-check-input:focus[role=switch] {
+    border-color: #8f8f8f !important;
+    box-shadow: 0 0 0 0.25rem #3030302d !important;
+}
+
+.form-switch .form-check-input:focus {
+    --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+
+/* Overlay for loading */
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.65);
+    z-index: 2;
+}
+
+/* Text animation */
+#loadingOpacity {
+    animation: loadingText 1s infinite;
+}
+
+@keyframes loadingText {
+    0%, 100% {opacity: 100%;}
+    50% {opacity: 65%;}
 }
