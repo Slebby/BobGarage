@@ -81,8 +81,6 @@ const Login = props => {
         dispatch(login(credential)).unwrap();
       } catch (err) {
         console.log(err);
-      } finally {
-        setPageIsLoading(false);
       }
     }
   }
@@ -93,7 +91,7 @@ const Login = props => {
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50" id="authForm">
-      {pageIsLoading && (
+      {pageIsLoading && loginError !== 'error' && (
         <Spinner loadingLabel="Logging in" />
       )}
         <form className="w-75" onSubmit={e => authLoginOnSubmit(e)} noValidate>
