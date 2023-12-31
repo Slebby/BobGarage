@@ -72,12 +72,18 @@ const Login = props => {
     if(!errorHandling()){
       setPageIsLoading(true);
 
-      const credential = {
-        email: emailInput,
-        password: pwdInput
+      try {
+        const credential = {
+          email: emailInput,
+          password: pwdInput
+        }
+        
+        dispatch(login(credential)).unwrap();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setPageIsLoading(false);
       }
-      
-      dispatch(login(credential)).unwrap();
     }
   }
 
