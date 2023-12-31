@@ -6,11 +6,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/config');
 const db = require('../models');
+const { sendingEmail } = require('../utils/emailService');
 
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 const { User } = db.sequelize.models;
+
 // User routes
 // Login Route
 // Allow user to login
@@ -114,30 +116,64 @@ router.post('/new', async (req, res) => {
             password: newUser.password,
         });
         
-        const payload = {
-            user: {
-                userId: userRes.userId,
-                username: userRes.username,
-                email: userRes.email,
-                userImage: userRes.userImage,
-                isStaff: userRes.isStaff
-            }
+        const emailPayload = {
+            type: 'sendEmailWithToken',
+            userId: userRes.userId,
+            username: userRes.username,
+            email: userRes.email,
         };
 
-        jwt.sign(payload, config.auth.jwtSecret, 
-            {
-                expiresIn: '7d',
-                algorithm: 'HS512'
-            },
-            (err, token) => {
-                if(err) throw err;
-                res.json({ token });
-            }
-            );
+        // jwt.sign(payload, config.auth.jwtSecret, 
+        //     {
+        //         expiresIn: '7d',
+        //         algorithm: 'HS512'
+        //     },
+        //     (err, token) => {
+        //         if(err) throw err;
+        //         res.json({ token });
+        //     }
+        //     );
+
+        sendingEmail(emailPayload);
     } catch (error) {
         console.error(error.message);
 
     }
+});
+
+// Email Verify Route
+// User's email will be verify. if there's no token the server will send a new token though the email.
+// /api/auth/new
+// POST request
+// Public route
+router.post('/verify', async (req, res) => {
+    console.log('/api/auth/verify - POST');
+    const token = req.query.token;
+    console.log(token);
+
+    if(!token) {
+        return res.status(400).json({ error: 'Invalid Token' });
+    }
+
+    const decoded = jwt.verify(token, config.auth.jwtSecret);
+    console.log(decoded);
+
+    const foundUser = await User.findByPk(decoded.userId);
+
+    if(!foundUser){
+        return res.status(400).send('User not found.');
+    }
+
+    jwt.sign(foundUser, config.auth.jwtSecret, 
+        {
+            expiresIn: '7d',
+            algorithm: 'HS512'
+        },
+        (err, token) => {
+            if(err) throw err;
+            res.json({ token });
+        }
+    );
 });
 
 module.exports = router;
