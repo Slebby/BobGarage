@@ -66,7 +66,8 @@ const User = sequelize.define('User', {
     },
     userImage: { type: DataTypes.STRING },
     password: { type: DataTypes.STRING},
-    isStaff: { type: DataTypes.BOOLEAN, defaultValue: false}
+    isStaff: { type: DataTypes.BOOLEAN, defaultValue: false},
+    email_Verified: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
 
 User.hasOne(Feedback, {
