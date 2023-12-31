@@ -16,6 +16,7 @@ import EditBlog from './components/blog/EditBlog';
 import AddCarService from './components/carService/AddCarService';
 import EditCarService from './components/carService/EditCarService';
 import Users from './components/users/Users';
+import VerifyEmail from './components/auth/emailVerify/VerifyEmail';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path='users' element={<Users />}></Route>
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
+            <Route path='email/verify' element={<VerifyEmail />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </main>
