@@ -146,7 +146,7 @@ router.post('/new', async (req, res) => {
 // Public route
 router.post('/verify', async (req, res) => {
     console.log('/api/auth/verify - POST');
-    const token = req.body.token;
+    const token = req.body;
     console.log(token);
 
     if(!token) {
