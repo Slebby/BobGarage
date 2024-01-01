@@ -175,16 +175,16 @@ const Register = props => {
     } else if (pwdInput.length < 8) {
       console.log('Password should have more than 8');
       newErrors.pwdErr = 'Password should have more than 8';
-    } else if (uppercaseChar.test(pwdInput)) {
+    } else if (!uppercaseChar.test(pwdInput)) {
       console.log('Password should have 1 uppercase character');
       newErrors.pwdErr = 'Password should have 1 uppercase character';
-    } else if (lowercaseChar.test(pwdInput)) {
+    } else if (!lowercaseChar.test(pwdInput)) {
       console.log('Password should have 1 lowercase character');
       newErrors.pwdErr = 'Password should have 1 lowercase character';
-    } else if (numberInChar.test(pwdInput)){
+    } else if (!numberInChar.test(pwdInput)){
       console.log('Password should have 1 number');
       newErrors.pwdErr = 'Password should have 1 number';
-    } else if (specialChar.test(pwdInput)) {
+    } else if (!specialChar.test(pwdInput)) {
       console.log('Password should have 1 special character');
       newErrors.pwdErr = 'Password should have 1 special character';
     }
@@ -255,7 +255,7 @@ const Register = props => {
   }
   
   if(isAuth){
-    return <Navigate to='/' />
+    return <Navigate to='/email/verify' />
   }
   
   return (
