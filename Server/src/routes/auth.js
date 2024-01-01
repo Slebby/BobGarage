@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
                 if(err) throw err;
                 res.json({ token });
             }
-            );
+        );
 
     } catch (error) {
         console.error(error.message);
@@ -123,18 +123,16 @@ router.post('/new', async (req, res) => {
             email: userRes.email,
         };
 
-        // jwt.sign(payload, config.auth.jwtSecret, 
-        //     {
-        //         expiresIn: '7d',
-        //         algorithm: 'HS512'
-        //     },
-        //     (err, token) => {
-        //         if(err) throw err;
-        //         res.json({ token });
-        //     }
-        //     );
+        const userPayload = {
+            userId: userRes.userId,
+            username: userRes.username,
+            email: userRes.email,
+            email_Verified: userRes.email_Verified
+        };
 
         sendingEmail(emailPayload);
+
+        res.send(userPayload);
     } catch (error) {
         console.error(error.message);
 
@@ -148,7 +146,7 @@ router.post('/new', async (req, res) => {
 // Public route
 router.post('/verify', async (req, res) => {
     console.log('/api/auth/verify - POST');
-    const token = req.query.token;
+    const token = req.body.token;
     console.log(token);
 
     if(!token) {
