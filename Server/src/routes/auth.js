@@ -146,32 +146,53 @@ router.post('/new', async (req, res) => {
 // Public route
 router.post('/verify', async (req, res) => {
     console.log('/api/auth/verify - POST');
-    const token = req.body;
-    console.log(token);
-
-    if(!token) {
-        return res.status(400).json({ error: 'Invalid Token' });
-    }
-
-    const decoded = jwt.verify(token, config.auth.jwtSecret);
-    console.log(decoded);
-
-    const foundUser = await User.findByPk(decoded.userId);
-
-    if(!foundUser){
-        return res.status(400).send('User not found.');
-    }
-
-    jwt.sign(foundUser, config.auth.jwtSecret, 
-        {
-            expiresIn: '7d',
-            algorithm: 'HS512'
-        },
-        (err, token) => {
-            if(err) throw err;
-            res.json({ token });
+    try {
+        const token = req.body.token;
+        console.log(token);
+    
+        if(!token) {
+            return res.status(400).json({ error: 'Invalid Token' });
         }
-    );
+    
+        const decoded = jwt.verify(token, config.auth.jwtSecret);
+        console.log(decoded);
+    
+        const foundUser = await User.findByPk(decoded.userId);    
+        
+        if(!foundUser){
+            return res.status(400).send('User not found.');
+        }
+        
+        await User.update({ email_Verified: true }, {
+            where: {
+                userId: decoded.userId
+            }
+        });
+        
+        const payload = {
+            user: {
+                userId: foundUser.userId,
+                username: foundUser.username,
+                email: foundUser.email,
+                userImage: foundUser.userImage,
+                isStaff: foundUser.isStaff,
+                email_Verified: foundUser.email_Verified
+            }
+        };
+    
+        jwt.sign(payload, config.auth.jwtSecret, 
+            {
+                expiresIn: '7d',
+                algorithm: 'HS512'
+            },
+            (err, token) => {
+                if(err) throw err;
+                res.json({ token });
+            }
+        );
+    } catch (error) {
+        console.log(error.message);
+    }
 });
 
 module.exports = router;
