@@ -254,7 +254,7 @@ const Register = props => {
     };
   }
   
-  if(isAuth){
+  if(!isAuth){
     return <Navigate to='/email/verify' />
   }
   

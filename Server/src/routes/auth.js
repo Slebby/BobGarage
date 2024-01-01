@@ -130,7 +130,7 @@ router.post('/new', async (req, res) => {
             email_Verified: userRes.email_Verified
         };
 
-        sendingEmail(emailPayload);
+        await sendingEmail(emailPayload);
 
         res.send(userPayload);
     } catch (error) {
