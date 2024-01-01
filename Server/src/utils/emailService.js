@@ -13,7 +13,7 @@ const sendingEmail = async (payload) => {
     switch (payload.type) {
         // send an email with token to verify when they registered
         case 'sendEmailWithToken':
-            const verificationToken = jwt.sign(payload.userId, config.auth.jwtSecret, { expiresIn: '1h', algorithm: 'HS512' });
+            const verificationToken = jwt.sign({userId: payload.userId}, config.auth.jwtSecret, { expiresIn: '1h', algorithm: 'HS512' });
             const verificationPage = `http://localhost:5173/email/verify?token=${verificationToken}`;
 
             subject = "Verify Your Email Address with Bob's Garage";
