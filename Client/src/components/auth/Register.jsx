@@ -256,8 +256,10 @@ const Register = props => {
   
   if(!isAuth && Object.keys(user).length != 0 && typeof(user) === 'object'){
     return <Navigate to='/email/verify' />
+  } else if(isAuth && user) {
+    return <Navigate to='/' />
   } else {
-    setRegisterStatus(false);
+    setPageIsLoading(false);
   }
   
   return (
