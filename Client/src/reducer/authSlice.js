@@ -41,6 +41,17 @@ export const register = createAsyncThunk('auth/register', async(newUser) => {
     console.log('Creating new user...');
     try {
         const res = await axios.post(`${baseRoute}/new`, newUser);
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async(token) => {
+    console.log('Verifying Email');
+    try {
+        const res = await axios.post(`${baseRoute}/verify`, { token });
         console.log(res.data.token); // token
         if(res.data){
             if(res.status === 400){
@@ -49,8 +60,8 @@ export const register = createAsyncThunk('auth/register', async(newUser) => {
 
             localStorage.setItem('token', res.data.token);
             setAuthToken(localStorage.token);
-            const response = await axios.get(baseRoute);
-            return response.data;
+            // const response = await axios.get(baseRoute);
+            // return response.data;
         }
         return res.data;
     } catch (err) {
@@ -65,7 +76,7 @@ export const loadUser = createAsyncThunk('auth/loadUser', async() => {
     } catch (err) {
         return err.message;
     }
-})
+});
 
 const authSlice = createSlice({
     name: 'auth',
@@ -94,7 +105,7 @@ const authSlice = createSlice({
                 }
                 state.status = 'succeeded';
                 state.user = action.payload;
-                state.isAuth = true;
+                state.isAuth = action.payload.email_Verified;
                 state.isStaff = action.payload.isStaff;
                 state.token = localStorage.getItem('token');
             })
@@ -109,7 +120,7 @@ const authSlice = createSlice({
             })
             .addCase(loadUser.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.isAuth = true;
+                state.isAuth = action.payload.email_Verified;
                 state.isStaff = action.payload.isStaff;
                 state.user = action.payload;
             })
@@ -117,13 +128,35 @@ const authSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(register.fulfilled, (state, action) => {
+                if(typeof(action.payload) !== "object"){
+                    state.status = 'error';
+                    state.error = action.payload;
+                    return;
+                }
                 state.status = 'succeeded';
-                state.isAuth = true;
+                state.isAuth = action.payload.email_Verified;
                 state.isStaff = action.payload.isStaff;
-                state.token = localStorage.getItem('token');
+                state.token = null;
                 state.user = action.payload;
             })
             .addCase(register.rejected, (state, action) => {
+                state.status = 'failed';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.error = action.error.message;
+            })
+            .addCase(verifyEmail.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = localStorage.getItem('token');
+                state.user = {};
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
                 state.status = 'failed';
                 state.isAuth = false;
                 state.isStaff = false;
@@ -141,6 +174,7 @@ export const getAuthUserID = (state) => state.auth.user.userId;
 export const getAuthStatus = (state) => state.auth.status;
 export const getAuthUserUsername = (state) => state.auth.user.username;
 export const getAuthUserImage = (state) => state.auth.user.userImage;
+export const getUserEmailVerify = (state) => state.auth.user.email_Verified;
 
 export const { logout } = authSlice.actions;
 
