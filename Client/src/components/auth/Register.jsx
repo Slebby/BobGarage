@@ -247,6 +247,7 @@ const Register = props => {
         }
       } catch (err) {
         console.log('Error: ', err);
+        setPageIsLoading(false);
         return;
       } finally {
         setRegisterStatus('idle');
@@ -258,8 +259,6 @@ const Register = props => {
     return <Navigate to='/email/verify' />
   } else if(isAuth && user) {
     return <Navigate to='/' />
-  } else {
-    setPageIsLoading(false);
   }
   
   return (
