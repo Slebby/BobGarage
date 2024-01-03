@@ -40,6 +40,7 @@ function App() {
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
             <Route path='email/verify' element={<VerifyEmail />}></Route>
+            <Route path='login/verify' element={<VerifyEmail />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </main>

@@ -81,12 +81,15 @@ const Login = props => {
         dispatch(login(credential)).unwrap();
       } catch (err) {
         console.log(err);
+        setPageIsLoading(false);
       }
     }
   }
 
   if(isAuth){
     return <Navigate to="/" />
+  } else if(!isAuth) {
+    return <Navigate to="/email/verify" />
   }
 
   return (

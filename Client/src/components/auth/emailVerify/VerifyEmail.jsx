@@ -9,10 +9,12 @@ const VerifyEmail = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
+  const fromLoginPage = location.pathname;
   
   console.log(queryParams);
   console.log(location.search);
   console.log(token);
+  console.log(fromLoginPage);
 
   if(token){
     try {
@@ -23,13 +25,19 @@ const VerifyEmail = () => {
     }
   }
 
+  const verificationButton = 
+  <div className="my-4 text-center">
+    <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light">Resend Verification</button>
+  </div>
+
   return (
     <section className='container my-5'>
-      {!token && (
+      {!token && !fromLoginPage && (
         <Fragment>
             <p>
-              Thanks for signing up with Bob's Garage! To activate your account, please check your email and click the verification link we sent you. If you don't see the email, check your spam folder. Need assistance? Contact us at  <Link to='mailto:support@bobsgarage.com'>support@bobsgarage.com</Link>.
+              Thanks for signing up with Bob's Garage! To activate your account, please check your email and click the verification link we sent you. If you don't see the email, check your spam folder or click 'Resend Verification' below. Need assistance? Contact us at <Link to='mailto:support@bobsgarage.com'>support@bobsgarage.com</Link>.
             </p>
+            {verificationButton}
         </Fragment>      
       )}
       {token && (
@@ -43,6 +51,14 @@ const VerifyEmail = () => {
           <p>
             The Bob's Garage Team
           </p>
+        </Fragment>
+      )}
+      {!token && fromLoginPage && (
+        <Fragment>
+          <p>
+            Oops! It looks like your email hasn't been verified yet. To complete your registration and access your account, please check your email for a verification link. If you can't find it, click 'Resend Verification' below. Need help? Contact us at <Link to='mailto:support@bobsgarage.com'>support@bobsgarage.com</Link>.
+          </p>
+          {verificationButton}
         </Fragment>
       )}
     </section>
