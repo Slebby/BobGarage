@@ -212,6 +212,7 @@ router.post('/resend', async (req, res) => {
         };
 
         await sendingEmail(emailPayload);
+        res.send('<p>Verification Email Resent</p>');
     } catch (error) {
         console.log(error.message);
     }

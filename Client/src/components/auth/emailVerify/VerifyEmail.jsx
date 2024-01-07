@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useState } from "react";
 import axios from "axios";
 import { useLocation, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ const VerifyEmail = () => {
   const token = queryParams.get('token');
   const fromLoginPage = location.pathname;
   const user = useSelector(getAuthUser);
+  const [verificationStatus, setVerificationStatus] = useState('');
   
   console.log(queryParams);
   console.log(location.search);
@@ -32,7 +33,8 @@ const VerifyEmail = () => {
 
   const reSendVerification = async () => {
     try {
-      await axios.post('/api/auth/resend', user);
+      const res = await axios.post('/api/auth/resend', user);
+      setVerificationStatus(res.data);
     } catch (err) {
       console.log(err.message);
     }
@@ -41,6 +43,7 @@ const VerifyEmail = () => {
   const verificationButton = (
     <div className="my-4 text-center">
       <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light" onClick={e => reSendVerification()}>Resend Verification</button>
+      {verificationStatus}
     </div>
   )
 
@@ -73,7 +76,6 @@ const VerifyEmail = () => {
             Oops! It looks like your email hasn't been verified yet. To complete your registration and access your account, please check your email for a verification link. If you can't find it, click 'Resend Verification' below. Need help? Contact us at <Link to='mailto:support@bobsgarage.com'>support@bobsgarage.com</Link>.
           </p>
           {verificationButton}
-          <p>Verification Email Resent</p>
         </Fragment>
       )}
     </section>
