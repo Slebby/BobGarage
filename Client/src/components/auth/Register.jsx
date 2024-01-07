@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types'
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, getIsAuth, getAuthUser } from '../../reducer/authSlice';
+import { register, getUserEmailVerify, getIsAuth } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
@@ -10,8 +10,8 @@ import Spinner from '../layout/Spinner';
 
 const Register = props => {
   const dispatch = useDispatch();
+  const isVerified = useSelector(getUserEmailVerify);
   const isAuth = useSelector(getIsAuth);
-  const user = useSelector(getAuthUser);
   
   const [registerStatus, setRegisterStatus] = useState('idle');
   
@@ -255,9 +255,9 @@ const Register = props => {
     };
   }
   
-  if(!isAuth && Object.keys(user).length != 0 && typeof(user) === 'object'){
+  if(isAuth && !isVerified){
     return <Navigate to='/email/verify' />
-  } else if(isAuth && user) {
+  } else if(isAuth && isVerified) {
     return <Navigate to='/' />
   }
   

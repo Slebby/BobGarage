@@ -2,14 +2,16 @@ import { useState } from 'react';
 import PropTypes from 'prop-types'
 import { FaTrashCan } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeUser } from '../../reducer/userSlice';
 import { storage } from '../../utils/firebase';
 import { deleteObject, ref } from 'firebase/storage';
 import Spinner from '../layout/Spinner';
+import { getUserEmailVerify } from '../../reducer/authSlice';
 
 const SingleUser = ({ user }) => {
   const dispatch = useDispatch();
+  const isVerified = useSelector(getUserEmailVerify);
   const [pageIsLoading, setPageIsLoading] = useState(false);
 
   const userOnDelete = async (id) => {
@@ -44,9 +46,9 @@ const SingleUser = ({ user }) => {
             )}
         </td>
         <td>
-            <Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {userOnDelete(user.userId)}}>
+            {isVerified && (<Link className="btn btn-danger ms-3 fw-semibold" onClick={() => {userOnDelete(user.userId)}}>
               <FaTrashCan className="me-2 mb-1"/>Delete
-            </Link>
+            </Link>)}
         </td>
         {pageIsLoading && (
           <td>

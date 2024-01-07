@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, getIsAuth, getAuthStatus } from '../../reducer/authSlice';
+import { login, getIsAuth, getAuthStatus, getUserEmailVerify } from '../../reducer/authSlice';
 import Spinner from '../layout/Spinner';
 
 const Login = props => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const loginError = useSelector(getAuthStatus);
+  const isVerified = useSelector(getUserEmailVerify);
 
   const [formData, setFormData] = useState({
     emailInput: '',
@@ -86,9 +87,9 @@ const Login = props => {
     }
   }
 
-  if(isAuth){
+  if(isAuth && isVerified){
     return <Navigate to="/" />
-  } else if(!isAuth) {
+  } else if(isAuth && !isVerified) {
     return <Navigate to="/email/verify" />
   }
 
