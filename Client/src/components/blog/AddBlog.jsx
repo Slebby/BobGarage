@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewBlog } from '../../reducer/blogSlice';
-import { getAuthUserID } from '../../reducer/authSlice';
+import { getAuthUserID, getUserEmailVerify } from '../../reducer/authSlice';
 import { getIsAuth } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -14,9 +14,12 @@ const AddBlog = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
+  const isVerified = useSelector(getUserEmailVerify);
   
   if(!isAuth){
     return <Navigate to='/blog' />
+  } else if(isAuth && !isVerified){
+    return <Navigate to='/email/verify' />
   }
 
   const userId = useSelector(getAuthUserID);

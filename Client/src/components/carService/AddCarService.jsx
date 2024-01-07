@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewCarService } from '../../reducer/carServiceSlice';
-import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getIsAuth, getIsStaff, getUserEmailVerify } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
@@ -13,9 +13,12 @@ const AddCarService = () => {
   const dispatch = useDispatch();
   const isStaff = useSelector(getIsStaff);
   const isAuth = useSelector(getIsAuth);
+  const isVerified = useSelector(getUserEmailVerify);
 
   if(!isStaff && !isAuth){
     return <Navigate to='/service' />
+  } else if((isStaff && isAuth) && !isVerified){
+    return <Navigate to='/email/verify' />
   }
 
   const [formData, setFormData] = useState({

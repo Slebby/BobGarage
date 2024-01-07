@@ -3,14 +3,17 @@ import { useNavigate, useParams, Link, Navigate } from 'react-router-dom';
 import { FaAnglesLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateFeedback, selectFeedbackByID } from '../../reducer/feedbackSlice';
-import { getIsAuth } from '../../reducer/authSlice';
+import { getIsAuth, getUserEmailVerify } from '../../reducer/authSlice';
 
 const EditFeedback = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
+  const isVerified = useSelector(getUserEmailVerify);
   
   if(!isAuth){
     return <Navigate to='/feedback' />
+  } else if(isAuth && !isVerified){
+    return <Navigate to='/email/verify' />
   }
   
   const { id } = useParams();
