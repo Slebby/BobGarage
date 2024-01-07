@@ -4,6 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, getIsAuth, getAuthStatus, getUserEmailVerify } from '../../reducer/authSlice';
 import Spinner from '../layout/Spinner';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = props => {
   const dispatch = useDispatch();
@@ -16,6 +17,16 @@ const Login = props => {
     pwdInput: '',
     errors: {}
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const showingPwd = () => {
+    if(showPassword){
+      setShowPassword(false);
+    } else {
+      setShowPassword(true);
+    }
+  }
 
   const [pageIsLoading, setPageIsLoading] = useState(false);
   
@@ -116,7 +127,10 @@ const Login = props => {
           </div>
           <div className="mb-3">
             <label htmlFor="pwdInput" className="form-label">Password</label>
-            <input type="password" name="pwdInput" id="pwdInput" className={`form-control ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
+            <div className="input-group">
+              <input type={showPassword ? 'text' : 'password'} name="pwdInput" id="pwdInput" className={`form-control form-password ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
+              <span className='input-group-text' onClick={e => showingPwd()} style={{cursor: 'pointer'}}>{showPassword ? (<FaEye />) : (<FaEyeSlash/>)}</span>
+            </div>
             {errors.pwdErr && !pwdInput && (
             <div className="text-danger form-text">{errors.pwdErr}</div>
           )}

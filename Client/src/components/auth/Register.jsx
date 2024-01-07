@@ -7,6 +7,7 @@ import { storage } from '../../utils/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import Spinner from '../layout/Spinner';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = props => {
   const dispatch = useDispatch();
@@ -32,6 +33,25 @@ const Register = props => {
       [e.target.name]: e.target.value
     });
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
+
+  const showingPwd = () => {
+    if(showPassword){
+      setShowPassword(false);
+    } else {
+      setShowPassword(true);
+    }
+  }
+
+  const showingRePwd = () => {
+    if(showRePassword){
+      setShowRePassword(false);
+    } else {
+      setShowRePassword(true);
+    }
+  }
 
   const [pageIsLoading, setPageIsLoading] = useState(false);
   // Image handling
@@ -291,7 +311,10 @@ const Register = props => {
         </div>
         <div className="mb-3">
           <label htmlFor="pwdInput" className="form-label">Password</label>
-          <input type="password" name="pwdInput" id="pwdInput" className={`form-control ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => {authOnChange(e);strongPasswordBar();}}/>
+          <div className="input-group">
+            <input type={showPassword ? 'text' : 'password'} name="pwdInput" id="pwdInput" className={`form-control ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => {authOnChange(e);strongPasswordBar();}}/>
+            <span className='input-group-text' onClick={e => showingPwd()} style={{cursor: 'pointer'}}>{showPassword ? (<FaEye />) : (<FaEyeSlash/>)}</span>
+          </div>
           {errors.pwdErr === "Password is empty" && !pwdInput && (
             <div className="text-danger form-text">{errors.pwdErr}</div>
           )}
@@ -313,7 +336,10 @@ const Register = props => {
         </div>
         <div className="mb-3">
           <label htmlFor="rePwdInput" className="form-label">Re-enter Password</label>
-          <input type="password" name="rePwdInput" id="rePwdInput" className={`form-control ${errors.rePwdErr ? 'is-invalid' : ''}`} value={rePwdInput} onChange={e => authOnChange(e)}/>
+          <div className="input-group">
+            <input type={showRePassword ? 'text' : 'password'} name="rePwdInput" id="rePwdInput" className={`form-control ${errors.rePwdErr ? 'is-invalid' : ''}`} value={rePwdInput} onChange={e => authOnChange(e)}/>
+            <span className='input-group-text' onClick={e => showingRePwd()} style={{cursor: 'pointer'}}>{showRePassword ? (<FaEye />) : (<FaEyeSlash/>)}</span>
+          </div>
           {errors.rePwdErr && (
             <div className="text-danger form-text">{errors.rePwdErr}</div>
           )}
