@@ -105,7 +105,7 @@ const authSlice = createSlice({
                 }
                 state.status = 'succeeded';
                 state.user = action.payload;
-                state.isAuth = action.payload.email_Verified;
+                state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.token = localStorage.getItem('token');
             })
@@ -120,7 +120,7 @@ const authSlice = createSlice({
             })
             .addCase(loadUser.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.isAuth = action.payload.email_Verified;
+                state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.user = action.payload;
             })
@@ -134,7 +134,7 @@ const authSlice = createSlice({
                     return;
                 }
                 state.status = 'succeeded';
-                state.isAuth = action.payload.email_Verified;
+                state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.token = null;
                 state.user = action.payload;

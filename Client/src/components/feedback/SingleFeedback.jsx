@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFeedback } from '../../reducer/feedbackSlice';
-import { getAuthUserID, getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getAuthUserID, getIsAuth, getIsStaff, getUserEmailVerify } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { deleteObject, ref } from 'firebase/storage';
 import Spinner from '../layout/Spinner';
@@ -16,6 +16,7 @@ const SingleFeedback = ({ feedback, user }) => {
   const pathLocation = useLocation().pathname;
   const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
+  const isVerified = useSelector(getUserEmailVerify);
   const authIsStaff = useSelector(getIsStaff);
   const authUserID = useSelector(getAuthUserID);
   const staffRole = isAuth && authIsStaff;
@@ -53,7 +54,7 @@ const SingleFeedback = ({ feedback, user }) => {
         <div className="card-body" id={`${!feedbackImage ? 'noHeader' : ''}`}>
             <h5 className="card-title">{feedbackTitle}</h5>
             <p className="card-text">{feedbackBody}</p>
-            {((staffRole || sameAuthUser) && isAuth) && (
+            {((staffRole || sameAuthUser) && (isAuth && isVerified)) && (
               <Fragment>
                 {(!staffRole || sameAuthUser) && (
                   <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `feedback/edit/${feedId}` : `./edit/${feedId}`}`}>

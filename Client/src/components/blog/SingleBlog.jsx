@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeBlog } from '../../reducer/blogSlice';
-import { getIsAuth, getIsStaff, getAuthUserID } from '../../reducer/authSlice';
+import { getIsAuth, getIsStaff, getAuthUserID, getUserEmailVerify } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { ref, deleteObject } from 'firebase/storage';
 import Spinner from '../layout/Spinner';
@@ -13,6 +13,7 @@ const SingleBlog = ({ blog, user }) => {
   const pathLocation = useLocation().pathname;
   const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
+  const isVerified = useSelector(getUserEmailVerify);
   const authIsStaff = useSelector(getIsStaff);
   const staffRole = isAuth && authIsStaff;
   const { blogId , blogHeader, blogTitle, blogBody, blogImage } = blog;
@@ -59,7 +60,7 @@ const SingleBlog = ({ blog, user }) => {
                 <p className="card-text">
                     {blogBody}
                 </p>
-                {((staffRole || sameAuthUser) && isAuth) && (
+                {((staffRole || sameAuthUser) && (isAuth && isVerified)) && (
                     <Fragment>
                         {(!staffRole || sameAuthUser) && (
                             <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `blog/edit/${blogId}` : `./edit/${blogId}`}`}>
