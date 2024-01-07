@@ -19,7 +19,7 @@ const EditCarService = () => {
   if(!isStaff && !isAuth){
     return <Navigate to='/service' />
   } else if((isStaff && isAuth) && !isVerified){
-    return <Navigate to='/email/verify' />
+    return <Navigate to='/login/verify' />
   }
 
   const { id } = useParams();

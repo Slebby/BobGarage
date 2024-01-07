@@ -18,7 +18,7 @@ const AddFeedback = (props) => {
   if(!isAuth){
     return <Navigate to='/feedback' />
   } else if(isAuth && !isVerified){
-    return <Navigate to='/email/verify' />
+    return <Navigate to='/login/verify' />
   }
 
   const userId = useSelector(getAuthUserID);

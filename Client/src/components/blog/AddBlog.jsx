@@ -19,7 +19,7 @@ const AddBlog = (props) => {
   if(!isAuth){
     return <Navigate to='/blog' />
   } else if(isAuth && !isVerified){
-    return <Navigate to='/email/verify' />
+    return <Navigate to='/login/verify' />
   }
 
   const userId = useSelector(getAuthUserID);

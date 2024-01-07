@@ -90,7 +90,7 @@ const Login = props => {
   if(isAuth && isVerified){
     return <Navigate to="/" />
   } else if(isAuth && !isVerified) {
-    return <Navigate to="/email/verify" />
+    return <Navigate to="/login/verify" />
   }
 
   return (
