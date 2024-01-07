@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyEmail, getAuthUser, getError, logout } from "../../../reducer/authSlice";
-import { RiMailCloseLine, RiMailCheckLine, RiErrorWarningFill } from "react-icons/ri";
+import { RiMailCloseLine, RiMailCheckLine, RiErrorWarningFill, RiMailSendLine } from "react-icons/ri";
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
@@ -57,10 +57,10 @@ const VerifyEmail = () => {
 
   return (
     <section className='container my-5'>
-      {!token && !fromLoginPage && (
+      {!token && fromLoginPage !== location.pathname && (
         <Fragment>
           <div className="text-center">
-            <RiMailCheckLine className="h-auto w-50 text-success"/>
+            <RiMailSendLine className="h-auto w-50 text-secondary"/>
           </div>
           <p>
             Thanks for signing up with Bob's Garage! To activate your account, please check your email and click the verification link we sent you. If you don't see the email, check your spam folder or click 'Resend Verification' below. Need assistance? Contact us at <Link to={`mailto:${supportEmail}`}>{supportEmail}</Link>.
