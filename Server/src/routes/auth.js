@@ -123,7 +123,16 @@ router.post('/new', async (req, res) => {
             email: userRes.email,
         };
 
+        const userPayload = {
+            userId: userRes.userId,
+            username: userRes.username,
+            email: userRes.email,
+            email_Verified: userRes.email_Verified
+        };
+
         await sendingEmail(emailPayload);
+
+        res.send(userPayload);
     } catch (error) {
         console.error(error.message);
 
