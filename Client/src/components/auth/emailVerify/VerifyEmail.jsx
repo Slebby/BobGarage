@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import axios from "axios";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyEmail } from "../../../reducer/authSlice";
+import { verifyEmail, getAuthUser } from "../../../reducer/authSlice";
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
@@ -10,6 +10,7 @@ const VerifyEmail = () => {
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
   const fromLoginPage = location.pathname;
+  const user = useSelector(getAuthUser);
   
   console.log(queryParams);
   console.log(location.search);
@@ -25,10 +26,23 @@ const VerifyEmail = () => {
     }
   }
 
-  const verificationButton = 
-  <div className="my-4 text-center">
-    <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light">Resend Verification</button>
-  </div>
+  if(typeof(user) === "object" && Object.keys(user).length !== 0 && user.email_Verified) {
+    return <Navigate to="/"/>
+  }
+
+  const reSendVerification = async () => {
+    try {
+      await axios.post('/api/auth/resend', user);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const verificationButton = (
+    <div className="my-4 text-center">
+      <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light" onClick={e => reSendVerification()}>Resend Verification</button>
+    </div>
+  )
 
   return (
     <section className='container my-5'>

@@ -141,7 +141,7 @@ router.post('/new', async (req, res) => {
 
 // Email Verify Route
 // User's email will be verify. if there's no token the server will send a new token though the email.
-// /api/auth/new
+// /api/auth/verify
 // POST request
 // Public route
 router.post('/verify', async (req, res) => {
@@ -190,6 +190,28 @@ router.post('/verify', async (req, res) => {
                 res.json({ token });
             }
         );
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+// Resend Email Verify Route
+// User's email will be verify again.
+// /api/auth/resend
+// POST request
+// Public route
+router.post('/resend', async (req, res) => {
+    console.log('/api/auth/resend - POST');
+    try {
+        const { userId, username, email } = req.body;
+        const emailPayload = {
+            type: 'resendEmailWithToken',
+            userId,
+            username,
+            email
+        };
+
+        await sendingEmail(emailPayload);
     } catch (error) {
         console.log(error.message);
     }
