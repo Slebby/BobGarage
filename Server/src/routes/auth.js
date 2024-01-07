@@ -168,30 +168,9 @@ router.post('/verify', async (req, res) => {
                 userId: decoded.userId
             }
         });
-        
-        const payload = {
-            user: {
-                userId: foundUser.userId,
-                username: foundUser.username,
-                email: foundUser.email,
-                userImage: foundUser.userImage,
-                isStaff: foundUser.isStaff,
-                email_Verified: foundUser.email_Verified
-            }
-        };
-    
-        jwt.sign(payload, config.auth.jwtSecret, 
-            {
-                expiresIn: '7d',
-                algorithm: 'HS512'
-            },
-            (err, token) => {
-                if(err) throw err;
-                res.json({ token });
-            }
-        );
     } catch (error) {
         console.log(error.message);
+        res.send('Failed to verify');
     }
 });
 

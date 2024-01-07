@@ -14,8 +14,6 @@ const initialState = {
 };
 
 // Login path api/auth,
-// register path api/auth/new
-
 export const login = createAsyncThunk('auth/login', async (credential) => {
     console.log('logging in again...');
     try {
@@ -25,7 +23,7 @@ export const login = createAsyncThunk('auth/login', async (credential) => {
             if(res.status === 400){
                 throw Error({ message: res.data });
             }
-
+            
             localStorage.setItem('token', res.data.token);
             setAuthToken(res.data.token);
             const response = await axios.get(baseRoute);
@@ -37,6 +35,7 @@ export const login = createAsyncThunk('auth/login', async (credential) => {
     }
 });
 
+// register path api/auth/new
 export const register = createAsyncThunk('auth/register', async(newUser) => {
     console.log('Creating new user...');
     try {
@@ -52,16 +51,11 @@ export const verifyEmail = createAsyncThunk('auth/verifyEmail', async(token) => 
     console.log('Verifying Email');
     try {
         const res = await axios.post(`${baseRoute}/verify`, { token });
-        console.log(res.data.token); // token
+        console.log(res.data);
         if(res.data){
             if(res.status === 400){
                 throw Error({ message: res.data });
             }
-
-            localStorage.setItem('token', res.data.token);
-            setAuthToken(localStorage.token);
-            // const response = await axios.get(baseRoute);
-            // return response.data;
         }
         return res.data;
     } catch (err) {
@@ -153,10 +147,15 @@ const authSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(verifyEmail.fulfilled, (state, action) => {
+                if(action.payload === 'Failed to verify'){
+                    state.status = 'error';
+                    state.error = "Invalid Verification Link";
+                    return;
+                }
                 state.status = 'succeeded';
                 state.isAuth = false;
                 state.isStaff = false;
-                state.token = localStorage.getItem('token');
+                state.token = null;
                 state.user = {};
                 state.error = null;
             })
@@ -179,6 +178,7 @@ export const getAuthStatus = (state) => state.auth.status;
 export const getAuthUserUsername = (state) => state.auth.user.username;
 export const getAuthUserImage = (state) => state.auth.user.userImage;
 export const getUserEmailVerify = (state) => state.auth.user.email_Verified;
+export const getError = (state) => state.auth.error;
 
 export const { logout } = authSlice.actions;
 
