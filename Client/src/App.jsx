@@ -18,12 +18,14 @@ import EditCarService from './components/carService/EditCarService';
 import Users from './components/users/Users';
 import VerifyEmail from './components/auth/emailVerify/VerifyEmail';
 import NotFound from './pages/NotFound';
+import EmailNotVerified from './components/layout/EmailNotVerified';
 
 function App() {
   return (
     <Router>
       <Header branding='Bob Garage'/>
         <main>
+          <EmailNotVerified />
           <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='about' element={<About />}></Route>
