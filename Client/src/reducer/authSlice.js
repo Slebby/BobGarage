@@ -108,6 +108,7 @@ const authSlice = createSlice({
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.token = localStorage.getItem('token');
+                state.error = null;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'falied';
@@ -123,6 +124,7 @@ const authSlice = createSlice({
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.user = action.payload;
+                state.error = null;
             })
             .addCase(register.pending, (state, action) => {
                 state.status = 'loading';
@@ -138,6 +140,7 @@ const authSlice = createSlice({
                 state.isStaff = action.payload.isStaff;
                 state.token = null;
                 state.user = action.payload;
+                state.error = null;
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'failed';
@@ -155,6 +158,7 @@ const authSlice = createSlice({
                 state.isStaff = false;
                 state.token = localStorage.getItem('token');
                 state.user = {};
+                state.error = null;
             })
             .addCase(verifyEmail.rejected, (state, action) => {
                 state.status = 'failed';

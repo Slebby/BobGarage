@@ -27,7 +27,7 @@ const VerifyEmail = () => {
     }
   }
 
-  if(typeof(user) === "object" && Object.keys(user).length !== 0 && user.email_Verified) {
+  if(user.email_Verified) {
     return <Navigate to="/"/>
   }
 
@@ -68,6 +68,9 @@ const VerifyEmail = () => {
           <p>
             The Bob's Garage Team
           </p>
+          <div className="my-4 text-center">
+            <Link className="btn btn-lg main-bg-color w-50 btn-color text-light" to='/login'>Login Here</Link>
+          </div>
         </Fragment>
       )}
       {!token && fromLoginPage && (
