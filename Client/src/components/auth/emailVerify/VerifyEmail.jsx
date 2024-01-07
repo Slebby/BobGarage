@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import axios from "axios";
 import { useLocation, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,7 @@ const VerifyEmail = () => {
   console.log(token);
   console.log(fromLoginPage);
 
-  if(token){
+  if(token && !user.email_Verified){
     try {
       dispatch(verifyEmail(token));
     } catch (err) {
@@ -73,6 +73,7 @@ const VerifyEmail = () => {
             Oops! It looks like your email hasn't been verified yet. To complete your registration and access your account, please check your email for a verification link. If you can't find it, click 'Resend Verification' below. Need help? Contact us at <Link to='mailto:support@bobsgarage.com'>support@bobsgarage.com</Link>.
           </p>
           {verificationButton}
+          <p>Verification Email Resent</p>
         </Fragment>
       )}
     </section>
