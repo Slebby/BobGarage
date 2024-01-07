@@ -72,7 +72,7 @@ const Header = props => {
                 {authUserImage ? (
                     <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 ) : (
-                    <img src="defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
+                    <img src="/defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 )}
                 {authUsername}
             </Link>
