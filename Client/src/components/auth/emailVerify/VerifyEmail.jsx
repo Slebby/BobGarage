@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyEmail, getAuthUser, getError } from "../../../reducer/authSlice";
+import { verifyEmail, getAuthUser, getError, logout } from "../../../reducer/authSlice";
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
@@ -13,19 +13,18 @@ const VerifyEmail = () => {
   const user = useSelector(getAuthUser);
   const isError = useSelector(getError);
   const [verificationStatus, setVerificationStatus] = useState('');
-  const [effectTriggered, setEffectTriggered] = useState(false);
 
   useEffect(() => {
-    if(token && !effectTriggered){
+    if(token){
       try {
+        dispatch(logout());
         dispatch(verifyEmail(token)).unwrap();
-        setEffectTriggered(true);
       } catch (err) {
         console.log('Error: ', err);
         return;
       }
     }
-  }, [dispatch, token, effectTriggered]);
+  }, []);
 
   if(user.email_Verified) {
     return <Navigate to="/"/>
@@ -44,7 +43,7 @@ const VerifyEmail = () => {
 
   const verificationButton = (
     <div className="my-4 text-center">
-      <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light" onClick={e => reSendVerification()}>Resend Verification</button>
+      <button type="button" className="btn btn-lg main-bg-color w-50 btn-color text-light" onClick={e => reSendVerification()} disabled={verificationStatus === 'Sending The Verification Link...'}>Resend Verification</button>
       {verificationStatus && (
         <p className="mt-2">
           {verificationStatus}
