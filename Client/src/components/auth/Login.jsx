@@ -1,20 +1,32 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, getIsAuth, getAuthStatus } from '../../reducer/authSlice';
+import { login, getIsAuth, getAuthStatus, getUserEmailVerify } from '../../reducer/authSlice';
 import Spinner from '../layout/Spinner';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = props => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const loginError = useSelector(getAuthStatus);
+  const isVerified = useSelector(getUserEmailVerify);
 
   const [formData, setFormData] = useState({
     emailInput: '',
     pwdInput: '',
     errors: {}
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const showingPwd = () => {
+    if(showPassword){
+      setShowPassword(false);
+    } else {
+      setShowPassword(true);
+    }
+  }
 
   const [pageIsLoading, setPageIsLoading] = useState(false);
   
@@ -72,22 +84,29 @@ const Login = props => {
     if(!errorHandling()){
       setPageIsLoading(true);
 
-      const credential = {
-        email: emailInput,
-        password: pwdInput
+      try {
+        const credential = {
+          email: emailInput,
+          password: pwdInput
+        }
+        
+        dispatch(login(credential)).unwrap();
+      } catch (err) {
+        console.log(err);
+        setPageIsLoading(false);
       }
-      
-      dispatch(login(credential)).unwrap();
     }
   }
 
-  if(isAuth){
+  if(isAuth && isVerified){
     return <Navigate to="/" />
+  } else if(isAuth && !isVerified) {
+    return <Navigate to="/login/verify" />
   }
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50" id="authForm">
-      {pageIsLoading && (
+      {pageIsLoading && loginError !== 'error' && (
         <Spinner loadingLabel="Logging in" />
       )}
         <form className="w-75" onSubmit={e => authLoginOnSubmit(e)} noValidate>
@@ -106,12 +125,18 @@ const Login = props => {
             <div className="text-danger form-text">{errors.emailErr}</div>
           )}
           </div>
-          <div className="mb-3">
+          <div className="mb-1">
             <label htmlFor="pwdInput" className="form-label">Password</label>
-            <input type="password" name="pwdInput" id="pwdInput" className={`form-control ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
+            <div className="input-group">
+              <input type={showPassword ? 'text' : 'password'} name="pwdInput" id="pwdInput" className={`form-control form-password ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
+              <span className='input-group-text' onClick={e => showingPwd()} style={{cursor: 'pointer'}}>{showPassword ? (<FaEye />) : (<FaEyeSlash/>)}</span>
+            </div>
             {errors.pwdErr && !pwdInput && (
             <div className="text-danger form-text">{errors.pwdErr}</div>
           )}
+          </div>
+          <div className="mb-3">
+            <Link to='/email/confirm' className='link-dark link-underline-opacity-0 link-opacity-75-hover fw-bolder'>Forgot Password?</Link>
           </div>
           <div className="mb-3 form-check">
             <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" />

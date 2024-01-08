@@ -14,8 +14,6 @@ const initialState = {
 };
 
 // Login path api/auth,
-// register path api/auth/new
-
 export const login = createAsyncThunk('auth/login', async (credential) => {
     console.log('logging in again...');
     try {
@@ -25,7 +23,7 @@ export const login = createAsyncThunk('auth/login', async (credential) => {
             if(res.status === 400){
                 throw Error({ message: res.data });
             }
-
+            
             localStorage.setItem('token', res.data.token);
             setAuthToken(res.data.token);
             const response = await axios.get(baseRoute);
@@ -37,20 +35,27 @@ export const login = createAsyncThunk('auth/login', async (credential) => {
     }
 });
 
+// register path api/auth/new
 export const register = createAsyncThunk('auth/register', async(newUser) => {
     console.log('Creating new user...');
     try {
         const res = await axios.post(`${baseRoute}/new`, newUser);
-        console.log(res.data.token); // token
+        console.log(res.data);
+        return res.data;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async(token) => {
+    console.log('Verifying Email');
+    try {
+        const res = await axios.post(`${baseRoute}/verify`, { token });
+        console.log(res.data);
         if(res.data){
             if(res.status === 400){
                 throw Error({ message: res.data });
             }
-
-            localStorage.setItem('token', res.data.token);
-            setAuthToken(localStorage.token);
-            const response = await axios.get(baseRoute);
-            return response.data;
         }
         return res.data;
     } catch (err) {
@@ -65,7 +70,7 @@ export const loadUser = createAsyncThunk('auth/loadUser', async() => {
     } catch (err) {
         return err.message;
     }
-})
+});
 
 const authSlice = createSlice({
     name: 'auth',
@@ -97,6 +102,7 @@ const authSlice = createSlice({
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.token = localStorage.getItem('token');
+                state.error = null;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'falied';
@@ -112,18 +118,48 @@ const authSlice = createSlice({
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
                 state.user = action.payload;
+                state.error = null;
             })
             .addCase(register.pending, (state, action) => {
                 state.status = 'loading';
             })
             .addCase(register.fulfilled, (state, action) => {
+                if(typeof(action.payload) !== "object"){
+                    state.status = 'error';
+                    state.error = action.payload;
+                    return;
+                }
                 state.status = 'succeeded';
                 state.isAuth = true;
                 state.isStaff = action.payload.isStaff;
-                state.token = localStorage.getItem('token');
+                state.token = null;
                 state.user = action.payload;
+                state.error = null;
             })
             .addCase(register.rejected, (state, action) => {
+                state.status = 'failed';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.error = action.error.message;
+            })
+            .addCase(verifyEmail.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                if(action.payload === 'Failed to verify'){
+                    state.status = 'error';
+                    state.error = "Invalid Verification Link";
+                    return;
+                }
+                state.status = 'succeeded';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.user = {};
+                state.error = null;
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
                 state.status = 'failed';
                 state.isAuth = false;
                 state.isStaff = false;
@@ -141,6 +177,8 @@ export const getAuthUserID = (state) => state.auth.user.userId;
 export const getAuthStatus = (state) => state.auth.status;
 export const getAuthUserUsername = (state) => state.auth.user.username;
 export const getAuthUserImage = (state) => state.auth.user.userImage;
+export const getUserEmailVerify = (state) => state.auth.user.email_Verified;
+export const getError = (state) => state.auth.error;
 
 export const { logout } = authSlice.actions;
 

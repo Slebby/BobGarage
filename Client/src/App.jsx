@@ -16,13 +16,18 @@ import EditBlog from './components/blog/EditBlog';
 import AddCarService from './components/carService/AddCarService';
 import EditCarService from './components/carService/EditCarService';
 import Users from './components/users/Users';
+import VerifyEmail from './components/auth/emailVerify/VerifyEmail';
 import NotFound from './pages/NotFound';
+import EmailNotVerified from './components/layout/EmailNotVerified';
+import ConfirmEmail from './components/auth/resetPassword/ConfirmEmail';
+import NewPassword from './components/auth/resetPassword/NewPassword';
 
 function App() {
   return (
     <Router>
       <Header branding='Bob Garage'/>
         <main>
+          <EmailNotVerified />
           <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='about' element={<About />}></Route>
@@ -38,6 +43,10 @@ function App() {
             <Route path='users' element={<Users />}></Route>
             <Route path='login' element={<Login />}></Route>
             <Route path='register' element={<Register />}></Route>
+            <Route path='email/verify' element={<VerifyEmail />}></Route>
+            <Route path='login/verify' element={<VerifyEmail />}></Route>
+            <Route path='email/confirm' element={<ConfirmEmail />}></Route>
+            <Route path='email/newpassword' element={<NewPassword />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </main>

@@ -6,11 +6,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config/config');
 const db = require('../models');
+const { sendingEmail } = require('../utils/emailService');
 
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 const { User } = db.sequelize.models;
+
 // User routes
 // Login Route
 // Allow user to login
@@ -53,7 +55,7 @@ router.post('/', async (req, res) => {
                 if(err) throw err;
                 res.json({ token });
             }
-            );
+        );
 
     } catch (error) {
         console.error(error.message);
@@ -114,30 +116,116 @@ router.post('/new', async (req, res) => {
             password: newUser.password,
         });
         
-        const payload = {
-            user: {
-                userId: userRes.userId,
-                username: userRes.username,
-                email: userRes.email,
-                userImage: userRes.userImage,
-                isStaff: userRes.isStaff
-            }
+        const emailPayload = {
+            type: 'sendEmailWithToken',
+            userId: userRes.userId,
+            username: userRes.username,
+            email: userRes.email,
         };
 
-        jwt.sign(payload, config.auth.jwtSecret, 
-            {
-                expiresIn: '7d',
-                algorithm: 'HS512'
-            },
-            (err, token) => {
-                if(err) throw err;
-                res.json({ token });
-            }
-            );
+        const userPayload = {
+            userId: userRes.userId,
+            username: userRes.username,
+            email: userRes.email,
+            email_Verified: userRes.email_Verified
+        };
+
+        await sendingEmail(emailPayload);
+
+        res.send(userPayload);
     } catch (error) {
         console.error(error.message);
 
     }
 });
+
+// Email Verify Route
+// User's email will be verify. if there's no token the server will send a new token though the email.
+// /api/auth/verify
+// POST request
+// Private route
+router.post('/verify', async (req, res) => {
+    console.log('/api/auth/verify - POST');
+    try {
+        const token = req.body.token;
+        console.log(token);
+    
+        if(!token) {
+            return res.status(400).json({ error: 'Invalid Token' });
+        }
+    
+        const decoded = jwt.verify(token, config.auth.jwtSecret);
+        console.log(decoded);
+    
+        const foundUser = await User.findByPk(decoded.userId);    
+        
+        if(!foundUser){
+            return res.status(400).send('User not found.');
+        }
+        
+        await User.update({ email_Verified: true }, {
+            where: {
+                userId: decoded.userId
+            }
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.send('Failed to verify');
+    }
+});
+
+// Resend Email Verify Route
+// User's email will be verify again.
+// /api/auth/resend
+// POST request
+// Private route
+router.post('/resend', async (req, res) => {
+    console.log('/api/auth/resend - POST');
+    try {
+        const { userId, username, email } = req.body;
+        const emailPayload = {
+            type: 'resendEmailWithToken',
+            userId,
+            username,
+            email
+        };
+
+        await sendingEmail(emailPayload);
+        res.send('Verification Email Sent!');
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+// Confirm Email Route
+// Check user's email if it's exist.
+// /api/auth/confirm
+// POST request
+// Public route
+router.post('/confirm', async (req, res) => {
+    console.log('/api/auth/confirm - POST');
+    try {
+        const email = req.body.email;
+        console.log(email);
+
+        const foundUser = await User.findOne({ where: { email: email.toUpperCase() }});
+
+        // if not there send a message
+        if (!foundUser) {
+            return res.status(400).send('Invalid Credential, Please Try Again.');
+        }
+
+        const emailPayload = {
+            type: 'confirmEmailWithToken',
+            username: foundUser.username,
+            email: foundUser.email
+        };
+
+        await sendingEmail(emailPayload);
+        res.send('Email Sent! Please Check your inbox');
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 
 module.exports = router;

@@ -72,7 +72,7 @@ const Header = props => {
                 {authUserImage ? (
                     <img src={authUserImage} alt={`name: ${authUsername}`} className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 ) : (
-                    <img src="defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
+                    <img src="/defaultPfp/profile-default-white.svg" alt="defaultPfp" className="d-block mx-auto mb-1 rounded-circle" style={{objectFit: "cover", width: "47px", height: "47px"}}/>
                 )}
                 {authUsername}
             </Link>
@@ -85,7 +85,7 @@ const Header = props => {
         <nav className="navbar navbar-expand-lg main-bg-color" data-bs-theme="dark">
             <div className="container-fluid">
                 <Link className="navbar-brand" style={{width: "8rem"}} to="/">
-                    <img src="BobGarageLogo.png" alt="Bob Garage Logo" className="d-inline-block align-text-top w-100"/>
+                    <img src="/BobGarageLogo.png" alt="Bob Garage Logo" className="d-inline-block align-text-top w-100"/>
                     {/* {props.branding} */}
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">

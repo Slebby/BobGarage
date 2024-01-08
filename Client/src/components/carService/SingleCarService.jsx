@@ -4,7 +4,7 @@ import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCarService } from '../../reducer/carServiceSlice';
 import { Fragment } from 'react';
-import { getIsAuth, getIsStaff } from '../../reducer/authSlice';
+import { getIsAuth, getIsStaff, getUserEmailVerify } from '../../reducer/authSlice';
 import { storage } from '../../utils/firebase';
 import { deleteObject, ref } from 'firebase/storage';
 import Spinner from '../layout/Spinner';
@@ -15,6 +15,7 @@ const SingleCarService = ({carService}) => {
   const homePath = pathLocation === '/';
   const isAuth = useSelector(getIsAuth);
   const isStaff = useSelector(getIsStaff);
+  const isVerified = useSelector(getUserEmailVerify);
   const { serviceId, serviceName, serviceDesc, serviceImage, servicePrice } = carService;
   const [pageIsLoading, setPageIsLoading] = useState(false);
 
@@ -55,7 +56,7 @@ const SingleCarService = ({carService}) => {
                 <p className="card-subtitle fs-4 fw-semibold mb-3">
                     Price: &#x0024;{servicePrice.toFixed(2)}
                 </p>
-                {(isAuth && isStaff) && (
+                {((isAuth && isStaff) && isVerified) && (
                     <Fragment>
                         <Link className="btn main-bg-color btn-color me-3 fw-semibold text-light" to={`${homePath ? `service/edit/${serviceId}` : `./edit/${serviceId}`}`}>
                             <FaPen className="me-2 mb-1"/>Edit
