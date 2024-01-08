@@ -49,7 +49,7 @@ const sendingEmail = async (payload) => {
             subject = "Reset Your Password - Bob's Garage";
             message = `
             <div>
-                <p>Hi ${payload.username}</p>
+                <p>Hi ${payload.username},</p>
                 <p>You've requested to reset your password for your Bob's Garage account. Please click the button below to create a new password.</p>
                 <p><a href="${newPasswordPage}">Reset Password</a></p>
                 <p>If you didn't request this change or need further assistance, please contact our support team at [<a href="mailto:${supportEmail}">${supportEmail}</a>]</p>
