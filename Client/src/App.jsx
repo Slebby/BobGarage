@@ -20,6 +20,7 @@ import VerifyEmail from './components/auth/emailVerify/VerifyEmail';
 import NotFound from './pages/NotFound';
 import EmailNotVerified from './components/layout/EmailNotVerified';
 import ConfirmEmail from './components/auth/resetPassword/ConfirmEmail';
+import NewPassword from './components/auth/resetPassword/NewPassword';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path='email/verify' element={<VerifyEmail />}></Route>
             <Route path='login/verify' element={<VerifyEmail />}></Route>
             <Route path='email/confirm' element={<ConfirmEmail />}></Route>
+            <Route path='email/newpassword' element={<NewPassword />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </main>
