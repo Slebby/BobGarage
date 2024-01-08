@@ -19,6 +19,7 @@ import Users from './components/users/Users';
 import VerifyEmail from './components/auth/emailVerify/VerifyEmail';
 import NotFound from './pages/NotFound';
 import EmailNotVerified from './components/layout/EmailNotVerified';
+import ConfirmEmail from './components/auth/resetPassword/ConfirmEmail';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path='register' element={<Register />}></Route>
             <Route path='email/verify' element={<VerifyEmail />}></Route>
             <Route path='login/verify' element={<VerifyEmail />}></Route>
+            <Route path='email/confirm' element={<ConfirmEmail />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </main>

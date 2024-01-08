@@ -125,7 +125,7 @@ const Login = props => {
             <div className="text-danger form-text">{errors.emailErr}</div>
           )}
           </div>
-          <div className="mb-3">
+          <div className="mb-1">
             <label htmlFor="pwdInput" className="form-label">Password</label>
             <div className="input-group">
               <input type={showPassword ? 'text' : 'password'} name="pwdInput" id="pwdInput" className={`form-control form-password ${errors.pwdErr && !pwdInput ? 'is-invalid' : ''}`} value={pwdInput} onChange={e => authOnChange(e)}/>
@@ -134,6 +134,9 @@ const Login = props => {
             {errors.pwdErr && !pwdInput && (
             <div className="text-danger form-text">{errors.pwdErr}</div>
           )}
+          </div>
+          <div className="mb-3">
+            <Link to='/email/confirm' className='link-dark link-underline-opacity-0 link-opacity-75-hover fw-bolder'>Forgot Password?</Link>
           </div>
           <div className="mb-3 form-check">
             <input type="checkbox" name="checkBoxInput" id="checkBoxInput" className="form-check-input" />
