@@ -143,7 +143,7 @@ router.post('/new', async (req, res) => {
 // User's email will be verify. if there's no token the server will send a new token though the email.
 // /api/auth/verify
 // POST request
-// Public route
+// Private route
 router.post('/verify', async (req, res) => {
     console.log('/api/auth/verify - POST');
     try {
@@ -178,7 +178,7 @@ router.post('/verify', async (req, res) => {
 // User's email will be verify again.
 // /api/auth/resend
 // POST request
-// Public route
+// Private route
 router.post('/resend', async (req, res) => {
     console.log('/api/auth/resend - POST');
     try {
@@ -196,5 +196,36 @@ router.post('/resend', async (req, res) => {
         console.log(error.message);
     }
 });
+
+// Confirm Email Route
+// Check user's email if it's exist.
+// /api/auth/confirm
+// POST request
+// Public route
+router.post('/confirm', async (req, res) => {
+    console.log('/api/auth/confirm - POST');
+    try {
+        const email = req.body.email;
+        console.log(email);
+
+        const foundUser = await User.findOne({ where: { email: email.toUpperCase() }});
+
+        // if not there send a message
+        if (!foundUser) {
+            return res.status(400).send('Invalid Credential, Please Try Again.');
+        }
+
+        const emailPayload = {
+            type: 'confirmEmailWithToken',
+            username: foundUser.username,
+            email: foundUser.email
+        };
+
+        await sendingEmail(emailPayload);
+        res.send('Email Sent! Please Check your inbox');
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 
 module.exports = router;

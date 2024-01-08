@@ -1,10 +1,12 @@
 import { useState, } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Spinner from '../../layout/Spinner';
 
 const ConfirmEmail = () => {
     const [emailForm, setEmailForm] = useState('');
     const [errors, setErrors] = useState('');
-    const navigate = useNavigate();
+    const [pageIsLoading, setPageIsLoading] = useState(false);
+    const [confirmEmailStatus, setConfirmEmailStatus] = useState('');
 
     const emailOnChange = (e) => {
         setEmailForm(e.target.value);
@@ -39,23 +41,41 @@ const ConfirmEmail = () => {
         }
       };
 
-    const confirmEmailOnSubmit = e => {
+    const confirmEmailOnSubmit = async (e) => {
         e.preventDefault();
         console.log('Logging in...');
         
         if(!errorHandling()){
-            console.log('Email Passed');
-            
-            navigate('/email/newpassword');
+            try {
+                console.log('Email Passed');
+                console.log(emailForm);
+                setPageIsLoading(true);
+                
+                const res = await axios.post('/api/auth/confirm', { email: emailForm });
+                setConfirmEmailStatus(res.data);
+            } catch (err) {
+                console.log(err.message);
+                setConfirmEmailStatus(err.response.data);
+            } finally {
+                setPageIsLoading(false);
+            }
         }
     }
 
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50" id="authForm">
+        {pageIsLoading && (
+            <Spinner loadingLabel="Sending" />
+        )}
         <form className="w-75" onSubmit={e => confirmEmailOnSubmit(e)} noValidate>
             <div className="text-center fw-semibold fs-2 mt-4">
                 <p className="mb-4">Confirm Email</p>
             </div>
+            {confirmEmailStatus && (
+                <div className={`container text-center rounded py-3 my-2 w-50 ${confirmEmailStatus !== 'Email Sent!' ? 'text-danger bg-danger-subtle border border-danger': 'text-success bg-success-subtle border border-success'} `}>
+                    <span>{confirmEmailStatus}</span>
+                </div>
+            )}
             <div className="mb-3">
                 <label htmlFor="emailForm" className="form-label">Email</label>
                 <input type="email" name="emailForm" id="emailForm" className={`form-control ${errors ? 'is-invalid' : ''}`} value={emailForm} onChange={e => emailOnChange(e)}/>
@@ -64,7 +84,7 @@ const ConfirmEmail = () => {
                 )}
             </div>
             <div className="my-4 text-center ">
-                <button type="submit" className="btn btn-lg main-bg-color w-50 btn-color text-light">Confirm</button>
+                <button type="submit" className="btn btn-lg main-bg-color w-75 btn-color text-light" disabled={confirmEmailStatus === 'Email Sent!' ? true : false}>Send Verification</button>
             </div>
         </form>
     </section>
