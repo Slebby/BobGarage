@@ -72,6 +72,16 @@ export const loadUser = createAsyncThunk('auth/loadUser', async() => {
     }
 });
 
+export const loadConfirmUser = createAsyncThunk('auth/loadConfirmUser', async(token) => {
+    try {
+        const res = await axios.post(`${baseRoute}/token/verify`, { token });
+
+        return res.data;
+    } catch (err) {
+        throw Error(err.message);
+    }
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -160,6 +170,21 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(verifyEmail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.error = action.error.message;
+            })
+            .addCase(loadConfirmUser.fulfilled, (state, action) => {
+                state.status = 'succeeded',
+                state.isAuth = false;
+                state.isStaff = false;
+                state.token = null;
+                state.user = action.payload;
+                state.error = null;
+            })
+            .addCase(loadConfirmUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.isAuth = false;
                 state.isStaff = false;

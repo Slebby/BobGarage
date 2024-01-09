@@ -217,6 +217,7 @@ router.post('/confirm', async (req, res) => {
 
         const emailPayload = {
             type: 'confirmEmailWithToken',
+            userId: foundUser.userId,
             username: foundUser.username,
             email: foundUser.email
         };
@@ -226,6 +227,56 @@ router.post('/confirm', async (req, res) => {
     } catch (error) {
         console.log(error.message);
     }
-})
+});
+
+// Confirm Email Route
+// Update user password.
+// /api/auth/newpassword
+// POST request
+// Private route
+router.post('/newpassword', (req, res) => {
+    console.log('/api/auth/newpassword - POST');
+    try {
+        const { userId } = req.body;
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+// Verify the token Route
+// Verify the token from user
+// /api/auth/token/verify
+// POST request
+// Private Route
+router.post('/token/verify', async (req, res) => {
+    console.log('/api/auth/token/verify - POST');
+    try {
+        const token = req.body.token;
+        console.log(token);
+
+        if(!token) {
+            return res.status(401).json({ error: 'Invalid Token' });
+        }
+
+        const decoded = jwt.verify(token, config.auth.jwtSecret);
+        console.log(decoded);
+
+        const foundUser = await User.findByPk(decoded.userId);    
+        
+        if(!foundUser){
+            return res.status(401).send('User not found.');
+        }
+
+        const userRes = {
+            userId: foundUser.userId,
+        }
+
+        res.send(userRes);
+    } catch (error) {
+        console.log(error.message);
+        res.status(403).send(error.message);
+    }
+});
 
 module.exports = router;
