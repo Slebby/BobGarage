@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useLocation, Link } from 'react-router-dom';
 import { VscError } from "react-icons/vsc";
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuthStatus, loadConfirmUser } from '../../../reducer/authSlice';
+import { getAuthStatus, getAuthUserID, loadConfirmUser, logout } from '../../../reducer/authSlice';
 
 const NewPassword = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +21,7 @@ const NewPassword = () => {
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
   const authStatus = useSelector(getAuthStatus);
+  const userId = useSelector(getAuthUserID);
 
   const uppercaseChar = /[A-Z]/;
   const lowercaseChar = /[a-z]/;
@@ -214,12 +215,17 @@ const NewPassword = () => {
         setPageIsLoading(true);
         console.log(pwdInput);
 
-        // const res = await axios.post('/api/auth/newpassword');
+        const userPayload = {
+          userId,
+          newPassword: pwdInput
+        }
 
+        await axios.post('/api/auth/newpassword', userPayload);
       } catch (err) {
         console.log(err.message);
       } finally {
         setPageIsLoading(false);
+        dispatch(logout());
       }
     }
   }
@@ -227,7 +233,7 @@ const NewPassword = () => {
   return (
     <section className="container shadow d-flex justify-content-center my-5 secondary-bg-color rounded w-50" id="authForm">
       {pageIsLoading && (
-        <Spinner loadingLabel="Sending" />
+        <Spinner loadingLabel="Submiting" />
       )}
       <form className="w-75" onSubmit={e => pwdFormOnSubmit(e)} noValidate>
         <div className="text-center fw-semibold fs-2 mt-4">

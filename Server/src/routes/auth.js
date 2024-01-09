@@ -234,13 +234,29 @@ router.post('/confirm', async (req, res) => {
 // /api/auth/newpassword
 // POST request
 // Private route
-router.post('/newpassword', (req, res) => {
+router.post('/newpassword', async (req, res) => {
     console.log('/api/auth/newpassword - POST');
     try {
-        const { userId } = req.body;
+        const { userId, newPassword } = req.body;
+        console.log(userId);
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPwd = await bcrypt.hash(newPassword, salt);
         
+        const userUpdate = await User.update({ password: hashedPwd }, {
+            where: {
+                userId
+            }
+        });
+
+        if(userUpdate == 1){
+            res.status(200).send('Update Success');
+        } else {
+            throw Error('Something Wrong Happened');
+        }
     } catch (error) {
         console.log(error.message);
+        res.status(500).send(error.message);
     }
 });
 
