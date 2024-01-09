@@ -2,7 +2,7 @@ import { useEffect, useState, } from 'react';
 import axios from 'axios';
 import Spinner from '../../layout/Spinner';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { VscError } from "react-icons/vsc";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthStatus, getAuthUserID, loadConfirmUser, logout } from '../../../reducer/authSlice';
@@ -22,6 +22,7 @@ const NewPassword = () => {
   const token = queryParams.get('token');
   const authStatus = useSelector(getAuthStatus);
   const userId = useSelector(getAuthUserID);
+  const navigate = useNavigate();
 
   const uppercaseChar = /[A-Z]/;
   const lowercaseChar = /[a-z]/;
@@ -226,6 +227,7 @@ const NewPassword = () => {
       } finally {
         setPageIsLoading(false);
         dispatch(logout());
+        navigate('/email/newpassword/success');
       }
     }
   }
