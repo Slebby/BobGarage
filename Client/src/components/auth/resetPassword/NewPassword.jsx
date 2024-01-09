@@ -40,7 +40,7 @@ const NewPassword = () => {
     }
   }, [dispatch]);
 
-  if(authStatus !== 'succeeded'){
+  if(authStatus !== 'succeeded' && authStatus !== 'idle'){
     console.log('Verify Failed!');
     return(
       <section className="container my-5">
