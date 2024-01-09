@@ -72,7 +72,7 @@ const ConfirmEmail = () => {
                 <p className="mb-4">Confirm Email</p>
             </div>
             {confirmEmailStatus && (
-                <div className={`container text-center rounded py-3 my-2 w-50 ${confirmEmailStatus !== 'Email Sent!' ? 'text-danger bg-danger-subtle border border-danger': 'text-success bg-success-subtle border border-success'} `}>
+                <div className={`container text-center rounded py-3 my-2 w-50 ${confirmEmailStatus !== 'Email Sent! Please Check your inbox' ? 'text-danger bg-danger-subtle border border-danger': 'text-success bg-success-subtle border border-success'} `}>
                     <span>{confirmEmailStatus}</span>
                 </div>
             )}
@@ -84,7 +84,7 @@ const ConfirmEmail = () => {
                 )}
             </div>
             <div className="my-4 text-center ">
-                <button type="submit" className="btn btn-lg main-bg-color w-75 btn-color text-light" disabled={confirmEmailStatus === 'Email Sent!' ? true : false}>Send Verification</button>
+                <button type="submit" className="btn btn-lg main-bg-color w-75 btn-color text-light" disabled={confirmEmailStatus === 'Email Sent! Please Check your inbox' ? true : false}>Send Verification</button>
             </div>
         </form>
     </section>
