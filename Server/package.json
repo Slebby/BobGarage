@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "concurrently --kill-others-on-fail \"npm run root-server\" \"npm run client\"",
     "server": "nodemon src/server.js",
     "client": "cd.. && npm run dev --prefix client"
   },
@@ -20,6 +20,7 @@
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.1"
   }
