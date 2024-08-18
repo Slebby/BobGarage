@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  client-side:
+    build: ./Client
+    container_name: BobGarage_Client
+    ports:
+      - "5173:5173"
+  server-side:
+    build: ./Server
+    container_name: BobGarage_Server
+    ports:
+      - "3060:3060"
