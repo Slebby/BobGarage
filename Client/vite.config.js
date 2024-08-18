@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3060'
+        target: 'http://172.20.0.3:3060'
       }
     },
     port:5173,
